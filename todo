@@ -1,0 +1,31 @@
+
+
+///  Create a solitaire game
+
+- test first
+- BDD
+- understand what you're building first
+- read Eric Elliot on testing
+
+
+- every UI change is an action that changes state
+
+Components will include
+
+draggable cards
+card stacks
+
+
+
+// UI component heirarchy
+
+table
+  piles
+    movable cards/piles
+  foundations
+  stock
+  waste
+
+
+// modules
+shuffler
