@@ -1,4 +1,5 @@
 import test from 'ava'
+import { Stack } from 'Immutable'
 import shuffle from '../shuffler.js'
 
 
@@ -8,8 +9,7 @@ test( 'Should be a function', assert => {
   assert.same( actual, expected )
 })
 
-
-test( 'Should return an array', assert => {
+test( 'Should return an Immutable stack', assert => {
   const deck = shuffle()
 
   assert.true( Array.isArray( deck ) )
