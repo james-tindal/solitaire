@@ -1,6 +1,9 @@
 
+// import $ from 'sanctuary-def'
+import { def } from 'types'
+
+
 export default deck => {
-  confirmArg( deck )
 
   const stock = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
   const waste = []
@@ -21,13 +24,6 @@ export default deck => {
 }
 
 
-const confirmArg = arg => 
-  ( Array.isArray( arg ) || typeError() ) &&
-  ( arg.length === 52    || rangeError() )
-
-const typeError = () => { throw new TypeError( 'Argument should be an array' ) }
-const rangeError = () => { throw new RangeError( 'Deck should have 52 cards' ) }
-
 // const Dealer = deck => 
 
-// // Dealer is a function that takes deck and returns a function that pops cards off the deck and returns them each time it's called
+// // Dealer is a function that takes deck and returns a function that pops cards off the deck and returns them each time it's called 

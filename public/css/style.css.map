@@ -1,1 +1,0 @@
-{"version":3,"sources":["style.styl","style.css"],"names":[],"mappings":"AACA;EACE,0BAAA;CCAD","file":"style.css","sourcesContent":["\r\nbody\r\n  background-color #008000","body {\n  background-color: #008000;\n}\n"],"sourceRoot":"/source/"}

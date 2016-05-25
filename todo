@@ -1,15 +1,4 @@
 
-
-///  Create a solitaire game
-
-- test first
-- BDD
-- understand what you're building first
-- read Eric Elliot on testing
-
-
-- every UI change is an action that changes state
-
 Components will include
 
 draggable cards
@@ -29,3 +18,18 @@ table
 
 // modules
 shuffler
+
+
+
+First move cards with clicks. drag-drop later
+
+Write all your actions, then model updates, then view.
+
+Design model. Design Actions
+
+
+Initially, no cards dealt
+
+
+
+Model: 
