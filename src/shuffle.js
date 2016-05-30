@@ -1,4 +1,5 @@
 import { range } from 'ramda'
+import { def, Deck } from 'types'
 
 Array.prototype.concatAll = function () {
   const output = []
@@ -22,10 +23,13 @@ Array.prototype.shuffle = function () {
   return array;
 }
 
-export default () =>
+// shuffle :: () -> Deck
+export default
+def( 'shuffle', {}, [ Deck ], () =>
   range( 1, 14 ).map( rank =>
-    [ { rank, suit: 'hearts' }
-    , { rank, suit: 'clubs' }
-    , { rank, suit: 'spades' }
-    , { rank, suit: 'diamonds' } ]
+    [ [ rank, 'hearts' ]
+    , [ rank, 'clubs' ]
+    , [ rank, 'spades' ]
+    , [ rank, 'diamonds' ]]
   ).concatAll().shuffle()
+)

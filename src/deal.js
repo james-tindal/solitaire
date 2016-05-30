@@ -1,29 +1,27 @@
 
-// import $ from 'sanctuary-def'
-import { def } from 'types'
+import { def, Deck, InitTable } from 'types'
+import { range, map } from  'ramda'
 
 
-export default deck => {
+export default
+// Deal :: Deck -> Table
+def( 'deal', {}, [ Deck, InitTable ],
+deck => {
+  const iter = deck[ Symbol.iterator ]()
+  const card = () => iter.next().value
 
-  const stock = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+  const stock = map( card, range( 0, 24 ))
   const waste = []
   const foundations = [ [], [], [], [] ]
   const piles =
-  [ { upturned: [ 0 ], downturned: [] }
-  , { upturned: [ 0 ], downturned: [0] }
-  , { upturned: [ 0 ], downturned: [0, 0] }
-  , { upturned: [ 0 ], downturned: [0, 0, 0] }
-  , { upturned: [ 0 ], downturned: [0, 0, 0, 0] }
-  , { upturned: [ 0 ], downturned: [0, 0, 0, 0, 0] }
-  , { upturned: [ 0 ], downturned: [0, 0, 0, 0, 0, 0] }
+  [ { upturned: [ card() ], downturned: [] }
+  , { upturned: [ card() ], downturned: [card()] }
+  , { upturned: [ card() ], downturned: [card(), card()] }
+  , { upturned: [ card() ], downturned: [card(), card(), card()] }
+  , { upturned: [ card() ], downturned: [card(), card(), card(), card()] }
+  , { upturned: [ card() ], downturned: [card(), card(), card(), card(), card()] }
+  , { upturned: [ card() ], downturned: [card(), card(), card(), card(), card(), card()] }
   ]
 
-  // replace every zero with a card? how do I write a spec? Take it slow and write your plan
-
   return { stock, waste, foundations, piles }
-}
-
-
-// const Dealer = deck => 
-
-// // Dealer is a function that takes deck and returns a function that pops cards off the deck and returns them each time it's called 
+})

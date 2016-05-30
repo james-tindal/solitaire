@@ -1,7 +1,6 @@
-import R , { T, F, propEq, __ } from 'ramda'
+import { propEq, curry } from 'ramda'
 import Type from 'union-type'
 import flyd, { map, merge, stream, scan } from 'flyd'
-import keepwhen from 'flyd/module/keepwhen'
 const patch = require('snabbdom').init([
   require('snabbdom/modules/class'),
   require('snabbdom/modules/props'),
@@ -12,30 +11,45 @@ import h from 'snabbdom/h'
 
 
 // Initialise state
-// import shuffle from 'shuffle'
+import shuffle from 'shuffle'
 import deal from 'deal'
-const init = () => deal()
-// Update
-const Action = Type({Increment: [], Decrement: [], Move: [ Object ], MouseDown: [], MouseUp: [], SetColour: [ String ]})
+const init = () => ({
+  settings: { draw3: true }
+, table: deal(shuffle())
+})
 
-const update = (model, action) => Action.case({
-    Increment: () => model + 1,
-    Decrement: () => model - 1,
-    Move: (a,b) => console.log(a,b),
-    MouseDown: () => '',
-    MouseUp: () => ''
+// Update
+const Action = Type({
+  Deal: []
+, Reset: []
+, Draw: []
+, PickCard: []
+, PutCard: []
+, Undo: []
+, ShowSettings: []
+, UpdateSettings: []
+})
+
+
+const update = ( model, action ) => Action.case({
+    Deal: () => {}
+  , Reset: () => {}
+  , Draw: () => {}
+  , PickCard: () => {}
+  , PutCard: () => {}
+  , Undo: () => {}
+  , ShowSettings: () => {}
+  , UpdateSettings: () => {}
   }, action )
 
 // View
-const view = R.curry(( action$, model ) =>
-  h( 'div.table', [
-    // stock(),
-    // waste(),
+import stock from 'stock'
+import foundations from 'foundations'
 
-    // foundation(),
-    // foundation(),
-    // foundation(),
-    // foundation(),
+const view = curry(( action$, model ) =>
+  h( 'div.table', [
+    // console.log(stock( table.stock )),
+    foundations( model )
 
     // pile(),
     // pile(),
