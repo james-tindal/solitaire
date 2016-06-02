@@ -1,4 +1,4 @@
-import { propEq, curry } from 'ramda'
+import { curry, assoc } from 'ramda'
 import Type from 'union-type'
 import flyd, { map, merge, stream, scan } from 'flyd'
 const patch = require('snabbdom').init([
@@ -8,15 +8,22 @@ const patch = require('snabbdom').init([
   require('snabbdom/modules/style'),
 ])
 import h from 'snabbdom/h'
+import { def, Model } from 'types'
+
 
 
 // Initialise state
 import shuffle from 'shuffle'
 import deal from 'deal'
-const init = () => ({
-  settings: { draw3: true }
-, table: deal(shuffle())
-})
+const newTable = model => {
+  const table = deal(shuffle())
+  return { ...model, table, initTable: table }
+}
+
+const init =
+def( 'init', {}, [ Model ], () =>
+  newTable({ draw3: true })
+)
 
 // Update
 const Action = Type({
@@ -32,11 +39,15 @@ const Action = Type({
 
 
 const update = ( model, action ) => Action.case({
-    Deal: () => {}
-  , Reset: () => {}
+    Deal: () => newTable( model )
+  , Reset: () => assoc( 'table', model.initTable, model )
   , Draw: () => {}
-  , PickCard: () => {}
-  , PutCard: () => {}
+  , PickCard: cardPath => assoc( 'selectedCard', cardPath, model )  // set selectedCard to a lens / path  --  make ValidPath :: Type
+  , PutCard: cardPath => {}
+    // Maybe move selectedCard on top of cardPath
+    // Check out Elm-effects/Redux-effects for beep sound side-effect
+    // See if lenses are a suitable abstraction for pick and put
+    
   , Undo: () => {}
   , ShowSettings: () => {}
   , UpdateSettings: () => {}

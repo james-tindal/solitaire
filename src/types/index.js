@@ -59,13 +59,11 @@ const InitTable = $.NullaryType( 'InitTable', allPass([ test( Table ), isInitTab
 
 
 /*  Model  */
-const Settings = $.RecordType({
-	draw3: $.Boolean
-})
-
 const Model = $.RecordType({
-	settings: Settings
+	draw3: $.Boolean
 , table: Table
+, initTable: Table
+// , selectedCard: $.Nullable( Lens )
 })
 
 
