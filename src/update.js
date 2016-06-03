@@ -19,8 +19,8 @@ export default
   , Reset: () => assoc( 'table', model.initTable, model )
   , Draw: () => {
       const hide = table => compose
-      ( assoc( 'wasteVisible' )
-      , assoc( 'wasteHidden', compose( flatten, props([ 'wasteVisible', 'wasteHidden' ]), table )
+      ( assoc( 'wasteVisible', [] )
+      , assoc( 'wasteHidden', compose( flatten, props([ 'wasteVisible', 'wasteHidden' ]), table ))
       , table )
 
       isEmpty( model.table.stock ) && return compose( assoc( model.table.stock ))
