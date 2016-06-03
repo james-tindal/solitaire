@@ -1,5 +1,4 @@
-import { curry, assoc } from 'ramda'
-import Type from 'union-type'
+import { curry } from 'ramda'
 import flyd, { map, merge, stream, scan } from 'flyd'
 const patch = require('snabbdom').init([
   require('snabbdom/modules/class'),
@@ -25,33 +24,6 @@ def( 'init', {}, [ Model ], () =>
   newTable({ draw3: true })
 )
 
-// Update
-const Action = Type({
-  Deal: []
-, Reset: []
-, Draw: []
-, PickCard: []
-, PutCard: []
-, Undo: []
-, ShowSettings: []
-, UpdateSettings: []
-})
-
-
-const update = ( model, action ) => Action.case({
-    Deal: () => newTable( model )
-  , Reset: () => assoc( 'table', model.initTable, model )
-  , Draw: () => {}
-  , PickCard: cardPath => assoc( 'selectedCard', cardPath, model )  // set selectedCard to a lens / path  --  make ValidPath :: Type
-  , PutCard: cardPath => {}
-    // Maybe move selectedCard on top of cardPath
-    // Check out Elm-effects/Redux-effects for beep sound side-effect
-    // See if lenses are a suitable abstraction for pick and put
-    
-  , Undo: () => {}
-  , ShowSettings: () => {}
-  , UpdateSettings: () => {}
-  }, action )
 
 // View
 import stock from 'stock'
@@ -72,6 +44,7 @@ const view = curry(( action$, model ) =>
 
 // Streams
 
+import update from 'update'
 const action$ = stream() // All modifications to the state originate here
 const model$ = flyd.scan( update, init(), action$ ) // Contains the entire state of the application
 const vnode$ = flyd.map( view( action$ ), model$ ) // Stream of virtual nodes to render

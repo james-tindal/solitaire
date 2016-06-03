@@ -11,7 +11,8 @@ deck => {
   const card = () => iter.next().value
 
   const stock = map( card, range( 0, 24 ))
-  const waste = []
+  const wasteHidden = []
+  const wasteVisible = []
   const foundations = [ [], [], [], [] ]
   const piles =
   [ { upturned: [ card() ], downturned: [] }
@@ -23,5 +24,5 @@ deck => {
   , { upturned: [ card() ], downturned: [card(), card(), card(), card(), card(), card()] }
   ]
 
-  return { stock, waste, foundations, piles }
+  return { stock, wasteHidden, wasteVisible, foundations, piles }
 })

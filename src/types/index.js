@@ -38,7 +38,8 @@ const Deck = $.NullaryType( 'Deck', allPass([ len( 52 ), Ary( Card )]))
 
 const Stock = $.NullaryType( 'Stock', allPass([ maxLen( 52 ), Ary( Card )]))
 
-const Waste = $.NullaryType( 'Waste', allPass([ maxLen( 3 ), Ary( Card )]))
+const HiddenWaste = $.NullaryType( 'HiddenWaste', Ary( Card ))
+const VisibleWaste = $.NullaryType( 'VisibleWaste', allPass([ maxLen( 3 ), Ary( Card )]))
 
 const Foundation = $.NullaryType( 'Foundation', allPass([ maxLen( 52 ), Ary( Card )]))
 const Foundations = $.NullaryType( 'Foundations', allPass([ len( 4 ), all( test( Foundation ))]))
@@ -47,10 +48,11 @@ const Subpile = $.NullaryType( 'Pile', allPass([ maxLen( 52 ), Ary( Card )]))
 const Pile = $.RecordType({ downturned: Subpile, upturned: Subpile })
 const Piles = $.NullaryType( 'Piles', allPass([ len( 7 ), all( test( Pile ))]))
 
-const Table = $.RecordType({ stock: Stock, waste: Waste, foundations: Foundations, piles: Piles })
+const Table = $.RecordType({ stock: Stock, wasteHidden: HiddenWaste, wasteVisible: VisibleWaste, foundations: Foundations, piles: Piles })
 const isInitTable = allPass([
 	propSatisfies( len( 24 ), 'stock' )
-, propSatisfies( len( 0 ), 'waste' )
+, propSatisfies( len( 0 ), 'wasteHidden' )
+, propSatisfies( len( 0 ), 'wasteVisible' )
 , propSatisfies( all( isEmpty ), 'foundations' )
 , propSatisfies( all( propSatisfies( len( 1 ), 'upturned' )), 'piles' )
 , propSatisfies( addIndex(all)(( val, i ) => propSatisfies( len( i ), 'downturned', val )), 'piles' )
