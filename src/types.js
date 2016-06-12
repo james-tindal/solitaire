@@ -9,7 +9,7 @@ const def =
   })
 
 //  K :: a -> b -> a
-var K = function(x) { return function(y) { return x; }; };
+var K = a => b => a
 //  Nullable :: Type -> Type
 const Nullable = $.UnaryType(
   'Nullable',
@@ -48,7 +48,13 @@ const Subpile = $.NullaryType( 'Pile', allPass([ maxLen( 52 ), Ary( Card )]))
 const Pile = $.RecordType({ downturned: Subpile, upturned: Subpile })
 const Piles = $.NullaryType( 'Piles', allPass([ len( 7 ), all( test( Pile ))]))
 
-const Table = $.RecordType({ stock: Stock, wasteHidden: HiddenWaste, wasteVisible: VisibleWaste, foundations: Foundations, piles: Piles })
+const Table = $.RecordType({
+  stock: Stock
+, wasteHidden: HiddenWaste
+, wasteVisible: VisibleWaste
+, foundations: Foundations
+, piles: Piles
+})
 const isInitTable = allPass([
 	propSatisfies( len( 24 ), 'stock' )
 , propSatisfies( len( 0 ), 'wasteHidden' )

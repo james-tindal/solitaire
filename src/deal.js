@@ -4,7 +4,7 @@ import { range, map } from  'ramda'
 
 
 export default
-// Deal :: Deck -> Table
+// Deal :: Deck -> InitTable
 def( 'deal', {}, [ Deck, InitTable ],
 deck => {
   const iter = deck[ Symbol.iterator ]()
