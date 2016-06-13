@@ -1,5 +1,6 @@
 import { range } from 'ramda'
-import { def, Deck } from 'types'
+import t from 'tcomb'
+import { Deck } from 'types'
 
 Array.prototype.concatAll = function () {
   const output = []
@@ -24,12 +25,10 @@ Array.prototype.shuffle = function () {
 }
 
 // shuffle :: () -> Deck
-export default
-def( 'shuffle', {}, [ Deck ], () =>
+export default (): Deck =>
   range( 1, 14 ).map( rank =>
     [ [ rank, 'hearts' ]
     , [ rank, 'clubs' ]
     , [ rank, 'spades' ]
     , [ rank, 'diamonds' ]]
   ).concatAll().shuffle()
-)

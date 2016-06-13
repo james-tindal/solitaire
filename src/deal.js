@@ -1,12 +1,12 @@
+import t from 'tcomb'
 
-import { def, Deck, InitTable } from 'types'
+import { Deck, InitTable } from 'types'
 import { range, map } from  'ramda'
 
 
 export default
 // Deal :: Deck -> InitTable
-def( 'deal', {}, [ Deck, InitTable ],
-deck => {
+( deck: Deck ): InitTable => {
   const iter = deck[ Symbol.iterator ]()
   const card = () => iter.next().value
 
@@ -25,4 +25,4 @@ deck => {
   ]
 
   return { stock, wasteHidden, wasteVisible, foundations, piles }
-})
+}

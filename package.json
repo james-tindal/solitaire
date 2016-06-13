@@ -28,14 +28,22 @@
     "presets": [
       "es2015",
       "stage-0"
+    ],
+    "plugins": [
+      "tcomb",
+      "syntax-flow",
+      "transform-flow-strip-types"
     ]
   },
   "devDependencies": {
+    "babel-plugin-syntax-flow": "^6.8.0",
+    "babel-plugin-tcomb": "^0.2.3",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "express": "^4.13.4",
     "laravel-elixir": "^6.0.0-2",
     "laravel-elixir-stylus": "^2.0.0",
-    "mocha-loader": "^0.7.1",
     "poststylus": "^0.2.3",
+    "tcomb": "^3.2.2",
     "testem": "^1.8.1",
     "watch": "^0.18.0"
   },
@@ -44,8 +52,7 @@
     "envs": [
       "browser",
       "es6",
-      "commonjs",
-      "jquery"
+      "commonjs"
     ],
     "space": true,
     "semicolon": false,

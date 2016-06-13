@@ -14,9 +14,10 @@ const newTable = model => {
 }
 
 const init =
-def( 'init', {}, [ Model ], () =>
+// def( 'init', {}, [ Model ],
+() =>
   newTable({ draw3: true })
-)
+
 
 
 // View
