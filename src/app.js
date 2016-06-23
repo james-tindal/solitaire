@@ -13,9 +13,7 @@ const newTable = model => {
   return { ...model, table, initTable: table }
 }
 
-const init =
-() =>
-  newTable({ draw3: true })
+const init = () => newTable({ draw3: true })
 
 
 

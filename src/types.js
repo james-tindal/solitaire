@@ -1,9 +1,10 @@
 import t from 'tcomb'
-import { propEq, propSatisfies, gte as lte, all, allPass, addIndex, isEmpty } from 'ramda'
+import { propEq, propSatisfies, gte as lte, all, allPass, addIndex, isEmpty, equals, uniq } from 'ramda'
 
 
 const len = propEq( 'length' )
 const maxLen = x => propSatisfies( lte( x ), 'length' )
+const allUniq = a => equals(a, uniq(a))
 
 
 /*  Deck  */
@@ -14,7 +15,13 @@ const Suit = t.enums.of([ 'hearts', 'clubs', 'spades', 'diamonds' ], 'Suit' )
 
 const Card = t.tuple([ Rank, Suit ], 'Card' )
 
-const Deck = t.refinement( t.list( Card ), len( 52 ), 'Deck' )
+const Deck = t.refinement
+( t.list( Card )
+, allPass(
+	[ len( 52 )
+	, allUniq
+	])
+, 'Deck' )
 
 
 /*  Table  */
