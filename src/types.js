@@ -1,5 +1,4 @@
 import t from 'tcomb'
-import type { $Refinement } from 'tcomb'
 import { propEq, propSatisfies, gte as lte, all, allPass, addIndex, isEmpty } from 'ramda'
 
 
@@ -19,14 +18,13 @@ const Deck = t.refinement( t.list( Card ), len( 52 ), 'Deck' )
 
 
 /*  Table  */
-
 const Stock = t.refinement( t.list( Card ), maxLen( 52 ), 'Stock' )
 
 const HiddenWaste = t.list( Card, 'HiddenWaste' )
 const VisibleWaste = t.refinement( t.list( Card ), maxLen( 3 ), 'VisibleWaste' )
 
 const Foundation = t.refinement( t.list( Card ), maxLen( 52 ), 'Foundation' )
-const Foundations = t.refinement( t.list( Card ), len( 4 ), 'Foundations' )
+const Foundations = t.refinement( t.list( Foundation ), len( 4 ), 'Foundations' )
 
 const Subpile = t.refinement( t.list( Card ), maxLen( 52 ), 'Subpile' )
 const Pile = t.interface({ downturned: Subpile, upturned: Subpile }, 'Pile' )
@@ -50,4 +48,30 @@ const InitTable = t.refinement( Table, allPass([
 , propSatisfies( addIndex(all)(( val, i ) => propSatisfies( len( i ), 'downturned', val )), 'piles' )
 ]), 'InitTable' )
 
-export { Deck, Table, InitTable }
+
+/*  Model  */
+const Model = t.interface({
+	draw3: t.Boolean
+, table: Table
+, initTable: Table
+// , selectedCard: $.Nullable( Lens )
+})
+
+
+/*  VDOM  */
+const DomElement = t.irreducible( 'DomElement', x => x instanceof Element )
+const SnabbData = t.struct({
+})
+
+const VNode = t.declare( 'VNode' )
+VNode.define( t.struct({
+	sel: t.String
+,	data: SnabbData
+, children: t.maybe( VNode )
+, text: t.maybe( t.String )
+, elm: DomElement
+, key: t.Any
+}))
+
+
+export { Deck, Table, InitTable, Model }
