@@ -1,5 +1,5 @@
 import t from 'tcomb'
-import { propEq, propSatisfies, gte as lte, all, allPass, addIndex, isEmpty, equals, uniq } from 'ramda'
+import { propEq, propSatisfies, gte as lte, all, allPass, where, addIndex, isEmpty, equals, uniq, reduce, concat, values, compose, mergeWith, unnest, map, when, F, T } from 'ramda'
 
 
 const len = propEq( 'length' )
@@ -38,30 +38,39 @@ const Pile = t.interface({ downturned: Subpile, upturned: Subpile }, 'Pile' )
 const Piles = t.refinement( t.list( Pile ), len( 7 ), 'Piles' )
 
 
-const Table = t.interface({
-  stock: Stock
-, wasteHidden: HiddenWaste
-, wasteVisible: VisibleWaste
-, foundations: Foundations
-, piles: Piles
-}, 'Table' )
+const tableToDeck = ({ stock, wasteHidden, wasteVisible, foundations, piles }) =>
+    unnest([ stock, wasteHidden, wasteVisible, unnest(foundations), unnest(map(compose(unnest,values), piles)) ])
 
-const InitTable = t.refinement( Table, allPass([
-	propSatisfies( len( 24 ), 'stock' )
-, propSatisfies( len( 0 ), 'wasteHidden' )
-, propSatisfies( len( 0 ), 'wasteVisible' )
-, propSatisfies( all( isEmpty ), 'foundations' )
-, propSatisfies( all( propSatisfies( len( 1 ), 'upturned' )), 'piles' )
-, propSatisfies( addIndex(all)(( val, i ) => propSatisfies( len( i ), 'downturned', val )), 'piles' )
-]), 'InitTable' )
+const Table = t.refinement
+( t.interface(
+  { stock: Stock
+  , wasteHidden: HiddenWaste
+  , wasteVisible: VisibleWaste
+  , foundations: Foundations
+  , piles: Piles
+  })
+  // count of all props must equal 52
+, t => Deck(tableToDeck(t))
+, 'Table' )
 
+// refactor with where
+const InitTable = t.refinement( Table, where({
+	stock: len( 24 )
+, wasteHidden: len( 0 )
+, wasteVisible: len( 0 )
+, foundations: all( isEmpty )
+, piles: addIndex(all)(( val, i ) => where({
+    upturned: len( 1 )
+  , downturned: len( i )
+  }, val ))
+}), 'InitTable' )
 
 /*  Model  */
 const Model = t.interface({
 	draw3: t.Boolean
 , table: Table
-, initTable: Table
-// , selectedCard: $.Nullable( Lens )
+, initTable: InitTable
+// , selected: $.Nullable( Lens )
 })
 
 
@@ -81,4 +90,19 @@ VNode.define( t.struct({
 }))
 
 
-export { Deck, Table, InitTable, Model }
+export
+{ Card
+, Deck
+, Stock
+, HiddenWaste
+, VisibleWaste
+, Foundation
+, Foundations
+, Piles
+, Pile
+, Subpile
+, HiddenWaste, VisibleWaste
+, Table
+, InitTable
+, Model
+}

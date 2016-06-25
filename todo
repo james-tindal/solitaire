@@ -1,31 +1,19 @@
 
-Components will include
 
-draggable cards
-card stacks
+Can make valid moves on piles
+- select card
+- on click anywhere, deselect
+- on click other card, move if valid
 
+How to select a card?
+When Selecting and Placing, component must know path and have whole table model
 
-
-// UI component heirarchy
-
-table
-  piles
-    movable cards/piles
-  foundations
-  stock
-  waste
-
-
-// modules
-shuffler
+Select and Place must know the path of the card 
 
 
 
-First move cards with clicks. drag-drop later
-
-Write all your actions, then model updates, then view.
-
-Design model. Design Actions
 
 
 
+
+Make Draw work first, because it's easy.

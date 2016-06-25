@@ -5,7 +5,7 @@ module.exports =
 { entry: './src'
 , devtool: process.env.PROD ? 'source-map' : 'eval-source-map'
 , output:
-  { path: path.resolve( '.' )
+  { path: path.resolve( 'public' )
   , filename: 'build.js'
   , publicPath: ''
   }
@@ -19,7 +19,6 @@ module.exports =
       , new webpack.optimize.UglifyJsPlugin({ compressor: { warnings: false }})
       ]
     : [ new webpack.DefinePlugin({ DEBUG: true })
-      , new webpack.HotModuleReplacementPlugin()
       , new webpack.NoErrorsPlugin()
       ]
 , module:

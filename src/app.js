@@ -1,37 +1,36 @@
 
 import { curry } from 'ramda'
 import h from 'snabbdom/h'
-
-import { def, Model } from 'types'
+import tcomb from 'tcomb'
+import { Model } from 'types'
 
 
 // Initialise state
 import shuffle from 'shuffle'
 import deal from 'deal'
-const newTable = model => {
+const newTable = settings => {
   const table = deal(shuffle())
-  return { ...model, table, initTable: table }
+  return { ...settings, table, initTable: table }
 }
 
-const init = () => newTable({ draw3: true })
+const init = (): Model => newTable({ draw3: true })
 
 
 
 // View
-import stock from 'stock'
-import foundations from 'foundations'
+import stock from 'components/stock'
+import foundations from 'components/foundations'
+import piles from 'components/piles'
+import waste from 'components/waste'
 
+import { Action } from 'actions'
 const view = curry(( action$, model ) =>
   h( 'div.table', [
-    // console.log(stock( table.stock )),
-    foundations( model )
-
-    // pile(),
-    // pile(),
-    // pile(),
-    // pile(),
-    // pile(),
-    // pile()
+    stock( action$, model.table.stock ),
+    waste( action$, model.table.wasteVisible ),
+    foundations( action$, model.table.foundations ),
+    piles( action$, model.table.piles ),
+    
   ]))
 
 

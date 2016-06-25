@@ -1,0 +1,76 @@
+
+.table {
+	background: #008001;
+	height: 600px;
+	max-width: 1000px;
+	margin: auto;
+	position: relative;
+	padding-top: 10px;
+}
+
+
+.stock {
+	height: 134px;
+}
+
+.waste {
+	height: 1px;
+	margin-right: calc( 100% / 7 );
+	position: relative;
+}
+
+.waste .card {
+	position: absolute;
+	left: 0; right: 0;
+}
+.waste .card:nth-child(2) { padding-left: 35px }
+.waste .card:nth-child(3) { padding-left: 61px }
+
+.empty {
+	height: 134px;
+	border: 1px solid black;
+	background: rgba( 0, 0, 0, 0.2 );
+	width: 92px;
+	border-radius: 5px;
+	margin: auto;
+}
+
+.piles {
+	position: absolute;
+	top: 200px;
+}
+
+.piles:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.piles:before {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.stock ,
+.waste ,
+.foundation ,
+.pile {
+	float: left;
+	width: calc( 100% / 7 );
+	text-align: center;
+}
+
+.card {
+	width: 92px;
+	margin: auto;
+	position: relative;
+}
+
+.pile .card {
+	top: 120px;
+	margin-top: -125px;
+}
+
+
+button { position: absolute; }
