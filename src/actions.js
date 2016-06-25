@@ -1,8 +1,8 @@
 
 import tcomb from 'tcomb'
-import { Model } from 'types'
+import { Model, Lens } from 'types'
 import Type from 'union-type'
-import { assoc, dissoc, isEmpty, compose, take, props, flatten, lensProp, reverse, drop, map, apply, pipe, concat, T as Any } from 'ramda'
+import { append, assoc, apply, compose, concat, dissoc, drop, dropLast, flatten, isEmpty, lensPath, lensProp, map, over, pipe, reverse, set, T as Any, take, view } from 'ramda'
 import deal from 'deal'
 import shuffle from 'shuffle'
 
@@ -42,10 +42,33 @@ const Draw = model => (): Model => {
   return { ...model, table }
 }
 
-const Move = model => path => {
+const Move = model => ( path ): Model => {
   if( !path ) return model
-  // if( model.selected ) return
-  // move card from selected to path
+  if( model.selected ) {
+
+    const ap = apply( compose )
+    const fromL         = ap( model.selected )
+    const fromLocationL = ap( dropLast(1, model.selected ))
+    const toL           = ap( path )
+    const toLocationL   = ap( dropLast(1, path ))
+
+    const from = view( fromL, model )
+    const to = view( toL, model )
+    const fromLocation = view( fromLocationL, model )
+
+    // return over( locationL, append( from ), model )
+    return pipe
+    ( over( toLocationL, append( from ))
+    , over( fromLocationL, drop(1) )
+    )( model )
+
+
+    return dissoc( 'selected', model )
+    // get card from selected   /
+    // append it to path        /
+    // dissoc selected card     
+  }
+
   return assoc( 'selected', path, model )
 }
 // First, select a path

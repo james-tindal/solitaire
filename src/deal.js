@@ -1,6 +1,6 @@
 import t from 'tcomb'
 
-import { Deck, InitTable } from 'types'
+import { Deck, InitTable, Piles } from 'types'
 import { range, map } from  'ramda'
 
 

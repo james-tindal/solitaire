@@ -1,5 +1,5 @@
-import t from 'tcomb'
-import { propEq, propSatisfies, gte as lte, all, allPass, where, addIndex, isEmpty, equals, uniq, reduce, concat, values, compose, mergeWith, unnest, map, when, F, T } from 'ramda'
+import t, { irreducible, refinement, list, struct, declare } from 'tcomb'
+import { propEq, propSatisfies, gte as lte, all, allPass, where, addIndex, toString, isEmpty, equals, uniq, reduce, concat, values, compose, mergeWith, unnest, map, when, F, T } from 'ramda'
 
 
 const len = propEq( 'length' )
@@ -33,15 +33,15 @@ const VisibleWaste = t.refinement( t.list( Card ), maxLen( 3 ), 'VisibleWaste' )
 const Foundation = t.refinement( t.list( Card ), maxLen( 52 ), 'Foundation' )
 const Foundations = t.refinement( t.list( Foundation ), len( 4 ), 'Foundations' )
 
-const Subpile = t.refinement( t.list( Card ), maxLen( 52 ), 'Subpile' )
-const Pile = t.interface({ downturned: Subpile, upturned: Subpile }, 'Pile' )
-const Piles = t.refinement( t.list( Pile ), len( 7 ), 'Piles' )
+const Subpile = refinement( list( Card ), maxLen( 52 ), 'Subpile' )
+const Pile = struct({ downturned: Subpile, upturned: Subpile }, 'Pile' )
+const Piles = refinement( list( Pile ), len( 7 ), 'Piles' )
 
 
 const tableToDeck = ({ stock, wasteHidden, wasteVisible, foundations, piles }) =>
     unnest([ stock, wasteHidden, wasteVisible, unnest(foundations), unnest(map(compose(unnest,values), piles)) ])
 
-const Table = t.refinement
+const Table = refinement
 ( t.interface(
   { stock: Stock
   , wasteHidden: HiddenWaste
@@ -53,8 +53,7 @@ const Table = t.refinement
 , t => Deck(tableToDeck(t))
 , 'Table' )
 
-// refactor with where
-const InitTable = t.refinement( Table, where({
+const InitTable = refinement( Table, where({
 	stock: len( 24 )
 , wasteHidden: len( 0 )
 , wasteVisible: len( 0 )
@@ -75,12 +74,12 @@ const Model = t.interface({
 
 
 /*  VDOM  */
-const DomElement = t.irreducible( 'DomElement', x => x instanceof Element )
-const SnabbData = t.struct({
+const DomElement = irreducible( 'DomElement', x => x instanceof Element )
+const SnabbData = struct({
 })
 
-const VNode = t.declare( 'VNode' )
-VNode.define( t.struct({
+const VNode = declare( 'VNode' )
+VNode.define( struct({
 	sel: t.String
 ,	data: SnabbData
 , children: t.maybe( VNode )
@@ -88,6 +87,19 @@ VNode.define( t.struct({
 , elm: DomElement
 , key: t.Any
 }))
+
+/*  Lens  */
+const Lens = irreducible( 'Lens', x => x.toString() ===
+  `function (toFunctorFn) {
+            return function (target) {
+                return map(function (focus) {
+                    return setter(focus, target);
+                }, toFunctorFn(getter(target)));
+            };
+        }`
+)
+
+const Lenses = list( Lens, 'Lenses' )
 
 
 export
@@ -105,4 +117,5 @@ export
 , Table
 , InitTable
 , Model
+, Lenses
 }
