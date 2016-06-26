@@ -1,4 +1,4 @@
-import t, { irreducible, refinement, list, struct, declare } from 'tcomb'
+import t, { irreducible, refinement, list, struct, tuple, enums, declare } from 'tcomb'
 import { propEq, propSatisfies, gte as lte, all, allPass, where, addIndex, toString, isEmpty, equals, uniq, reduce, concat, values, compose, mergeWith, unnest, map, when, F, T } from 'ramda'
 
 
@@ -9,13 +9,13 @@ const allUniq = a => equals(a, uniq(a))
 
 /*  Deck  */
 const isRank = n => n >= 1 && n <= 14
-const Rank = t.refinement( t.Number, isRank, 'Rank' )
+const Rank = refinement( t.Number, isRank, 'Rank' )
 
-const Suit = t.enums.of([ 'hearts', 'clubs', 'spades', 'diamonds' ], 'Suit' )
+const Suit = enums.of([ 'hearts', 'clubs', 'spades', 'diamonds' ], 'Suit' )
 
-const Card = t.tuple([ Rank, Suit ], 'Card' )
+const Card = tuple([ Rank, Suit ], 'Card' )
 
-const Deck = t.refinement
+const Deck = refinement
 ( t.list( Card )
 , allPass(
 	[ len( 52 )
@@ -30,11 +30,11 @@ const Stock = t.refinement( t.list( Card ), maxLen( 52 ), 'Stock' )
 const HiddenWaste = t.list( Card, 'HiddenWaste' )
 const VisibleWaste = t.refinement( t.list( Card ), maxLen( 3 ), 'VisibleWaste' )
 
-const Foundation = t.refinement( t.list( Card ), maxLen( 52 ), 'Foundation' )
+const Foundation = t.refinement( t.list( Card ), maxLen( 13 ), 'Foundation' )
 const Foundations = t.refinement( t.list( Foundation ), len( 4 ), 'Foundations' )
 
 const Subpile = refinement( list( Card ), maxLen( 52 ), 'Subpile' )
-const Pile = struct({ downturned: Subpile, upturned: Subpile }, 'Pile' )
+const Pile = t.interface({ downturned: Subpile, upturned: Subpile }, 'Pile' )
 const Piles = refinement( list( Pile ), len( 7 ), 'Piles' )
 
 
@@ -49,7 +49,7 @@ const Table = refinement
   , foundations: Foundations
   , piles: Piles
   })
-  // count of all props must equal 52
+  // count of all cards must equal 52
 , t => Deck(tableToDeck(t))
 , 'Table' )
 
@@ -101,6 +101,8 @@ const Lens = irreducible( 'Lens', x => x.toString() ===
 
 const Lenses = list( Lens, 'Lenses' )
 
+const MoveType = enums.of([ 'card', 'empty' ])
+
 
 export
 { Card
@@ -118,4 +120,5 @@ export
 , InitTable
 , Model
 , Lenses
+, MoveType
 }

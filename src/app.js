@@ -1,5 +1,5 @@
 
-import { curry } from 'ramda'
+import { curry, isEmpty } from 'ramda'
 import h from 'snabbdom/h'
 import tcomb from 'tcomb'
 import { Model } from 'types'
@@ -17,6 +17,7 @@ const init = (): Model => newTable({ draw3: true })
 
 
 
+
 // View
 import stock from 'components/stock'
 import foundations from 'components/foundations'
@@ -24,14 +25,16 @@ import piles from 'components/piles'
 import waste from 'components/waste'
 
 import { Action } from 'actions'
-const view = curry(( action$, model ) =>
-  h( 'div.table', [
+const view = curry(( action$, model ) => {
+  const { wasteHidden, wasteVisible } = model.table
+  if( isEmpty( wasteVisible ) && !isEmpty( wasteHidden )) action$( Action.ShowHiddenWaste() )
+
+  return h( 'div.table', [
     stock( action$, model.table.stock ),
     waste( action$, model.table.wasteVisible ),
     foundations( action$, model.table.foundations ),
-    piles( action$, model.table.piles ),
-    
-  ]))
-
+    piles( action$, model.table.piles )
+  ])
+})
 
 export { init, view }

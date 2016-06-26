@@ -1,16 +1,16 @@
 
 import h from 'snabbdom/h'
 import { curry } from 'ramda'
-import tcomb from 'tcomb'
+import t from 'tcomb'
 import { Card, Lenses } from 'types'
 import { Action } from 'actions'
 
 
 export default
-curry(( action$, card: Card, path: Lenses ) =>
+curry(( action$, card: Card, path  ) =>
 	h( 'img.card'
 	, { props: { src: `/cards/${card.join('_')}.svg` }
-		, on: { click: [ action$, Action.Move( path ) ]}
+		, on: { click: [ action$, Action.Move( path, 'card' ) ]}
 		}
 	)
 )

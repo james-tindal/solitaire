@@ -40,6 +40,8 @@
 	top: 200px;
 }
 
+.pile { height: 1px }
+
 .piles:after {
 	content: '';
 	clear: both;
