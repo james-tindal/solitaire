@@ -2,7 +2,7 @@
 import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Type from 'union-type'
-import { allPass, append, assoc, apply, compose, concat, dissoc, drop, dropLast, equals, flatten, head, identity, ifElse, isEmpty, last, lensIndex, lensProp, map, not, over, pipe, propEq, reverse, set, T as Any, take, view } from 'ramda'
+import { allPass, append, assoc, apply, compose, concat, dissoc, drop, dropLast, equals, flatten, flip, head, identity, ifElse, isEmpty, last, lensIndex, lensProp, map, not, over, pipe, propEq, reverse, set, T as Any, take, view } from 'ramda'
 import deal from 'deal'
 import shuffle from 'shuffle'
 import is from '@pwn/is'
@@ -62,11 +62,11 @@ const Draw = model => (): Model => {
 }
 
 const Move = model => ( path, type: MoveType ) => {
-  console.log(path, type)
+  // console.log(path, type)
   const deselect = () => { beep.play(); return dissoc( 'selected', model ) }
 
   if( !path ) return model  // Block moving cards from stock that aren't top
-  if( type === 'empty' && !migrantPath ) return model         // Can't select empty pile
+  if( type === 'empty' && !model.selected ) return model         // Can't select empty pile
   if( !model.selected ) return assoc( 'selected', path, model )  // Select card
 
   const migrantPath = model.selected
@@ -86,19 +86,19 @@ const Move = model => ( path, type: MoveType ) => {
   const occupant = view( occupantL, model )
   const migrantLocation = view( migrantLocationL, model )
 
-
-  if( migrantPath[1] === 'foundations' ) {
+  if( occupantPath[1] === 'foundations' ) {
     const validSuit = suit( migrant ) === suit( occupant || migrant )  // Compare only if occupant exists
     const validRank = fRank( migrant ) === fRank( occupant ) + 1
     if(!( validSuit && validRank )) return deselect()
   }
 
-  if( migrantPath[1] === 'piles' ) {
+  if( occupantPath[1] === 'piles' ) {
     if( equals( migrantPath[2], occupantPath[2] )) return deselect()   // Deselect on same pile
 
     const validSuit = color( migrant ) !== color( occupant || migrant )  // Compare only if occupant exists
     const validRank = pRank( migrant ) === pRank( occupant ) - 1
     if(!( validSuit && validRank )) return deselect()
+    console.log('validSuit: ', validSuit, '  validRank: ', validRank )
 
     const migrantIdx = migrantPath[4]
     const pileHeight = view( migrantLocationL, model ).length
@@ -106,7 +106,6 @@ const Move = model => ( path, type: MoveType ) => {
     const cardCount = pileHeight - migrantIdx
     
     // if migrant is not top of pile
-    console.log( 'migrantIdx:', migrantIdx, '  top:', top)
     if( migrantIdx != top ) 
       return pipe
       ( dissoc( 'selected' )
