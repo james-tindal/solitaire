@@ -78,7 +78,6 @@ const Move = model => ( path, type: MoveType ) => {
 
   const migrantL           = lensPath( migrantPath )
   const migrantLocationL   = lensPath( dropLast(1, migrantPath ))
-  const downturnedL      = lensPath([ ...dropLast(2, migrantPath ), 'downturned' ])
   const occupantL           = lensPath( occupantPath )
   const occupantLocationL   = lensPath( dropLast(1, occupantPath ))
 
@@ -109,7 +108,7 @@ const Move = model => ( path, type: MoveType ) => {
     if( migrantIdx != top ) 
       return pipe
       ( dissoc( 'selected' )
-      , over( occupantLocationL, flip(concat)( take( cardCount, view( migrantLocationL, model ))))      // Copy migrant to occupantLocation
+      , over( occupantLocationL, flip(concat)( take( cardCount, migrantLocation )))      // Copy migrant to occupantLocation
       , over( migrantLocationL, dropLast( cardCount ))         // Drop from migrantLocation
       )( model )
   }

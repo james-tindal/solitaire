@@ -9,3 +9,7 @@ move from waste to pile: wasteVisible dropped - invalid deck
 
 Is the Move action suitable for a maybe/either ?
 
+
+
+
+Detecting a win - trigger when stock / waste empty
