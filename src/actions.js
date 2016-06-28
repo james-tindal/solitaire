@@ -61,7 +61,7 @@ const Draw = model => (): Model => {
   return { ...model, table }
 }
 
-const Move = model => ( path, type: MoveType ) => {
+const Move2 = model => ( path, type: MoveType ) => {
   // console.log(path, type)
   const deselect = () => { beep.play(); return dissoc( 'selected', model ) }
 
@@ -81,9 +81,11 @@ const Move = model => ( path, type: MoveType ) => {
   const occupantL           = lensPath( occupantPath )
   const occupantLocationL   = lensPath( dropLast(1, occupantPath ))
 
+
   const migrant = view( migrantL, model )
   const occupant = view( occupantL, model )
   const migrantLocation = view( migrantLocationL, model )
+console.log({ migrantPath, occupantPath, type, migrant, occupant })
 
   if( occupantPath[1] === 'foundations' ) {
     const validSuit = suit( migrant ) === suit( occupant || migrant )  // Compare only if occupant exists
@@ -92,34 +94,63 @@ const Move = model => ( path, type: MoveType ) => {
   }
 
   if( occupantPath[1] === 'piles' ) {
-    if( equals( migrantPath[2], occupantPath[2] )) return deselect()   // Deselect on same pile
-
     const validSuit = color( migrant ) !== color( occupant || migrant )  // Compare only if occupant exists
     const validRank = pRank( migrant ) === pRank( occupant ) - 1
-    if(!( validSuit && validRank )) return deselect()
+    
     console.log('validSuit: ', validSuit, '  validRank: ', validRank )
 
-    const migrantIdx = migrantPath[4]
-    const pileHeight = view( migrantLocationL, model ).length
-    const top = pileHeight - 1
-    const cardCount = pileHeight - migrantIdx
-    
-    // if migrant is not top of pile
-    if( migrantIdx != top ) 
-      return pipe
-      ( dissoc( 'selected' )
-      , over( occupantLocationL, flip(concat)( take( cardCount, migrantLocation )))      // Copy migrant to occupantLocation
-      , over( migrantLocationL, dropLast( cardCount ))         // Drop from migrantLocation
-      )( model )
+    if( equals( migrantPath[2], occupantPath[2] )) return deselect()   // Deselect on same pile
+    if(!( validSuit && validRank )) return deselect()
   }
 
-  // if migrant is top of pile
+  const migrantIdx =
+  { 'wasteVisible' : migrantPath[2]
+  , 'foundations'  : migrantPath[3]
+  , 'piles'        : migrantPath[4]
+  }[ migrantPath[ 1 ]]
+
+  const pileHeight = view( migrantLocationL, model ).length
+  const cardCount = pileHeight - migrantIdx
+
   return pipe
   ( dissoc( 'selected' )
-  , over( occupantLocationL, append( migrant ))      // Copy migrant to occupantLocation
-  , over( migrantLocationL, dropLast(1) )         // Drop from migrantLocation
+  , over( occupantLocationL, flip(concat)( take( cardCount, migrantLocation )))      // Copy migrant to occupantLocation
+  , over( migrantLocationL, dropLast( cardCount ))         // Drop from migrantLocation
   )( model )
 }
+
+
+const Result = Type({ Select: [], Deselect: [], Move: [], Continue: [] })
+Result.prototype.map = function( fn ) {
+  return Result.case(
+  { Select: () => Result.Select()
+  , Deselect: () => Result.Deselect()
+  , Move: () => Result.Move()
+  , Continue: Result.caseOn(
+    { Select: () => Result.Select()
+    , Deselect: () => Result.Deselect()
+    , Move: () => Result.Move()
+    , Continue: () => Result.Continue()
+    })
+  }
+  , this )
+}
+
+const Move = model => ( path, type: MoveType ) => {
+  const result = Result.Continue()
+  const { Select, Deselect, Move, Continue } = Result
+
+console.log(result)
+  result
+  .map(() => path ? Continue() : Deselect() )
+  .map(() => type === 'empty' && !model.selected ? d : c )
+  // .map(() => c )
+  console.log(result)
+
+  return model
+}
+
+
 
 const ShowHiddenPile = model => ( pileIdx ): Model => {
   const upturned   = lensPath([ 'table', 'piles', pileIdx, 'upturned' ])
