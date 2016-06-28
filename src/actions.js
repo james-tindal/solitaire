@@ -126,12 +126,12 @@ Result.prototype.map = function( fn ) {
   { Select: () => Result.Select()
   , Deselect: () => Result.Deselect()
   , Move: () => Result.Move()
-  , Continue: Result.caseOn(
+  , Continue: () => Result.case(
     { Select: () => Result.Select()
     , Deselect: () => Result.Deselect()
     , Move: () => Result.Move()
     , Continue: () => Result.Continue()
-    })
+    }, fn())
   }
   , this )
 }
@@ -140,12 +140,10 @@ const Move = model => ( path, type: MoveType ) => {
   const result = Result.Continue()
   const { Select, Deselect, Move, Continue } = Result
 
-console.log(result)
   result
   .map(() => path ? Continue() : Deselect() )
-  .map(() => type === 'empty' && !model.selected ? d : c )
-  // .map(() => c )
-  console.log(result)
+  .map(() => type === 'empty' && !model.selected ? Deselect() : Deselect() )
+  .map(() => Select() )
 
   return model
 }
