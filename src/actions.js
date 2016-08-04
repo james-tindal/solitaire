@@ -2,10 +2,21 @@
 import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Type from 'union-type'
-import { allPass, append, assoc, apply, compose, concat, dissoc, drop, dropLast, equals, flatten, flip, head, identity, ifElse, isEmpty, last, lensIndex, lensProp, map, not, over, pipe, propEq, reverse, set, T as Any, take, view } from 'ramda'
+import { __, allPass, always, append, apply, assoc, compose, concat, converge, cond, curry, dissoc, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, last, lens, lensIndex, lensProp, map, not, objOf, over, pathEq, pipe, prop, propEq, props, reverse, set, T as Any, T as otherwise, take, view } from 'ramda'
 import deal from 'deal'
 import shuffle from 'shuffle'
-import is from '@pwn/is'
+import is from 'is_js'
+const isPlaceholder = has( '@@functional/placeholder' )
+const evolve = curry(( mapObj, src ) => mapObjIndexed
+( ( v, k ) =>
+    is.function( v ) ? v( src )
+  : isPlaceholder( v ) ? prop( k, src )
+  : v
+, mapObj ))
+const switchPath = ( p, caseObj ) =>
+  over( lens( prop( p ), apply ), flip(path)( caseObj ))
+const diverge = ( getter, operator, setter ) =>
+  over( lens( getter, setter ), operator )
 
 const newTable = settings => {
   const table = deal(shuffle())
@@ -65,7 +76,6 @@ const Move2 = model => ( path, type: MoveType ) => {
   // console.log(path, type)
   const deselect = () => { beep.play(); return dissoc( 'selected', model ) }
 
-  if( !path ) return model  // Block moving cards from stock that aren't top
   if( type === 'empty' && !model.selected ) return model         // Can't select empty pile
   if( !model.selected ) return assoc( 'selected', path, model )  // Select card
 
@@ -94,7 +104,7 @@ console.log({ migrantPath, occupantPath, type, migrant, occupant })
   }
 
   if( occupantPath[1] === 'piles' ) {
-    const validSuit = color( migrant ) !== color( occupant || migrant )  // Compare only if occupant exists
+    const validSuit = color( migrant ) !== color( occupant || migrant )  // broken hack
     const validRank = pRank( migrant ) === pRank( occupant ) - 1
     
     console.log('validSuit: ', validSuit, '  validRank: ', validRank )
@@ -119,38 +129,93 @@ console.log({ migrantPath, occupantPath, type, migrant, occupant })
   )( model )
 }
 
-
-const Result = Type({ Select: [], Deselect: [], Move: [], Continue: [] })
-Result.prototype.map = function( fn ) {
-  return Result.case(
-  { Select: () => Result.Select()
-  , Deselect: () => Result.Deselect()
-  , Move: () => Result.Move()
-  , Continue: Result.caseOn(
-    { Select: () => Result.Select()
-    , Deselect: () => Result.Deselect()
-    , Move: () => Result.Move()
-    , Continue: () => Result.Continue()
-    })
-  }
-  , this )
-}
-
+import Compute, { Complete, Deselect } from 'compute-monad'
 const Move = model => ( path, type: MoveType ) => {
-  const result = Result.Continue()
-  const { Select, Deselect, Move, Continue } = Result
 
-console.log(result)
-  result
-  .map(() => path ? Continue() : Deselect() )
-  .map(() => type === 'empty' && !model.selected ? d : c )
-  // .map(() => c )
-  console.log(result)
+  const deselectIf = curry(ifElse)( __, Deselect.of, Compute.of )
 
-  return model
+  const completeIf = ( isComplete, transform ) => ifElse
+  ( isComplete
+  , compose( Complete.of, transform )
+  , Compute.of )
+
+  const dontSelectEmptyPile = completeIf
+  ( x => x.type == 'empty' && x.selected == null
+  , prop( 'model' ))
+
+  // if selected is null
+  // complete and
+  // 
+  const selectCard = completeIf
+  ( propEq( 'selected', null )
+  , over
+    ( lens( prop('path'), path => compose( assoc( 'selected', path ), prop( 'model' )))
+    , identity
+    )
+  )
+
+  const migrantOccupant = compose( Compute.of, evolve(
+  { migrantPath: prop( 'selected' )
+  , occupantPath: prop( 'path' )
+  , model: __
+  }))
+
+  const moveToSameLocation = deselectIf
+  ( compose( apply( equals ), props([ 'migrantPath', 'occupantPath' ])))
+
+  const dontMoveToWaste = deselectIf
+  ( pathEq([ 'occupantPath', 1 ], 'wasteVisible' ))
+
+  // How do I decide if it's empty?
+  // view occupantPath is null
+  // occupant is null
+  const viewOccupant = compose( apply( path ), props([ 'occupantPath', 'model' ]))
+  const viewMigrant = compose( apply( path ), props([ 'migrantPath', 'model' ]))
+
+  const notKing = compose( always, not, propEq( 0, 13 ))
+
+  const destinationEmpty =
+    flip( over( lens( viewMigrant, compose( deselectIf, notKing )), identity ))
+
+  const switchEmpty = cond(
+  [ [ is.existy, destinationNonempty ]
+  , [ otherwise, destinationEmpty ]
+  ])
+
+  const foundations = converge( switchEmpty, [ viewOccupant, identity ])
+
+  // When do we deselect? What are the rules?
+  // Move to empty
+  // ? Rank: 13             -- done
+  // : Same suit. Rank: +1
+
+  const validateMoveToDestination = switchPath([ 'occupantPath', 1 ], { foundations, piles })
+
+  // function pipeIfIncomplete() {
+  //   return src => reduce(  )
+  // }
+
+  const validateMove = pipeK
+  ( dontSelectEmptyPile
+  , selectCard
+  , migrantOccupant     // 
+  , moveToSameLocation
+  , dontMoveToWaste
+  // Split. Move to foundations or piles ?
+  , validateMoveToDestination
+  // move if it's got this far
+  )
+
+  
+  const doIt = pipe( validateMove, Compute.case(
+  { deselect: compose( dissoc( 'selected' ), prop( 'model' ))
+  }))
+
+  return doIt( Compute.of(
+  { selected: model.selected
+  , model, path, type
+  }))
 }
-
-
 
 const ShowHiddenPile = model => ( pileIdx ): Model => {
   const upturned   = lensPath([ 'table', 'piles', pileIdx, 'upturned' ])
@@ -172,7 +237,6 @@ const ShowHiddenWaste = model => (): Model => {
 }
 
 const Foundation = model => path => 'dblclick'
-// Fuck this for now. enhancement.
 
 const Drop = model => () => dissoc( 'cardPath', model )
 const Undo = model => () => {}

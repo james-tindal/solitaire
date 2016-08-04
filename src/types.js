@@ -73,21 +73,6 @@ const Model = t.interface({
 })
 
 
-/*  VDOM  */
-const DomElement = irreducible( 'DomElement', x => x instanceof Element )
-const SnabbData = struct({
-})
-
-const VNode = declare( 'VNode' )
-VNode.define( struct({
-	sel: t.String
-,	data: SnabbData
-, children: t.maybe( VNode )
-, text: t.maybe( t.String )
-, elm: DomElement
-, key: t.Any
-}))
-
 /*  Lens  */
 const Lens = irreducible( 'Lens', x => x.toString() ===
   `function (toFunctorFn) {
@@ -102,6 +87,11 @@ const Lens = irreducible( 'Lens', x => x.toString() ===
 const Lenses = list( Lens, 'Lenses' )
 
 const MoveType = enums.of([ 'card', 'empty' ])
+
+
+const Decision = struct(
+{ complete: enums.of([ false, 'select', 'nothing', 'move' ]) 
+})
 
 
 export

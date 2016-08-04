@@ -10,7 +10,7 @@ export default
 curry(( action$, card: Card, path  ) =>
 	h( 'img.card'
 	, { props: { src: `/cards/${card.join('_')}.svg` }
-		, on: { click: [ action$, Action.Move( path, 'card' ) ]}
+		, on: { click: [ action$, path && Action.Move( path, 'card' ) ]}
 		}
 	)
 )

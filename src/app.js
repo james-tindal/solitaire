@@ -10,7 +10,7 @@ import shuffle from 'shuffle'
 import deal from 'deal'
 const newTable = settings => {
   const table = deal(shuffle())
-  return { ...settings, table, initTable: table }
+  return { ...settings, table, initTable: table, selected: null }
 }
 
 const init = (): Model => newTable({ draw3: true })
