@@ -1,16 +1,16 @@
 
-import h from 'snabbdom/h'
 import { isEmpty, curry, last } from 'ramda'
 import tcomb from 'tcomb'
 import { Foundation } from 'types'
 import card from './card'
-import { Action } from 'actions'
+import Action from 'actions'
+import yo from 'yo-yo'
 
 export default
-curry(( action$, foundation: Foundation, idx ) =>
-	h( 'div.foundation'
-  , [ isEmpty(foundation)
-    ? h( 'div.empty', { on: { click: [ action$, Action.Move([ 'foundations', idx, 0 ], 'empty' ) ]}})
+curry(( action$, foundation: Foundation, idx ) => yo`
+  <div class="foundation">${
+    isEmpty( foundation )
+    ? yo`<div class="empty" onclick=${ e => action$( Action.Move([ 'foundations', idx, 0 ], 'empty' ) )}></div>`
     : card( action$, last( foundation ), [ 'foundations', idx, foundation.length - 1 ])
-    ])
-)
+  }</div>
+`)

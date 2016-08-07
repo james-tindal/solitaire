@@ -1,7 +1,5 @@
 
-import h from 'snabbdom/h'
-
+import yo from 'yo-yo'
 
 export default
-() =>
-	h( 'img.card', { props: { src: `/cards/back.svg` }})
+() => yo`<img class="card" src="/cards/back.svg">`

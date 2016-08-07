@@ -1,28 +1,22 @@
-import { map, apply, flip } from 'ramda'
-import flyd, { stream } from 'flyd'
-const patch = require('snabbdom').init([
-  require('snabbdom/modules/class'),
-  require('snabbdom/modules/props'),
-  require('snabbdom/modules/eventlisteners'),
-  require('snabbdom/modules/style'),
-])
-
+/* @flow */
+import { update as render } from 'yo-yo'
+import Action from 'actions'
 import { init, view } from 'app'
-import { Action, actions } from 'actions'
+const log = x => console.log(x) || x
+
+const update = ( model, action ) => action.value( model, ...action.args )
+
+const instanceOf = type => msg =>
+  type.isPrototypeOf( msg )
+
+import { stream, scan, map } from 'flyd'
+import filter from 'flyd/module/filter'
+
+const action$ = stream()
+const model$ = scan( update, init(), action$ ) // Contains the entire state of the application
+// map( console.log, action$ )
+const node$ = map( view( action$ ), model$ )  // Stream of DOM nodes to patch the document
 
 
-const update =
-( model, action ) => Action.case( map( flip(apply)([ model, action ]), actions ), action )
-
-
-// Streams
-const action$ = stream() // All modifications to the state originate here
-const model$ = flyd.scan( update, init(), action$ ) // Contains the entire state of the application
-const vnode$ = flyd.map( view( action$ ), model$ ) // Stream of virtual nodes to render
-
-// flyd.map( console.log.bind(console), model$ )  // Uncomment to log state on every update
-// flyd.map( x => console.dir(x.table), model$ )  // Uncomment to log state on every update
-
-const container = document.getElementById( 'container' )
-flyd.scan( patch, container, vnode$ )
-
+const container = document.querySelector( '#container' )
+scan( render, container, node$ )

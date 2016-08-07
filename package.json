@@ -18,13 +18,12 @@
     "cross-env": "^1.0.8",
     "express": "^4.13.4",
     "flyd": "^0.2.2",
+    "msg": "^1.0.0",
     "ramda": "^0.21.0",
-    "sanctuary-def": "^0.6.0",
-    "snabbdom": "^0.5.0",
-    "union-type": "^0.3.1",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "webpack-hot-middleware": "^2.10.0",
+    "yo-yo": "^1.2.2"
   },
   "babel": {
     "presets": [

@@ -1,7 +1,7 @@
 
 import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
-import Type from 'union-type'
+import Message from 'msg'
 import { __, allPass, always, append, apply, assoc, assocPath, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, map, mapObjIndexed, not, objOf, over, path, pathEq, pipe, pipeK, prop, propEq, propSatisfies, props, reverse, set, subtract, T as Any, T as otherwise, take, view } from 'ramda'
 import deal from 'deal'
 import shuffle from 'shuffle'
@@ -53,11 +53,11 @@ const isAce = card => Card.rank(card) === 1
 //  -----------------------------------------------------------------  //
 
 
-const Deal = model => () => newTable( model )
-const Reset = model => () => assoc( 'table', model.initTable, model )
+const Deal = model => newTable( model )
+const Reset = model => assoc( 'table', model.initTable, model )
 
 
-const Draw = model => (): Model => {
+const Draw = ( model ): Model => {
   const { stock, wasteHidden, wasteVisible } = model.table
   const table = isEmpty(stock)
   ? { ...model.table
@@ -134,7 +134,7 @@ const Draw = model => (): Model => {
 const { Compute,   Complete,   Select,   Deselect,   MoveCard, cata } = require( 'compute-monad' )
     ([ 'Compute', 'Complete', 'Select', 'Deselect', 'MoveCard' ])
 
-const Move = model => ( newPath, type: MoveType ) => {
+const Move = ( model, newPath, type: MoveType ): Model => {
 
   const deselectIf = ifElse( __, Deselect.of, Compute.of )
   const selectIf = ifElse( __, Select.of, Compute.of )
@@ -189,7 +189,7 @@ const Move = model => ( newPath, type: MoveType ) => {
 
   const validateMove = pipeK
   ( dontSelectEmptyPile
-  , selectIf( propSatisfies( isNil, 'selected' ))
+  , selectIf( propSatisfies( isNil, [ '', 'selected' ]))
   , migrantOccupant
   , moveToSameLocation
   , dontMoveToWaste
@@ -226,22 +226,21 @@ const Move = model => ( newPath, type: MoveType ) => {
   
   const doIt = pipe
   ( validateMove
+  , log
   , cata(
     { Deselect: dissocPath([ 'model', 'selected' ])
     , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
     , MoveCard: doMove
     })
-  , log
   , prop( 'model' ))
 
   return doIt( Compute.of(
-  { selected: model.selected
-  , path: newPath
+  { path: newPath
   , model, type
   }))
 }
 
-const ShowHiddenPile = model => ( pileIdx ): Model => {
+const ShowHiddenPile = ( model, pileIdx ): Model => {
   const upturned   = lensPath([ 'table', 'piles', pileIdx, 'upturned' ])
   const downturned = lensPath([ 'table', 'piles', pileIdx, 'downturned' ])
   return pipe
@@ -250,7 +249,7 @@ const ShowHiddenPile = model => ( pileIdx ): Model => {
   )( model )
 }
 
-const ShowHiddenWaste = model => (): Model => {
+const ShowHiddenWaste = ( model ): Model => {
   const { wasteHidden, wasteVisible } = model.table
   const table =
   { ...model.table
@@ -260,32 +259,18 @@ const ShowHiddenWaste = model => (): Model => {
   return { ...model, table }
 }
 
-const Foundation = model => path => 'dblclick'
+const Foundation = ( model, path ) => 'dblclick'
 
-const Drop = model => () => dissoc( 'cardPath', model )
-const Undo = model => () => {}
-const ShowSettings = model => () => {}
-const UpdateSettings = model => () => {}
+const Drop = model => dissoc( 'cardPath', model )
+const Undo = model => {}
+const ShowSettings = model => {}
+const UpdateSettings = model => {}
 
 
 //  ------------------------------------------  //
 
-export const Action = Type({
-  Deal: []
-, Reset: []
-, Draw: []
-, Move: [ Any, Any ]
-, ShowHiddenPile: [ Number ]
-, ShowHiddenWaste: []
-, Foundation: [ Any ]
-, Drop: []
-, Undo: []
-, ShowSettings: []
-, UpdateSettings: []
-})
-
-export const actions = {
-	Deal
+export default Message(
+{ Deal
 , Reset
 , Draw
 , Move
@@ -296,4 +281,5 @@ export const actions = {
 , Undo
 , ShowSettings
 , UpdateSettings
-}
+})
+
