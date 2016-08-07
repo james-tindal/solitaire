@@ -2,7 +2,7 @@
 import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Type from 'union-type'
-import { __, allPass, always, append, apply, assoc, assocPath, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, map, mapObjIndexed, not, objOf, over, path, pathEq, pipe, pipeK, prop, propEq, propSatisfies, props, reverse, set, T as Any, T as otherwise, take, view } from 'ramda'
+import { __, allPass, always, append, apply, assoc, assocPath, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, map, mapObjIndexed, not, objOf, over, path, pathEq, pipe, pipeK, prop, propEq, propSatisfies, props, reverse, set, subtract, T as Any, T as otherwise, take, view } from 'ramda'
 import deal from 'deal'
 import shuffle from 'shuffle'
 import is from 'is_js'
@@ -74,67 +74,67 @@ const Draw = model => (): Model => {
   return { ...model, table }
 }
 
-const Move2 = model => ( path, type: MoveType ) => {
-  // console.log(path, type)
-  const deselect = () => { beep.play(); return dissoc( 'selected', model ) }
+// const Move2 = model => ( path, type: MoveType ) => {
+//   // console.log(path, type)
+//   const deselect = () => { beep.play(); return dissoc( 'selected', model ) }
 
-  if( type === 'empty' && !model.selected ) return model         // Can't select empty pile
-  if( !model.selected ) return assoc( 'selected', path, model )  // Select card
+//   if( type === 'empty' && !model.selected ) return model         // Can't select empty pile
+//   if( !model.selected ) return assoc( 'selected', path, model )  // Select card
 
-  const migrantPath = model.selected
-  const occupantPath = path
+//   const migrant = model.selected
+//   const occupant = path
 
-  if( equals( migrantPath, occupantPath )) return deselect()          // Deselect on same card
-  if( occupantPath[1] === 'wasteVisible' && migrantPath ) return deselect()  // Can't put a card on waste
-
-
-  const migrantL           = lensPath( migrantPath )
-  const migrantLocationL   = lensPath( dropLast(1, migrantPath ))
-  const occupantL           = lensPath( occupantPath )
-  const occupantLocationL   = lensPath( dropLast(1, occupantPath ))
+//   if( equals( migrant, occupant )) return deselect()          // Deselect on same card
+//   if( occupant[1] === 'wasteVisible' && migrant ) return deselect()  // Can't put a card on waste
 
 
-  const migrant = view( migrantL, model )
-  const occupant = view( occupantL, model )
-  const migrantLocation = view( migrantLocationL, model )
-console.log({ migrantPath, occupantPath, type, migrant, occupant })
+//   const migrantL           = lensPath( migrant )
+//   const migrantLocationL   = lensPath( dropLast(1, migrant ))
+//   const occupantL           = lensPath( occupant )
+//   const occupantLocationL   = lensPath( dropLast(1, occupant ))
 
-  if( occupantPath[1] === 'foundations' ) {
-    const validSuit = suit( migrant ) === suit( occupant || migrant )  // Compare only if occupant exists
-    const validRank = fRank( migrant ) === fRank( occupant ) + 1
-    if(!( validSuit && validRank )) return deselect()
-  }
 
-  if( occupantPath[1] === 'piles' ) {
-    const validSuit = color( migrant ) !== color( occupant || migrant )  // broken hack
-    const validRank = pRank( migrant ) === pRank( occupant ) - 1
+//   const migrant = view( migrantL, model )
+//   const occupant = view( occupantL, model )
+//   const migrantLocation = view( migrantLocationL, model )
+// console.log({ migrant, occupant, type, migrant, occupant })
+
+//   if( occupant[1] === 'foundations' ) {
+//     const validSuit = suit( migrant ) === suit( occupant || migrant )  // Compare only if occupant exists
+//     const validRank = fRank( migrant ) === fRank( occupant ) + 1
+//     if(!( validSuit && validRank )) return deselect()
+//   }
+
+//   if( occupant[1] === 'piles' ) {
+//     const validSuit = color( migrant ) !== color( occupant || migrant )  // broken hack
+//     const validRank = pRank( migrant ) === pRank( occupant ) - 1
     
-    console.log('validSuit: ', validSuit, '  validRank: ', validRank )
+//     console.log('validSuit: ', validSuit, '  validRank: ', validRank )
 
-    if( equals( migrantPath[2], occupantPath[2] )) return deselect()   // Deselect on same pile
-    if(!( validSuit && validRank )) return deselect()
-  }
+//     if( equals( migrant[2], occupant[2] )) return deselect()   // Deselect on same pile
+//     if(!( validSuit && validRank )) return deselect()
+//   }
 
-  const migrantIdx =
-  { 'wasteVisible' : migrantPath[2]
-  , 'foundations'  : migrantPath[3]
-  , 'piles'        : migrantPath[4]
-  }[ migrantPath[ 1 ]]
+//   const migrantIdx =
+//   { 'wasteVisible' : migrant[2]
+//   , 'foundations'  : migrant[3]
+//   , 'piles'        : migrant[4]
+//   }[ migrant[ 1 ]]
 
-  const pileHeight = view( migrantLocationL, model ).length
-  const cardCount = pileHeight - migrantIdx
+//   const pileHeight = view( migrantLocationL, model ).length
+//   const cardCount = pileHeight - migrantIdx
 
-  return pipe
-  ( dissoc( 'selected' )
-  , over( occupantLocationL, flip(concat)( take( cardCount, migrantLocation )))      // Copy migrant to occupantLocation
-  , over( migrantLocationL, dropLast( cardCount ))         // Drop from migrantLocation
-  )( model )
-}
+//   return pipe
+//   ( dissoc( 'selected' )
+//   , over( occupantLocationL, flip(concat)( take( cardCount, migrantLocation )))      // Copy migrant to occupantLocation
+//   , over( migrantLocationL, dropLast( cardCount ))         // Drop from migrantLocation
+//   )( model )
+// }
 
 const { Compute,   Complete,   Select,   Deselect,   MoveCard, cata } = require( 'compute-monad' )
     ([ 'Compute', 'Complete', 'Select', 'Deselect', 'MoveCard' ])
 
-const Move = model => ( path, type: MoveType ) => {
+const Move = model => ( newPath, type: MoveType ) => {
 
   const deselectIf = ifElse( __, Deselect.of, Compute.of )
   const selectIf = ifElse( __, Select.of, Compute.of )
@@ -148,19 +148,21 @@ const Move = model => ( path, type: MoveType ) => {
   ( x => x.type == 'empty' && isNil( x.selected ))
 
   const migrantOccupant = compose( Compute.of, evolve(
-  { migrantPath: prop( 'selected' )
-  , occupantPath: prop( 'path' )
+  { migrant: prop( 'selected' )
+  , origin: compose( dropLast(1), prop( 'selected' ))
+  , occupant: prop( 'path' )
+  , destination: compose( dropLast(1), prop( 'path' ))
   , model: __
   }))
 
   const moveToSameLocation = deselectIf
-  ( compose( apply( equals ), props([ 'migrantPath', 'occupantPath' ])))
+  ( compose( apply( equals ), props([ 'origin', 'destination' ])))
 
   const dontMoveToWaste = deselectIf
-  ( pathEq([ 'occupantPath', 1 ], 'wasteVisible' ))
+  ( pathEq([ 'occupant', 1 ], 'wasteVisible' ))
 
-  const viewOccupant = compose( apply( path ), props([ 'occupantPath', 'model' ]))
-  const viewMigrant = compose( apply( path ), props([ 'migrantPath', 'model' ]))
+  const viewOccupant = compose( apply( path ), props([ 'occupant', 'model' ]))
+  const viewMigrant = compose( apply( path ), props([ 'migrant', 'model' ]))
 
   const notKing = compose( always, not, propEq( 0, 13 ))
 
@@ -182,7 +184,7 @@ const Move = model => ( path, type: MoveType ) => {
   // ? Rank: 13             -- done
   // : Same suit. Rank: +1
 
-  const validateMoveToDestination = switchPath([ 'occupantPath', 1 ], { foundations, piles })
+  const validateMoveToDestination = switchPath([ 'occupant', 1 ], { foundations, piles })
 
 
   const validateMove = pipeK
@@ -197,16 +199,45 @@ const Move = model => ( path, type: MoveType ) => {
   , MoveCard.of
   )
 
+  const migrantIdx = compose
+  ( migrant => (
+    { wasteVisible : migrant[1]
+    , foundations  : migrant[2]
+    , piles        : migrant[3]
+    }[ migrant[0] ])
+  , prop( 'migrant' )
+  )
+
+  const get = p => diverge( prop( p ), path )
+  const set = p => diverge( prop( p ), assocPath )
+  const pileHeight = compose( prop( 'length' ), get( 'origin' ))
+  const cardCount = converge( subtract, [ pileHeight, migrantIdx ])
+  const takeMigrant = converge( take, [ cardCount, get( 'origin' )])
+  // const concatMigrant = converge( set( 'destination' ), [  ])
+  // const copyLens = lens( takeMigrant,  )
+  const appendMigrantToDestination = diverge( takeMigrant, log )
+
+  const doMove = pipe
+  ( dissocPath([ 'model', 'selected' ])
+  , appendMigrantToDestination
+  // , dropMigrantFromOrigin
+  // , log
+  )
   
-  const doIt = pipe( validateMove, cata(
-  { Deselect: dissocPath([ 'model', 'selected' ])
-  , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
-  // , MoveCard: log 
-  }), prop( 'model' ))
+  const doIt = pipe
+  ( validateMove
+  , cata(
+    { Deselect: dissocPath([ 'model', 'selected' ])
+    , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
+    , MoveCard: doMove
+    })
+  , log
+  , prop( 'model' ))
 
   return doIt( Compute.of(
   { selected: model.selected
-  , model, path, type
+  , path: newPath
+  , model, type
   }))
 }
 

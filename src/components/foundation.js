@@ -10,7 +10,7 @@ export default
 curry(( action$, foundation: Foundation, idx ) =>
 	h( 'div.foundation'
   , [ isEmpty(foundation)
-    ? h( 'div.empty', { on: { click: [ action$, Action.Move([ 'table', 'foundations', idx, 0 ], 'empty' ) ]}})
-    : card( action$, last( foundation ), [ 'table', 'foundations', idx, foundation.length - 1 ])
+    ? h( 'div.empty', { on: { click: [ action$, Action.Move([ 'foundations', idx, 0 ], 'empty' ) ]}})
+    : card( action$, last( foundation ), [ 'foundations', idx, foundation.length - 1 ])
     ])
 )

@@ -1,4 +1,4 @@
-import { assoc, compose, construct, curry, pipe, prop, propOr, identity, is, reduce } from 'ramda'
+import { assoc, construct, curry, identity, pipe, propOr, reduce } from 'ramda'
 
 const Compute = name => {
   const c = new Function( `return function ${name}( source ){ return Object.assign( this, source ) }` )()

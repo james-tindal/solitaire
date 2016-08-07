@@ -18,7 +18,7 @@ curry(( action$, pile: Pile, pileIdx ) => {
     action$( Action.ShowHiddenPile( pileIdx ))
 
   const empty = isEmpty( concat( pile.upturned, pile.downturned ))
-  ? [ h( 'div.empty', { on: { click: [ action$, Action.Move([ 'table', 'piles', pileIdx, 'upturned', 0 ], 'empty' ) ]}}) ]
+  ? [ h( 'div.empty', { on: { click: [ action$, Action.Move([ 'piles', pileIdx, 'upturned', 0 ], 'empty' ) ]}}) ]
   : null
 
   return h( 'div.pile', empty || [

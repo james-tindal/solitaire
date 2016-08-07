@@ -12,7 +12,7 @@ export default
 	return h( 'div.waste'
   , wasteVisible.map(( model, idx ) =>
       card( action$, model
-      , idx === wasteVisible.length-1 && [ 'table', 'wasteVisible', idx ]
+      , idx === wasteVisible.length-1 && [ 'wasteVisible', idx ]
       )
     )
   )

@@ -20,7 +20,7 @@ const action$ = stream() // All modifications to the state originate here
 const model$ = flyd.scan( update, init(), action$ ) // Contains the entire state of the application
 const vnode$ = flyd.map( view( action$ ), model$ ) // Stream of virtual nodes to render
 
-flyd.map( console.log.bind(console), model$ )  // Uncomment to log state on every update
+// flyd.map( console.log.bind(console), model$ )  // Uncomment to log state on every update
 // flyd.map( x => console.dir(x.table), model$ )  // Uncomment to log state on every update
 
 const container = document.getElementById( 'container' )
