@@ -2,7 +2,7 @@
 import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Type from 'union-type'
-import { __, allPass, always, append, apply, assoc, compose, concat, converge, cond, curry, dissoc, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, last, lens, lensIndex, lensProp, map, not, objOf, over, pathEq, pipe, prop, propEq, props, reverse, set, T as Any, T as otherwise, take, view } from 'ramda'
+import { __, allPass, always, append, apply, assoc, assocPath, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, map, mapObjIndexed, not, objOf, over, path, pathEq, pipe, pipeK, prop, propEq, propSatisfies, props, reverse, set, T as Any, T as otherwise, take, view } from 'ramda'
 import deal from 'deal'
 import shuffle from 'shuffle'
 import is from 'is_js'
@@ -15,8 +15,11 @@ const evolve = curry(( mapObj, src ) => mapObjIndexed
 , mapObj ))
 const switchPath = ( p, caseObj ) =>
   over( lens( prop( p ), apply ), flip(path)( caseObj ))
-const diverge = ( getter, operator, setter ) =>
-  over( lens( getter, setter ), operator )
+// const diverge = ( getter, operator, setter ) =>
+  // over( lens( getter, setter ), operator )
+const diverge = ( getter, setter ) =>
+  over( lens( getter, setter ), identity )
+const log = ( a, b ) => { console.log(a,b);return a}
 
 const newTable = settings => {
   const table = deal(shuffle())
@@ -29,7 +32,6 @@ const newTable = settings => {
 // const [  wasteHidden,  wasteVisible,  stock  ] =  map( subLens( table )
 //     , [ 'wasteHidden','wasteVisible','stock' ])
 
-const log = a => { console.log(a); return a }
 const beep = new Audio( '/beep.mp3' )
 const lensPath = compose( apply( compose ), map( ifElse( is.integer, lensIndex, lensProp )))
 const len = propEq( 'length' )
@@ -129,30 +131,21 @@ console.log({ migrantPath, occupantPath, type, migrant, occupant })
   )( model )
 }
 
-import Compute, { Complete, Deselect } from 'compute-monad'
+const { Compute,   Complete,   Select,   Deselect,   MoveCard, cata } = require( 'compute-monad' )
+    ([ 'Compute', 'Complete', 'Select', 'Deselect', 'MoveCard' ])
+
 const Move = model => ( path, type: MoveType ) => {
 
-  const deselectIf = curry(ifElse)( __, Deselect.of, Compute.of )
+  const deselectIf = ifElse( __, Deselect.of, Compute.of )
+  const selectIf = ifElse( __, Select.of, Compute.of )
 
-  const completeIf = ( isComplete, transform ) => ifElse
+  const completeIf = ( isComplete, transform = identity ) => ifElse
   ( isComplete
   , compose( Complete.of, transform )
   , Compute.of )
 
   const dontSelectEmptyPile = completeIf
-  ( x => x.type == 'empty' && x.selected == null
-  , prop( 'model' ))
-
-  // if selected is null
-  // complete and
-  // 
-  const selectCard = completeIf
-  ( propEq( 'selected', null )
-  , over
-    ( lens( prop('path'), path => compose( assoc( 'selected', path ), prop( 'model' )))
-    , identity
-    )
-  )
+  ( x => x.type == 'empty' && isNil( x.selected ))
 
   const migrantOccupant = compose( Compute.of, evolve(
   { migrantPath: prop( 'selected' )
@@ -166,9 +159,6 @@ const Move = model => ( path, type: MoveType ) => {
   const dontMoveToWaste = deselectIf
   ( pathEq([ 'occupantPath', 1 ], 'wasteVisible' ))
 
-  // How do I decide if it's empty?
-  // view occupantPath is null
-  // occupant is null
   const viewOccupant = compose( apply( path ), props([ 'occupantPath', 'model' ]))
   const viewMigrant = compose( apply( path ), props([ 'migrantPath', 'model' ]))
 
@@ -176,13 +166,16 @@ const Move = model => ( path, type: MoveType ) => {
 
   const destinationEmpty =
     flip( over( lens( viewMigrant, compose( deselectIf, notKing )), identity ))
+  const destinationNonEmpty =
+    flip( over( lens( viewMigrant, compose( deselectIf, notKing )), identity ))
 
   const switchEmpty = cond(
-  [ [ is.existy, destinationNonempty ]
+  [ [ is.existy, destinationNonEmpty ]
   , [ otherwise, destinationEmpty ]
   ])
 
   const foundations = converge( switchEmpty, [ viewOccupant, identity ])
+  const piles = converge( switchEmpty, [ viewOccupant, identity ])
 
   // When do we deselect? What are the rules?
   // Move to empty
@@ -191,25 +184,25 @@ const Move = model => ( path, type: MoveType ) => {
 
   const validateMoveToDestination = switchPath([ 'occupantPath', 1 ], { foundations, piles })
 
-  // function pipeIfIncomplete() {
-  //   return src => reduce(  )
-  // }
 
   const validateMove = pipeK
   ( dontSelectEmptyPile
-  , selectCard
-  , migrantOccupant     // 
+  , selectIf( propSatisfies( isNil, 'selected' ))
+  , migrantOccupant
   , moveToSameLocation
   , dontMoveToWaste
   // Split. Move to foundations or piles ?
-  , validateMoveToDestination
+  // , validateMoveToDestination
   // move if it's got this far
+  , MoveCard.of
   )
 
   
-  const doIt = pipe( validateMove, Compute.case(
-  { deselect: compose( dissoc( 'selected' ), prop( 'model' ))
-  }))
+  const doIt = pipe( validateMove, cata(
+  { Deselect: dissocPath([ 'model', 'selected' ])
+  , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
+  // , MoveCard: log 
+  }), prop( 'model' ))
 
   return doIt( Compute.of(
   { selected: model.selected
