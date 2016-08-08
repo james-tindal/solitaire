@@ -3,6 +3,7 @@ import { curry, isEmpty } from 'ramda'
 import yo from 'yo-yo'
 import tcomb from 'tcomb'
 import { Model } from 'types'
+import { dissoc } from 'ramda'
 const log = x => console.log(x) || x
 
 
@@ -25,6 +26,7 @@ import waste from 'components/waste'
 
 import { Action } from 'actions'
 const view = curry(( action$, model ) => {
+  dissoc( 'shuffle', dissoc( 'concatAll', model.table.piles))
   const { wasteHidden, wasteVisible } = model.table
   if( isEmpty( wasteVisible ) && !isEmpty( wasteHidden ))
     action$( Action.ShowHiddenWaste() )

@@ -7,9 +7,9 @@ import Action from 'actions'
 
 
 export default
-curry(( action$, card: Card, path  ) => yo`
+curry(( action$, card: Card, action  ) => yo`
   <img class="card"
     src="/cards/${card.join('_')}.svg"
-    onclick=${ e => action$( path && Action.Move( path, 'card' ))}
+    onclick=${ e => action$( action )}
   >
 `)

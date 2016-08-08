@@ -73,27 +73,6 @@ const Model = t.interface({
 })
 
 
-/*  Lens  */
-const Lens = irreducible( 'Lens', x => x.toString() ===
-  `function (toFunctorFn) {
-            return function (target) {
-                return map(function (focus) {
-                    return setter(focus, target);
-                }, toFunctorFn(getter(target)));
-            };
-        }`
-)
-
-const Lenses = list( Lens, 'Lenses' )
-
-const MoveType = enums.of([ 'card', 'empty' ])
-
-
-const Decision = struct(
-{ complete: enums.of([ false, 'select', 'nothing', 'move' ]) 
-})
-
-
 export
 { Card
 , Deck
@@ -109,6 +88,4 @@ export
 , Table
 , InitTable
 , Model
-, Lenses
-, MoveType
 }

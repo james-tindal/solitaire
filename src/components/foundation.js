@@ -10,7 +10,7 @@ export default
 curry(( action$, foundation: Foundation, idx ) => yo`
   <div class="foundation">${
     isEmpty( foundation )
-    ? yo`<div class="empty" onclick=${ e => action$( Action.Move([ 'foundations', idx, 0 ], 'empty' ) )}></div>`
+    ? yo`<div class="empty" onclick=${ e => action$( Action.Move({ path: [ 'foundations', idx, 0 ], empty: true }) )}></div>`
     : card( action$, last( foundation ), [ 'foundations', idx, foundation.length - 1 ])
   }</div>
 `)
