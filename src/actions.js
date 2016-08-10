@@ -3,6 +3,8 @@ import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Message from 'msg'
 import { __, allPass, always, append, apply, assoc, assocPath, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, map, mapObjIndexed, not, objOf, over, path, pathEq, pathSatisfies, pipe, pipeK, prop, propEq, props, reverse, splitAt, subtract, T as Any, T as otherwise, take, view } from 'ramda'
+import { Tuple as Pair } from 'ramda-fantasy'
+import { goldfinch } from 'fantasy-birds'
 import deal from 'deal'
 import shuffle from 'shuffle'
 import is from 'is_js'
@@ -19,6 +21,7 @@ const switchPath = ( p, caseObj ) =>
   // over( lens( getter, setter ), operator )
 const diverge = ( getter, setter ) =>
   over( lens( getter, setter ), identity )
+const uncurry = function(f){ return this.uncurry(f) }
 const log = ( a, b ) => { console.log(a,b);return a}
 
 const newTable = settings => {
@@ -194,17 +197,16 @@ const migrantIdx = compose
 , prop( 'migrant' )
 )
 
-const getDestination = diverge( prop( 'destination' ), path )
+const getDestinationPair = compose( flip(Pair)([]), diverge( prop( 'destination' ), path ))
 const getOrigin = diverge( prop( 'origin' ), path )
 const pileHeight = compose( prop( 'length' ), getOrigin )
 const cardCount = converge( subtract, [ pileHeight, migrantIdx ])
-const getSplitOrigin = converge( splitAt, [ cardCount, getOrigin ])
-const concatMigrantDestination = ([ migrant, origin ], destination ) => [ concat( migrant, destination ), origin ]
-const processDestinationAndOrigin = converge( concatMigrantDestination, [ getSplitOrigin, getDestination ])
+const getSplitOrigin = converge( compose( apply(Pair), splitAt ), [ cardCount, getOrigin ])
+const processDestinationAndOrigin = converge( concat, [ getSplitOrigin, getDestinationPair ])
 
-const applyChanges = ([ destination, origin ], source ) => compose
-( diverge( prop( 'origin' ), flip(assocPath)( origin ))
-, diverge( prop( 'destination' ), flip(assocPath)( destination ))
+const applyChanges = ( destOriginPair, source ) => compose
+( diverge( prop( 'origin' ), flip(assocPath)( destOriginPair[1] ))
+, diverge( prop( 'destination' ), flip(assocPath)( destOriginPair[0] ))
 )( source )
 
 const Move = pipe
@@ -213,13 +215,12 @@ const Move = pipe
 , cata(
   { Deselect: dissocPath([ 'model', 'selected' ])
   , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
-  , MoveCard: pipe
+  , MoveCard: map(pipe
     ( dissocPath([ 'model', 'selected' ])
     , diverge( processDestinationAndOrigin, applyChanges )
-    )
+    ))
   })
 , prop( 'model' )
-, x => console.log(x.table)||x
 )
 
 

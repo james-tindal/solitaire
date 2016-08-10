@@ -14,7 +14,7 @@ import filter from 'flyd/module/filter'
 
 const action$ = stream()
 const model$ = scan( update, init(), action$ ) // Contains the entire state of the application
-map( console.log, model$ )
+// map( console.log, model$ )
 const node$ = map( view( action$ ), model$ )  // Stream of DOM nodes to patch the document
 
 
