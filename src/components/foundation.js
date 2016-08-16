@@ -1,5 +1,5 @@
 
-import { isEmpty, curry, last } from 'ramda'
+import { isEmpty, curry, head } from 'ramda'
 import tcomb from 'tcomb'
 import { Foundation } from 'types'
 import card from './card'
@@ -11,6 +11,6 @@ curry(( action$, foundation: Foundation, idx ) => yo`
   <div class="foundation">${
     isEmpty( foundation )
     ? yo`<div class="empty" onclick=${ e => action$( Action.Move({ path: [ 'foundations', idx, 0 ], empty: true }) )}></div>`
-    : card( action$, last( foundation ), [ 'foundations', idx, foundation.length - 1 ])
+    : card( action$, head( foundation ), Action.Move({ path: [ 'foundations', idx, foundation.length - 1 ]}))
   }</div>
 `)

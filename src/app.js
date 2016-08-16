@@ -25,7 +25,6 @@ import waste from 'components/waste'
 
 import { Action } from 'actions'
 const view = curry(( action$, model ) => {
-  console.log(model.table.piles)
   const { wasteHidden, wasteVisible } = model.table
   if( isEmpty( wasteVisible ) && !isEmpty( wasteHidden ))
     action$( Action.ShowHiddenWaste() )

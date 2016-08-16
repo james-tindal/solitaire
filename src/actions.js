@@ -1,15 +1,15 @@
-
+  
 import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Message from 'msg'
-import { __, allPass, always, append, apply, assoc, assocPath, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, map, mapObjIndexed, not, objOf, over, path, pathEq, pathSatisfies, pipe, pipeK, prop, propEq, props, reverse, splitAt, subtract, T as Any, T as otherwise, take, view } from 'ramda'
+import { __, allPass, always, append, apply, assoc, assocPath, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, map, mapObjIndexed, not, objOf, over, path, pathEq, pathSatisfies, pipe, pipeK, prop, propEq, props, reverse, splitAt, subtract, T as Any, T as otherwise, take, values, view } from 'ramda'
 import { Tuple as Pair } from 'ramda-fantasy'
 import { goldfinch } from 'fantasy-birds'
 import deal from 'deal'
 import shuffle from 'shuffle'
 import is from 'is_js'
 const isPlaceholder = has( '@@functional/placeholder' )
-const evolve = curry(( mapObj, src ) => mapObjIndexed
+const applySpec = curry(( mapObj, src ) => mapObjIndexed
 ( ( v, k ) =>
     is.function( v ) ? v( src )
   : isPlaceholder( v ) ? prop( k, src )
@@ -21,17 +21,14 @@ const switchPath = ( p, caseObj ) =>
   // over( lens( getter, setter ), operator )
 const diverge = ( getter, setter ) =>
   over( lens( getter, setter ), identity )
-const uncurry = function(f){ return this.uncurry(f) }
 const log = ( a, b ) => { console.log(a,b);return a}
+const lensPath = compose( apply( compose ), map( ifElse( is.integer, lensIndex, lensProp )))
 
 const newTable = settings => {
   const table = deal(shuffle())
   return { ...settings, table, initTable: table }
 }
 
-
-const lensPath = compose( apply( compose ), map( ifElse( is.integer, lensIndex, lensProp )))
-const len = propEq( 'length' )
 
 
 //  -----------------------------------------------------------------  //
@@ -118,40 +115,40 @@ const Draw = ( model ): Model => {
 
 // -------  Move  ------- //
 
-const { Complete,   Select,   Deselect,   MoveCard, Compute, cata } = require( 'compute-monad' )
+const { Complete,   Select,   Deselect,   MoveCard, Decision, cata } = require( 'decision-monad' )
     ([ 'Complete', 'Select', 'Deselect', 'MoveCard' ])
 
 
-const deselectIf = ifElse( __, Deselect.of, Compute.of )
-const selectIf = ifElse( __, Select.of, Compute.of )
+const deselectIf = ifElse( __, Deselect.of, Decision.of )
+const selectIf = ifElse( __, Select.of, Decision.of )
 
 const completeIf = ( isComplete, transform = identity ) => ifElse
 ( isComplete
 , compose( Complete.of, transform )
-, Compute.of )
+, Decision.of )
 
 const dontSelectEmptyPile = completeIf
-( x => x.empty && isNil( x.selected ))
+( x => x.empty && isNil( x.model.selected ))
 
 const getMigrant = compose( concat([ 'model', 'table' ]), path([ 'model', 'selected' ]))
 const getOccupant = compose( concat([ 'model', 'table' ]), prop( 'path' ))
 
-const migrantOccupant = compose( Compute.of, evolve(
-{ migrant: getMigrant
-, origin: compose( dropLast(1), getMigrant )
-, occupant: getOccupant
-, destination: compose( dropLast(1), getOccupant )
+const migrantOccupant = compose( Decision.of, applySpec(
+{ migrantP: getMigrant
+, originP: compose( dropLast(1), getMigrant )
+, occupantP: getOccupant
+, destP: compose( dropLast(1), getOccupant )
 , model: __
 }))
 
 const moveToSameLocation = deselectIf
-( compose( apply( equals ), props([ 'origin', 'destination' ])))
+( compose( apply( equals ), props([ 'originP', 'destP' ])))
 
 const dontMoveToWaste = deselectIf
 ( pathEq([ 'occupant', 0 ], 'wasteVisible' ))
 
-const viewOccupant = compose( apply( path ), props([ 'occupant', 'model' ]))
-const viewMigrant = compose( apply( path ), props([ 'migrant', 'model' ]))
+const viewOccupant = compose( apply( path ), props([ 'occupantP', 'model' ]))
+const viewMigrant = compose( apply( path ), props([ 'migrantP', 'model' ]))
 
 const notKing = compose( always, not, propEq( 0, 13 ))
 
@@ -188,45 +185,46 @@ const validateMove = pipeK
 , MoveCard.of
 )
 
-const migrantIdx = compose
-( migrant => (
-  { wasteVisible : migrant[3]
-  , foundations  : migrant[4]
-  , piles        : migrant[5]
-  }[ migrant[2] ])
-, prop( 'migrant' )
-)
-
-const getDestinationPair = compose( flip(Pair)([]), diverge( prop( 'destination' ), path ))
-const getOrigin = diverge( prop( 'origin' ), path )
-const pileHeight = compose( prop( 'length' ), getOrigin )
-const cardCount = converge( subtract, [ pileHeight, migrantIdx ])
-const getSplitOrigin = converge( compose( apply(Pair), splitAt ), [ cardCount, getOrigin ])
-const processDestinationAndOrigin = converge( concat, [ getSplitOrigin, getDestinationPair ])
-
-const applyChanges = ( destOriginPair, source ) => compose
-( diverge( prop( 'origin' ), flip(assocPath)( destOriginPair[1] ))
-, diverge( prop( 'destination' ), flip(assocPath)( destOriginPair[0] ))
-)( source )
+const migrantIdx = migrant => (
+{ wasteVisible : migrant[3]
+, foundations  : migrant[4]
+, piles        : migrant[5]
+}[ migrant[2] ])
 
 const Move = pipe
-( Compute.of
+( Decision.of
 , validateMove
+, log
 , cata(
   { Deselect: dissocPath([ 'model', 'selected' ])
   , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
-  , MoveCard: map(pipe
-    ( dissocPath([ 'model', 'selected' ])
-    , diverge( processDestinationAndOrigin, applyChanges )
-    ))
+  , MoveCard: source => {
+      const { migrantP, originP, occupantP, destP } = source
+      const dest = path( destP, source )
+      const origin = path( originP, source )
+      const pileHeight = origin.length
+      const cardCount = pileHeight - migrantIdx( migrantP )
+      const [ moving, staying ] = splitAt( cardCount, origin )
+
+      return compose
+      ( dissocPath([ 'model', 'selected' ])
+      , over( lensPath([ 'model', 'table', 'piles' ]), values )  // coerce to array so it typechecks
+      , over( lensPath([ 'model', 'table', 'foundations' ]), values )  // coerce to array so it typechecks
+      , assocPath( originP, staying )
+      , assocPath( destP, concat( moving, dest ))
+      )( source )
+    }
   })
 , prop( 'model' )
+, log
 )
+// Only allow 1 card at a time move to foundation
 
 
 // -------  ShowHiddenPile  ------- //
 
 const ShowHiddenPile = ({ model, pileIdx }): Model => {
+  console.log(model, pileIdx)
   const upturned   = lensPath([ 'table', 'piles', pileIdx, 'upturned' ])
   const downturned = lensPath([ 'table', 'piles', pileIdx, 'downturned' ])
   return pipe

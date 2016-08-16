@@ -1,6 +1,6 @@
 import { assoc, construct, curry, identity, pipe, propOr, reduce, map, objOf } from 'ramda'
 
-const Compute = name => {
+const Decision = name => {
   const c = new Function( `return function ${name}( source ){ return Object.assign( this, source ) }` )()
   c.of = construct( c )
   c.prototype = Object.create({}
@@ -20,10 +20,11 @@ const Compute = name => {
     })
   return c
 }
+// Find an abstraction for using top-level props as variables
 
 
 module.exports = pipe
-( reduce(( acc, name ) => assoc( name, Compute(name), acc ), {} )
-, assoc( 'Compute', Compute( 'Unresolved' ) )
+( reduce(( acc, name ) => assoc( name, Decision(name), acc ), {} )
+, assoc( 'Decision', Decision( 'Unresolved' ) )
 , assoc( 'cata', curry(( mapObj, m ) => m.cata( mapObj )))
 )

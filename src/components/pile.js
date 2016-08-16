@@ -13,7 +13,7 @@ curry(( action$, pile: Pile, pileIdx ) => {
   const createPile = map(( model, cardIdx ) => card( action$, model, Action.Move({ path: [ 'piles', pileIdx, 'upturned', cardIdx ]})))
 
   if( isEmpty( pile.upturned ) && !isEmpty( pile.downturned ))
-    action$( Action.ShowHiddenPile( pileIdx ))
+    action$( Action.ShowHiddenPile({ pileIdx }))
 
   const empty = isEmpty( concat( pile.upturned, pile.downturned ))
   ? yo`<div class="empty" onclick=${ e => action$( Action.Move({ path: [ 'piles', pileIdx, 'upturned', 0 ], empty: true }))}></div>`
@@ -23,7 +23,7 @@ curry(( action$, pile: Pile, pileIdx ) => {
     <div class="pile">
       ${ empty ||
       [ ...pile.downturned.map( downturnedCard )
-      , ...createPile( pile.upturned )
+      , ...createPile( reverse( pile.upturned ))
       ]}
     </div>
   `

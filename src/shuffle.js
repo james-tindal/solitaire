@@ -1,16 +1,8 @@
-import { range } from 'ramda'
+import { range, compose, chain } from 'ramda'
 import t from 'tcomb'
 import { Deck } from 'types'
 
-Array.prototype.concatAll = function () {
-  const output = []
-  this.forEach( ary =>
-    ary.forEach( el => output.push( el ) ))
-  return output
-}
-
-Array.prototype.shuffle = function () {
-  let array = this
+function shuffle( array ) {
   let m = array.length, t, i;
 
   while (m) {
@@ -21,14 +13,16 @@ Array.prototype.shuffle = function () {
     array[i] = t;
   }
 
-  return array;
+  return array
 }
 
 // shuffle :: () -> Deck
-export default (): Deck =>
-  range( 1, 14 ).map( rank =>
+export default () => compose
+( shuffle
+, chain( rank => (
     [ [ rank, 'hearts' ]
     , [ rank, 'clubs' ]
     , [ rank, 'spades' ]
     , [ rank, 'diamonds' ]]
-  ).concatAll().shuffle()
+  ))
+)( range( 1, 14 ))
