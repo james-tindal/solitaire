@@ -7,12 +7,8 @@ import Action from 'actions'
 import drag from '../drag'
 
 export default
-curry(( action$, card: Card, path  ) => {
-  const elem = yo`
-  <img class="card"
-    src="/cards/${card.join('_')}.svg"
-    onmousedown=${ md => drag({ md, action$ })}
-  >`
+curry(( path ) => {
+  const elem = yo`<div class="empty"></div>`
   elem.path = path
   return elem
 })

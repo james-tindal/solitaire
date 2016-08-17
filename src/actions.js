@@ -190,32 +190,7 @@ const migrantIdx = migrant => (
 , piles        : migrant[5]
 }[ migrant[2] ])
 
-const Move = pipe
-( Decision.of
-, validateMove
-, log
-, cata(
-  { Deselect: dissocPath([ 'model', 'selected' ])
-  , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
-  , MoveCard: source => {
-      const { migrantP, originP, occupantP, destP } = source
-      const dest = path( destP, source )
-      const origin = path( originP, source )
-      const pileHeight = origin.length
-      const cardCount = pileHeight - migrantIdx( migrantP )
-      const [ moving, staying ] = splitAt( cardCount, origin )
-
-      return compose
-      ( dissocPath([ 'model', 'selected' ])
-      , over( lensPath([ 'model', 'table', 'piles' ]), values )  // coerce to array so it typechecks
-      , over( lensPath([ 'model', 'table', 'foundations' ]), values )  // coerce to array so it typechecks
-      , assocPath( originP, staying )
-      , assocPath( destP, concat( moving, dest ))
-      )( source )
-    }
-  })
-, prop( 'model' )
-)
+const Move = x => console.log(x)
 // Only allow 1 card at a time move to foundation
 
 
