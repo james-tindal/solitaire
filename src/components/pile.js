@@ -15,9 +15,11 @@ curry(( action$, pile: Pile, pileIdx ) => {
   if( isEmpty( pile.upturned ) && !isEmpty( pile.downturned ))
     action$( Action.ShowHiddenPile({ pileIdx }))
 
-  const empty = isEmpty( concat( pile.upturned, pile.downturned ))
-  ? yo`<div class="empty" onclick=${ e => action$( Action.Move({ path: [ 'piles', pileIdx, 'upturned', 0 ], empty: true }))}></div>`
-  : null
+  let empty
+  if( isEmpty( concat( pile.upturned, pile.downturned ))) {
+    empty = yo`<div class="empty"></div>`
+    empty.dispatch = () => action$( Action.Move({ path: [ 'piles', pileIdx, 'upturned', 0 ], empty: true }))
+  }
 
   return yo`
     <div class="pile">

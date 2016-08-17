@@ -181,7 +181,6 @@ const validateMove = pipeK
 , dontMoveToWaste
 // Split. Move to foundations or piles ?
 // , validateMoveToDestination
-// move if it's got this far
 , MoveCard.of
 )
 
@@ -216,7 +215,6 @@ const Move = pipe
     }
   })
 , prop( 'model' )
-, log
 )
 // Only allow 1 card at a time move to foundation
 
@@ -224,7 +222,7 @@ const Move = pipe
 // -------  ShowHiddenPile  ------- //
 
 const ShowHiddenPile = ({ model, pileIdx }): Model => {
-  console.log(model, pileIdx)
+  // console.log(model, pileIdx)
   const upturned   = lensPath([ 'table', 'piles', pileIdx, 'upturned' ])
   const downturned = lensPath([ 'table', 'piles', pileIdx, 'downturned' ])
   return pipe
