@@ -9,11 +9,6 @@
 }
 
 
-.dragging {
-	position: absolute;
-	z-index: 1000;
-}
-
 .stock {
 	height: 134px;
 }

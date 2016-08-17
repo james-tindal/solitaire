@@ -13,14 +13,11 @@ export default obj => obj.md.button === 0 && mousedown( obj )
 document.addEventListener( 'mousemove', mousemove )
 document.addEventListener( 'mouseup', mouseup )
 
-flyd.on(({ md }) => md.target.classList.add( 'dragging' )
-, mousedown)
 
 const mousedrag = flatMap( obj => {
   const { action$, action, md } = obj
   const startX = md.clientX, startY = md.clientY
   action$( action )
-  console.log(md.target, md.target.style)
 
   return takeUntil( flyd.map( mm => {
     mm.preventDefault()
@@ -34,12 +31,14 @@ const mousedrag = flatMap( obj => {
 }, mousedown )
 
 
-flyd.on(({ left, top, elem }) =>
+flyd.on(({ left, top, elem }) => {
+  elem.style.zIndex = '1000'
   elem.style.transform = `translate(${left}px,${top}px)`
-, mousedrag )
+}, mousedrag )
 
 flyd.on( ev => {
   ev.target.style.transform = null
+  ev.target.style.zIndex = null
   const { dispatch } = document.elementFromPoint( ev.clientX, ev.clientY )
   dispatch && dispatch()
 }, mouseup )
