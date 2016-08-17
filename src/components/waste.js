@@ -11,7 +11,7 @@ export default
   <div class="waste">
     ${ reverse(wasteVisible).map(( model, idx ) =>
       card( action$, model
-      , idx === wasteVisible.length-1 && Action.Move({ path: [ 'wasteVisible', idx ]})
+      , idx === wasteVisible.length-1 && [ 'wasteVisible', idx ]
       )
     )}
   </div>

@@ -122,13 +122,10 @@ const { Complete,   Select,   Deselect,   MoveCard, Decision, cata } = require( 
 const deselectIf = ifElse( __, Deselect.of, Decision.of )
 const selectIf = ifElse( __, Select.of, Decision.of )
 
-const completeIf = ( isComplete, transform = identity ) => ifElse
-( isComplete
-, compose( Complete.of, transform )
-, Decision.of )
-
-const dontSelectEmptyPile = completeIf
-( x => x.empty && isNil( x.model.selected ))
+// const completeIf = ( isComplete, transform = identity ) => ifElse
+// ( isComplete
+// , compose( Complete.of, transform )
+// , Decision.of )
 
 const getMigrant = compose( concat([ 'model', 'table' ]), path([ 'model', 'selected' ]))
 const getOccupant = compose( concat([ 'model', 'table' ]), prop( 'path' ))
@@ -174,8 +171,7 @@ const validateMoveToDestination = switchPath([ 'occupant', 1 ], { foundations, p
 
 
 const validateMove = pipeK
-( dontSelectEmptyPile
-, selectIf( pathSatisfies( isNil, [ 'model', 'selected' ]))
+( selectIf( pathSatisfies( isNil, [ 'model', 'selected' ]))
 , migrantOccupant
 , moveToSameLocation
 , dontMoveToWaste
@@ -190,7 +186,7 @@ const migrantIdx = migrant => (
 , piles        : migrant[5]
 }[ migrant[2] ])
 
-const Move = x => console.log(x)
+const Move = x => console.log(x) || x.model
 // Only allow 1 card at a time move to foundation
 
 
