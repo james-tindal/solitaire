@@ -3,8 +3,7 @@ import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Message from 'msg'
 import { __, allPass, always, append, apply, assoc, assocPath, both, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, lt as gt, map, mapObjIndexed, not, objOf, over, path, pathEq, propSatisfies, pipe, pipeK, prepend, prop, propEq, props, reverse, splitAt, subtract, T as otherwise, take, values, view } from 'ramda'
-import { Tuple as Pair } from 'ramda-fantasy'
-import { goldfinch } from 'fantasy-birds'
+import { apply as applyFn } from 'core.lambda'
 import deal from 'deal'
 import shuffle from 'shuffle'
 import is from 'is_js'
@@ -15,8 +14,8 @@ const applySpec = curry(( mapObj, src ) => mapObjIndexed
   : isPlaceholder( v ) ? prop( k, src )
   : v
 , mapObj ))
-const switchPath = ( p, caseObj ) =>
-  over( lens( prop( p ), apply ), flip(path)( caseObj ))
+const switchProp = ( p, caseObj ) =>
+  over( lens( prop( p ), applyFn ), flip(prop)( caseObj ))
 // const diverge = ( getter, operator, setter ) =>
   // over( lens( getter, setter ), operator )
 const diverge = ( getter, setter ) =>
@@ -86,36 +85,8 @@ const Draw = ( model ): Model => {
 const { Decision, cata,  Cancel,   MoveCard,  } =
 require( 'decision' )([ 'Cancel', 'MoveCard' ])
 
-const moveIf = ifElse( __, MoveCard.of, Decision.of )
+const moveIf = ifElse( __, MoveCard.of, Cancel.of )
 const cancelIf = ifElse( __, Cancel.of, Decision.of )
-
-
-const viewOccupant = compose( apply( path ), props([ 'occupantP', 'model' ]))
-const viewMigrant = compose( apply( path ), props([ 'migrantP', 'model' ]))
-
-const notKing = compose( always, not, propEq( 0, 13 ))
-
-const destinationEmpty =
-  flip( diverge( viewMigrant, compose( cancelIf, notKing )))
-const destinationNonEmpty =
-  flip( diverge( viewMigrant, compose( cancelIf, notKing )))
-
-const switchEmpty = cond(
-[ [ is.existy, destinationNonEmpty ]
-, [ otherwise, destinationEmpty ]
-])
-
-const foundations = converge( switchEmpty, [ viewOccupant, identity ])
-const piles = converge( switchEmpty, [ viewOccupant, identity ])
-
-// When do we deselect? What are the rules?
-// Move to empty
-// ? Rank: 13             -- done
-// : Same suit. Rank: +1
-
-const validateMoveToDestination = switchPath([ 'occupant', 1 ], { foundations, piles })
-
-
 
 const getFromPath = getter => diverge( compose( prepend('model'), getter ), path )
 const migrantP = compose( concat([ 'table' ]), prop( 'migrantP' ))
@@ -132,9 +103,10 @@ const migrantIdx = pipe( migrantP, mPath => (
 }[ mPath[1] ]))
 const cardCount = converge( subtract, [ pileHeight, migrantIdx ])
 const movingStaying = converge( splitAt, [ cardCount, origin ])
+const moveTo = compose( prop(1), destP )
 
 const getValues = applySpec(
-{ migrantP, migrantIdx, cardCount, originP, origin, movingStaying, pileHeight, occupantP, destP, dest, model: __ })
+{ migrantP, migrantIdx, cardCount, originP, origin, movingStaying, pileHeight, occupantP, destP, dest, moveTo, model: __ })
 
 const moveToSameLocation = cancelIf
 ( compose( apply( equals ), props([ 'originP', 'destP' ])))
@@ -147,21 +119,44 @@ const onlyMoveOneToFoundation = cancelIf( both
 , propSatisfies( gt(1), 'cardCount' )
 ))
 
-const validSuit = compose( path([  ]))
-const validMoveToFoundation = ({  })
-// cancel unless
-// same suit
-// rank +1
-// if empty, must be ace
+const rank = prop(0), suit = prop(1)
+const topOccupant = compose( head, prop( 'dest' ))
+const topOccupantRank = compose( rank, topOccupant )
+const topOccupantSuit = compose( suit, topOccupant )
+const bottomMigrant = compose( last, path([ 'movingStaying', 0 ]))
+const bottomMigrantRank = compose( rank, bottomMigrant )
+const bottomMigrantSuit = compose( suit, bottomMigrant )
 
-// get card. validate
+const fValidSuit = converge( equals, [ bottomMigrantSuit, topOccupantSuit ])
+const fValidRank = converge( (a,b) => a == b+1, [ bottomMigrantRank, topOccupantRank ])
+const foundations = ifElse
+( compose( isNil, topOccupant )
+, moveIf( compose( equals(1), bottomMigrantRank ))
+, moveIf( both( fValidSuit, fValidRank ))
+)
+
+const color = flip(prop)(
+{ hearts   : 'red'
+, diamonds : 'red'
+, spades   : 'black'
+, clubs    : 'black'
+})
+const pValidSuit = converge( (a,b) => color(a) != color(b), [ bottomMigrantSuit, topOccupantSuit ])
+const pValidRank = converge( (a,b) => a == b-1, [ bottomMigrantRank, topOccupantRank ])
+const piles = ifElse
+( compose( isNil, topOccupant )
+, cancelIf( compose( not, equals(13), bottomMigrantRank ))
+, moveIf( both( pValidSuit, pValidRank ))
+)
 
 const validateMove = pipeK
 ( moveToSameLocation
 , dontMoveToWaste
 , onlyMoveOneToFoundation
-// , validMoveToFoundation
-
+, switchProp( 'moveTo',
+  { foundations
+  , piles
+  })
 , MoveCard.of
 )
 
@@ -174,10 +169,9 @@ const doMove = ({ destP, dest, movingStaying, originP, model }): Model => compos
 
 const Move = pipe
 ( getValues
-, log
 , Decision.of
 , validateMove
-// , log
+, log
 , cata(
   { MoveCard: doMove
   , Cancel: prop( 'model' )
@@ -185,14 +179,9 @@ const Move = pipe
 )
 
 
-
-// Only allow 1 card at a time move to foundation
-
-
 // -------  ShowHiddenPile  ------- //
 
 const ShowHiddenPile = ({ model, pileIdx }): Model => {
-  // console.log(model, pileIdx)
   const upturned   = lensPath([ 'table', 'piles', pileIdx, 'upturned' ])
   const downturned = lensPath([ 'table', 'piles', pileIdx, 'downturned' ])
   return pipe
@@ -201,7 +190,7 @@ const ShowHiddenPile = ({ model, pileIdx }): Model => {
   )( model )
 }
 
-const ShowHiddenWaste = ({ model }): Model => {
+const ShowHiddenWaste = ( model ): Model => {
   const { wasteHidden, wasteVisible } = model.table
   const table =
   { ...model.table
