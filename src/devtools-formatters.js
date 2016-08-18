@@ -64,4 +64,4 @@ const foundationFormatter =
 , hasBody: () => false
 }
 
-window.devtoolsFormatters = [  pathFormatter, foundationFormatter ]
+window.devtoolsFormatters = [ cardFormatter, pathFormatter, foundationFormatter ]

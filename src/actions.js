@@ -117,28 +117,24 @@ const validateMoveToDestination = switchPath([ 'occupant', 1 ], { foundations, p
 
 
 
-const migrantIdx = migrant => (
-{ wasteVisible : migrant[2]
-, foundations  : migrant[3]
-, piles        : migrant[4]
-}[ migrant[1] ])
+const getFromPath = getter => diverge( compose( prepend('model'), getter ), path )
 const migrantP = compose( concat([ 'table' ]), prop( 'migrantP' ))
 const originP =  compose( dropLast(1), migrantP )
 const occupantP = compose( concat([ 'table' ]), prop( 'occupantP' ))
 const destP = compose( dropLast(1), occupantP )
-const dest = diverge( compose( prepend('model'), destP ), path )
+const dest = getFromPath( destP )
+const origin = getFromPath( originP )
+const pileHeight = compose( prop('length'), origin )
+const migrantIdx = pipe( migrantP, mPath => (
+{ wasteVisible : mPath[2]
+, foundations  : mPath[3]
+, piles        : mPath[4]
+}[ mPath[1] ]))
+const cardCount = converge( subtract, [ pileHeight, migrantIdx ])
+const movingStaying = converge( splitAt, [ cardCount, origin ])
+
 const getValues = applySpec(
-{ migrantP, originP, occupantP, destP, dest, model: __ })
-
-
-const getCardCount = applySpec(
-{ model: __, destP: __, dest: __, originP: __, occupantP: __
-, cardCount: ({ destP, originP, migrantP, model }) => {
-    const origin = path( originP, model )
-    const pileHeight = origin.length
-    return pileHeight - migrantIdx( migrantP )
-  }
-})
+{ migrantP, migrantIdx, cardCount, originP, origin, movingStaying, pileHeight, occupantP, destP, dest, model: __ })
 
 const moveToSameLocation = cancelIf
 ( compose( apply( equals ), props([ 'originP', 'destP' ])))
@@ -151,14 +147,14 @@ const onlyMoveOneToFoundation = cancelIf( both
 , propSatisfies( gt(1), 'cardCount' )
 ))
 
-// const validSuit = compose(  path([  ]))
-// const validMoveToFoundation =
-// // cancel unless
-// // same suit
-// // rank +1
-// // if empty, must be ace
+const validSuit = compose( path([  ]))
+const validMoveToFoundation = ({  })
+// cancel unless
+// same suit
+// rank +1
+// if empty, must be ace
 
-// // first, get 
+// get card. validate
 
 const validateMove = pipeK
 ( moveToSameLocation
@@ -169,22 +165,16 @@ const validateMove = pipeK
 , MoveCard.of
 )
 
-const doMove = ({ destP, dest, originP, cardCount, model }): Model => {
-  const origin = path( originP, model )
-  const [ moving, staying ] = splitAt( cardCount, origin )
-
-  return compose
-  ( over( lensPath([ 'table', 'piles' ]), values )  // coerce to array so it typechecks
-  , over( lensPath([ 'table', 'foundations' ]), values )  // coerce to array so it typechecks
-  , assocPath( originP, staying )
-  , assocPath( destP, concat( moving, dest ))
-  )( model )
-}
+const doMove = ({ destP, dest, movingStaying, originP, model }): Model => compose
+( over( lensPath([ 'table', 'piles' ]), values )  // coerce to array so it typechecks
+, over( lensPath([ 'table', 'foundations' ]), values )  // coerce to array so it typechecks
+, assocPath( originP, movingStaying[1] )
+, assocPath( destP, concat( movingStaying[0], dest ))
+)( model )
 
 const Move = pipe
 ( getValues
 , log
-, getCardCount
 , Decision.of
 , validateMove
 // , log
@@ -192,7 +182,6 @@ const Move = pipe
   { MoveCard: doMove
   , Cancel: prop( 'model' )
   })
-, x => console.log(x.table.foundations) || x
 )
 
 
