@@ -6,8 +6,4 @@ import { Card, Lenses } from 'types'
 import Action from 'actions'
 
 export default
-curry(( path ) => {
-  const elem = yo`<div class="empty"></div>`
-  elem.path = path
-  return elem
-})
+path => yo`<div class="empty" x-path=${ JSON.stringify(path) }></div>`

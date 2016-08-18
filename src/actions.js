@@ -169,11 +169,6 @@ const validateMoveToDestination = switchPath([ 'occupant', 1 ], { foundations, p
 // , MoveCard.of
 // )
 
-const migrantIdx = migrant => (
-{ wasteVisible : migrant[3]
-, foundations  : migrant[4]
-, piles        : migrant[5]
-}[ migrant[2] ])
 
 // const Move = pipe
 // ( Decision.of
@@ -202,6 +197,12 @@ const migrantIdx = migrant => (
 // , prop( 'model' )
 // )
 
+const migrantIdx = migrant => (
+{ wasteVisible : migrant[2]
+, foundations  : migrant[3]
+, piles        : migrant[4]
+}[ migrant[1] ])
+
 const getMigrant = compose( concat([ 'table' ]), prop( 'migrantP' ))
 const getOccupant = compose( concat([ 'table' ]), prop( 'occupantP' ))
 
@@ -218,7 +219,7 @@ const doMove = ({ migrantP, occupantP, destP, originP, model }): Model => {
   const origin = path( originP, model )
   const pileHeight = origin.length
   const cardCount = pileHeight - migrantIdx( migrantP )
-  const [ staying, moving ] = splitAt( cardCount, origin )
+  const [ moving, staying ] = splitAt( cardCount, origin )
   console.log(staying, moving)
 
   return compose

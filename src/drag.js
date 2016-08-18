@@ -42,5 +42,7 @@ flyd.on( mu => {
   migrant.style.zIndex = null
   migrant.style.transform = null
   const occupant = document.elementFromPoint( mu.clientX, mu.clientY )
-  occupant.path && action$( Action.Move({ migrantP: migrant.path, occupantP: occupant.path }))
+  const occupantP = JSON.parse( occupant.getAttribute( 'x-path' ))
+  const migrantP = JSON.parse( migrant.getAttribute( 'x-path' ))
+  occupantP && action$( Action.Move({ migrantP, occupantP }))
 }, dragEnd )
