@@ -21,4 +21,4 @@ const node$ = map( view( action$ ), model$ )  // Stream of DOM nodes to patch th
 const container = document.querySelector( '#container' )
 scan( render, container, node$ )
 
-DEBUG && require( 'devtools-formatter' )
+DEBUG && require( 'devtools-formatters' )

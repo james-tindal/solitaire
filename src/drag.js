@@ -2,7 +2,7 @@
 import flyd, { combine } from 'flyd'
 import flatMap from 'flyd/module/flatmap'
 import takeUntil from 'flyd/module/takeuntil'
-import { map } from 'ramda'
+import { map, isNil } from 'ramda'
 import Action from 'actions'
 
 
@@ -32,13 +32,17 @@ const mousedrag = flatMap( obj => {
 
 const dragEnd = flatMap( _ => takeUntil( mouseup, dragEnd ), mousedown )
 
-flyd.on(({ left, top, migrant }) => {
+flyd.on( obj => {
+  if( obj === null ) return
+  const { left, top, migrant } = obj
   migrant.style.zIndex = '1000'
   migrant.style.transform = `translate(${left}px,${top}px)`
 }, mousedrag )
 
 flyd.on( mu => {
+  if( isNil( mousedrag())) return
   const { migrant, action$ } = mousedrag()
+  mousedrag(null)
   migrant.style.zIndex = null
   migrant.style.transform = null
   const occupant = document.elementFromPoint( mu.clientX, mu.clientY )

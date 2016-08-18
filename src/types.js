@@ -1,4 +1,4 @@
-import t, { irreducible, refinement, list, struct, tuple, enums, declare } from 'tcomb'
+import t, { irreducible, refinement, list, union, struct, tuple, enums, declare } from 'tcomb'
 import { propEq, propSatisfies, gte as lte, all, allPass, where, addIndex, toString, isEmpty, equals, uniq, reduce, concat, values, compose, mergeWith, unnest, map, when, F, T } from 'ramda'
 
 
@@ -6,6 +6,7 @@ const len = propEq( 'length' )
 const maxLen = x => propSatisfies( lte( x ), 'length' )
 const allUniq = a => equals(a, uniq(a))
 
+const Path = list( union([ t.String, t.Number, t.Boolean ]), 'Path' )
 
 /*  Deck  */
 const isRank = n => n >= 1 && n <= 14
@@ -74,7 +75,8 @@ const Model = t.interface({
 
 
 export
-{ Card
+{ Path
+, Card
 , Deck
 , Stock
 , HiddenWaste
