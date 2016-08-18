@@ -127,17 +127,6 @@ const selectIf = ifElse( __, Select.of, Decision.of )
 // , compose( Complete.of, transform )
 // , Decision.of )
 
-const getMigrant = compose( concat([ 'model', 'table' ]), path([ 'model', 'selected' ]))
-const getOccupant = compose( concat([ 'model', 'table' ]), prop( 'path' ))
-
-const migrantOccupant = compose( Decision.of, applySpec(
-{ migrantP: getMigrant
-, originP: compose( dropLast(1), getMigrant )
-, occupantP: getOccupant
-, destP: compose( dropLast(1), getOccupant )
-, model: __
-}))
-
 const moveToSameLocation = deselectIf
 ( compose( apply( equals ), props([ 'originP', 'destP' ])))
 
@@ -170,15 +159,15 @@ const piles = converge( switchEmpty, [ viewOccupant, identity ])
 const validateMoveToDestination = switchPath([ 'occupant', 1 ], { foundations, piles })
 
 
-const validateMove = pipeK
-( selectIf( pathSatisfies( isNil, [ 'model', 'selected' ]))
-, migrantOccupant
-, moveToSameLocation
-, dontMoveToWaste
-// Split. Move to foundations or piles ?
-// , validateMoveToDestination
-, MoveCard.of
-)
+// const validateMove = pipeK
+// ( selectIf( pathSatisfies( isNil, [ 'model', 'selected' ]))
+// , migrantOccupant
+// , moveToSameLocation
+// , dontMoveToWaste
+// // Split. Move to foundations or piles ?
+// // , validateMoveToDestination
+// , MoveCard.of
+// )
 
 const migrantIdx = migrant => (
 { wasteVisible : migrant[3]
@@ -186,7 +175,69 @@ const migrantIdx = migrant => (
 , piles        : migrant[5]
 }[ migrant[2] ])
 
-const Move = x => console.log(x) || x.model
+// const Move = pipe
+// ( Decision.of
+// , validateMove
+// , log
+// , cata(
+//   { Deselect: dissocPath([ 'model', 'selected' ])
+//   , Select: diverge( prop('path'), assocPath([ 'model', 'selected' ]))
+//   , MoveCard: source => {
+//       const { migrantP, originP, occupantP, destP } = source
+//       const dest = path( destP, source )
+//       const origin = path( originP, source )
+//       const pileHeight = origin.length
+//       const cardCount = pileHeight - migrantIdx( migrantP )
+//       const [ moving, staying ] = splitAt( cardCount, origin )
+
+//       return compose
+//       ( dissocPath([ 'model', 'selected' ])
+//       , over( lensPath([ 'model', 'table', 'piles' ]), values )  // coerce to array so it typechecks
+//       , over( lensPath([ 'model', 'table', 'foundations' ]), values )  // coerce to array so it typechecks
+//       , assocPath( originP, staying )
+//       , assocPath( destP, concat( moving, dest ))
+//       )( source )
+//     }
+//   })
+// , prop( 'model' )
+// )
+
+const getMigrant = compose( concat([ 'table' ]), prop( 'migrantP' ))
+const getOccupant = compose( concat([ 'table' ]), prop( 'occupantP' ))
+
+const getPaths = applySpec(
+{ migrantP: getMigrant
+, originP: compose( dropLast(1), getMigrant )
+, occupantP: getOccupant
+, destP: compose( dropLast(1), getOccupant )
+, model: __
+})
+
+const doMove = ({ migrantP, occupantP, destP, originP, model }): Model => {
+  const dest = path( destP, model )
+  const origin = path( originP, model )
+  const pileHeight = origin.length
+  const cardCount = pileHeight - migrantIdx( migrantP )
+  const [ staying, moving ] = splitAt( cardCount, origin )
+  console.log(staying, moving)
+
+  return compose
+  ( over( lensPath([ 'table', 'piles' ]), values )  // coerce to array so it typechecks
+  , over( lensPath([ 'table', 'foundations' ]), values )  // coerce to array so it typechecks
+  , assocPath( originP, staying )
+  , assocPath( destP, concat( moving, dest ))
+  )( model )
+}
+
+const Move = pipe
+( getPaths
+// , validateMove
+// , log
+, doMove
+)
+
+
+
 // Only allow 1 card at a time move to foundation
 
 

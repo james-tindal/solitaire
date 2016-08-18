@@ -16,13 +16,13 @@ curry(( action$, pile: Pile, pileIdx ) => {
   if( isEmpty( pile.upturned ) && !isEmpty( pile.downturned ))
     action$( Action.ShowHiddenPile({ pileIdx }))
 
-  const empty
+  const emptyPile
   =  isEmpty( concat( pile.upturned, pile.downturned ))
   && empty([ 'piles', pileIdx, 'upturned', 0 ])
 
   return yo`
     <div class="pile">
-      ${ empty ||
+      ${ emptyPile ||
       [ ...pile.downturned.map( downturnedCard )
       , ...createPile( reverse( pile.upturned ))
       ]}

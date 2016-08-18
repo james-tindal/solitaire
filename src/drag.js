@@ -1,9 +1,8 @@
 
 import flyd, { combine } from 'flyd'
 import flatMap from 'flyd/module/flatmap'
-import { dropRepeatsWith } from 'flyd/module/droprepeats'
 import takeUntil from 'flyd/module/takeuntil'
-import { curry, map, takeLast } from 'ramda'
+import { map } from 'ramda'
 import Action from 'actions'
 
 

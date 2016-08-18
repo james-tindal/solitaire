@@ -25,13 +25,13 @@ const Deck = refinement
 
 
 /*  Table  */
-const Stock = t.refinement( t.list( Card ), maxLen( 52 ), 'Stock' )
+const Stock = t.refinement( list( Card ), maxLen( 52 ), 'Stock' )
 
 const HiddenWaste = t.list( Card, 'HiddenWaste' )
-const VisibleWaste = t.refinement( t.list( Card ), maxLen( 3 ), 'VisibleWaste' )
+const VisibleWaste = t.refinement( list( Card ), maxLen( 3 ), 'VisibleWaste' )
 
-const Foundation = t.refinement( t.list( Card ), maxLen( 13 ), 'Foundation' )
-const Foundations = t.refinement( t.list( Foundation ), len( 4 ), 'Foundations' )
+const Foundation = t.refinement( list( Card ), maxLen( 13 ), 'Foundation' )
+const Foundations = t.refinement( list( Foundation ), len( 4 ), 'Foundations' )
 
 const Subpile = refinement( list( Card ), maxLen( 52 ), 'Subpile' )
 const Pile = t.interface({ downturned: Subpile, upturned: Subpile }, 'Pile' )
