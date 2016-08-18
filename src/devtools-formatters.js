@@ -1,6 +1,6 @@
 import t, { list } from 'tcomb'
-import { Card, Path } from 'types'
-import { always, cond, curry, head as fst, last as snd, prop, flip, pipe, map, intersperse } from 'ramda'
+import { Card, Path, Foundations } from 'types'
+import R, { always, chain, compose, cond, curry, defaultTo, flip, isArrayLike, head, head as fst, intersperse, last as snd, prop, pipe, map, unnest, when } from 'ramda'
 
 const CardList = list( Card )
 
@@ -51,5 +51,17 @@ const pathFormatter =
 , hasBody: () => false
 }
 
+// ----------------- //
+const log = ( a, b ) => { console.log(a,b);return a}
 
-window.devtoolsFormatters = [ cardFormatter, pathFormatter ]
+// const formatFnd = x => formatCard(head(x)) || 'e'
+// const formatFnds = compose( chain(formatCard), chain(head))
+const formatFnds = compose( intersperse(' '), map(compose( defaultTo('e'), when( isArrayLike, formatCard), head )))
+const foundationFormatter =
+{ header: obj => Foundations.is(obj)
+  ? [ 'div', {}, ...formatFnds( obj ) ]
+  : null
+, hasBody: () => false
+}
+
+window.devtoolsFormatters = [  pathFormatter, foundationFormatter ]

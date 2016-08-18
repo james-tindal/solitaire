@@ -192,6 +192,7 @@ const Move = pipe
   { MoveCard: doMove
   , Cancel: prop( 'model' )
   })
+, x => console.log(x.table.foundations) || x
 )
 
 
