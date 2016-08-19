@@ -1,4 +1,4 @@
-import t, { irreducible, refinement, list, union, struct, tuple, enums, declare } from 'tcomb'
+import t, { irreducible, refinement, maybe, list, union, struct, tuple, enums, declare } from 'tcomb'
 import { propEq, propSatisfies, gte as lte, all, allPass, where, addIndex, toString, isEmpty, equals, uniq, reduce, concat, values, compose, mergeWith, unnest, map, when, F, T } from 'ramda'
 
 
@@ -68,9 +68,8 @@ const InitTable = refinement( Table, where({
 /*  Model  */
 const Model = t.interface({
 	draw3: t.Boolean
-, table: Table
-, initTable: InitTable
-// , selected: $.Nullable( Lens )
+, table: maybe( Table )
+, initTable: maybe( InitTable )
 })
 
 

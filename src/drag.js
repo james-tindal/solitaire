@@ -33,7 +33,7 @@ const mousedrag = flatMap( obj => {
   }, mousemove ), mouseup )
 }, mousedown )
 
-const dragEnd = flatMap( _ => takeUntil( mouseup, dragEnd ), mousedown )
+// const dragEnd = flatMap( _ => takeUntil( mouseup, dragEnd ), mousedown )
 
 flyd.on( obj => {
   if( obj === null ) return
@@ -50,4 +50,4 @@ flyd.on( mu => {
   const occupantP = JSON.parse( occupant.getAttribute( 'x-path' ))
   const migrantP = JSON.parse( last(migrant).getAttribute( 'x-path' ))
   occupantP && action$( Action.Move({ migrantP, occupantP }))
-}, dragEnd )
+}, mouseup )

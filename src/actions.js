@@ -16,28 +16,23 @@ const applySpec = curry(( mapObj, src ) => mapObjIndexed
 , mapObj ))
 const switchProp = ( p, caseObj ) =>
   over( lens( prop( p ), applyFn ), flip(prop)( caseObj ))
-// const diverge = ( getter, operator, setter ) =>
-  // over( lens( getter, setter ), operator )
+// const diverge = ( getter, transform, setter ) =>
+  // over( lens( getter, setter ), transform )
 const diverge = ( getter, setter ) =>
   over( lens( getter, setter ), identity )
 const log = ( a, b ) => { console.log(a,b);return a}
 const lensPath = compose( apply( compose ), map( ifElse( is.integer, lensIndex, lensProp )))
 
-const newTable = settings => {
-  const table = deal(shuffle())
-  return { ...settings, table, initTable: table }
-}
-
-
-
 //  -----------------------------------------------------------------  //
 
 
-const Deal = model => newTable( model )
-const Reset = model => assoc( 'table', model.initTable, model )
+const Deal = model => {
+  const table = deal(shuffle())
+  return { ...model, table, initTable: table }
+}
 
 
-const Draw = ( model ): Model => {
+const Draw = model => {
   const { stock, wasteHidden, wasteVisible } = model.table
   const table = isEmpty(stock)
   ? { ...model.table
@@ -146,7 +141,6 @@ const Move = pipe
 ( getValues
 , Decision.of
 , validateMove
-, log
 , cata(
   { MoveCard: doMove
   , Cancel: prop( 'model' )
@@ -177,19 +171,20 @@ const ShowHiddenWaste = ( model ): Model => {
 
 const Foundation = ({ model, path }) => 'dblclick'
 
-const Undo = model => {}
 const ShowSettings = model => {}
 const UpdateSettings = model => {}
+const Reset = diverge( prop( 'initTable' ), assoc( 'table' ))
+const Undo = ({ model, table }) => assoc( 'table', table, model )
 
 export default Message(
 { Deal
 , Reset
+, Undo
 , Draw
 , Move
 , ShowHiddenPile
 , ShowHiddenWaste
 , Foundation
-, Undo
 , ShowSettings
 , UpdateSettings
 })

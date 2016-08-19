@@ -1,21 +1,12 @@
 
-import { curry, isEmpty } from 'ramda'
+import { isEmpty } from 'ramda'
 import yo from 'yo-yo'
 import tcomb from 'tcomb'
 import { Model } from 'types'
 const log = x => console.log(x) || x
 
 
-// Initialise state
-import shuffle from 'shuffle'
-import deal from 'deal'
-const newTable = settings => {
-  const table = deal(shuffle())
-  return { ...settings, table, initTable: table }
-}
-
-const init = (): Model => newTable({ draw3: true })
-
+const init = () => ({ draw3: true })
 
 // View
 import stock from 'components/stock'
@@ -24,7 +15,8 @@ import piles from 'components/piles'
 import waste from 'components/waste'
 
 import Action from 'actions'
-const view = curry(( action$, model ) => {
+const view = action$ => model => {
+  if( !model.table ) return yo`<div></div>`
   const { wasteHidden, wasteVisible } = model.table
   if( isEmpty( wasteVisible ) && !isEmpty( wasteHidden ))
     action$( Action.ShowHiddenWaste() )
@@ -36,6 +28,6 @@ const view = curry(( action$, model ) => {
     ${ foundations( action$, model.table.foundations )}
     ${ piles( action$, model.table.piles )}
   </div>`
-})
+}
 
 export { init, view }
