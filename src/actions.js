@@ -55,31 +55,6 @@ const Draw = ( model ): Model => {
 }
 
 
-//   const migrantL           = lensPath( migrant )
-//   const migrantLocationL   = lensPath( dropLast(1, migrant ))
-//   const occupantL           = lensPath( occupant )
-//   const occupantLocationL   = lensPath( dropLast(1, occupant ))
-
-
-//   const migrant = view( migrantL, model )
-//   const occupant = view( occupantL, model )
-//   const migrantLocation = view( migrantLocationL, model )
-
-//   if( occupant[1] === 'foundations' ) {
-//     const validSuit = suit( migrant ) === suit( occupant || migrant )  // Compare only if occupant exists
-//     const validRank = fRank( migrant ) === fRank( occupant ) + 1
-//     if(!( validSuit && validRank )) return deselect()
-//   }
-
-//   if( occupant[1] === 'piles' ) {
-//     const validSuit = color( migrant ) !== color( occupant || migrant )  // broken hack
-//     const validRank = pRank( migrant ) === pRank( occupant ) - 1
-    
-
-//     if( equals( migrant[2], occupant[2] )) return deselect()   // Deselect on same pile
-//     if(!( validSuit && validRank )) return deselect()
-//   }
-
 // -------  Move  ------- //
 
 const { Decision, cata,  Cancel,   MoveCard,  } =
@@ -202,7 +177,6 @@ const ShowHiddenWaste = ( model ): Model => {
 
 const Foundation = ({ model, path }) => 'dblclick'
 
-const Drop = model => dissoc( 'cardPath', model )
 const Undo = model => {}
 const ShowSettings = model => {}
 const UpdateSettings = model => {}
@@ -215,7 +189,6 @@ export default Message(
 , ShowHiddenPile
 , ShowHiddenWaste
 , Foundation
-, Drop
 , Undo
 , ShowSettings
 , UpdateSettings
