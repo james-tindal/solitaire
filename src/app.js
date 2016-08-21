@@ -17,9 +17,6 @@ import waste from 'components/waste'
 import Action from 'actions'
 const view = action$ => model => {
   if( !model.table ) return yo`<div></div>`
-  const { wasteHidden, wasteVisible } = model.table
-  if( isEmpty( wasteVisible ) && !isEmpty( wasteHidden ))
-    action$( Action.ShowHiddenWaste() )
 
   return yo`
   <div class="table">

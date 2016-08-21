@@ -2,7 +2,7 @@
 import tcomb from 'tcomb'
 import { Model, MoveType } from 'types'
 import Message from 'msg'
-import { __, allPass, always, append, apply, assoc, assocPath, both, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensProp, lt as gt, map, mapObjIndexed, not, objOf, over, path, pathEq, propSatisfies, pipe, pipeK, prepend, prop, propEq, props, reverse, splitAt, subtract, T as otherwise, take, values, view } from 'ramda'
+import { __, adjust, allPass, always, append, apply, assoc, assocPath, both, compose, concat, converge, cond, curry, dissoc, dissocPath, drop, dropLast, equals, flatten, flip, has, head, identity, ifElse, isEmpty, isNil, last, lens, lensIndex, lensPath, lensProp, lt as gt, map, mapObjIndexed, not, objOf, over, path, pathEq, pathSatisfies, propSatisfies, pipe, pipeK, prepend, prop, propEq, props, reverse, splitAt, subtract, take, takeLast, values, view, when } from 'ramda'
 import { apply as applyFn } from 'core.lambda'
 import deal from 'deal'
 import shuffle from 'shuffle'
@@ -20,8 +20,8 @@ const switchProp = ( p, caseObj ) =>
   // over( lens( getter, setter ), transform )
 const diverge = ( getter, setter ) =>
   over( lens( getter, setter ), identity )
-const log = ( a, b ) => { console.log(a,b);return a}
-const lensPath = compose( apply( compose ), map( ifElse( is.integer, lensIndex, lensProp )))
+const log = a => console.log(a)||a
+// const lensPath = compose( apply( compose ), map( ifElse( is.number, lensIndex, lensProp )))
 
 //  -----------------------------------------------------------------  //
 
@@ -58,13 +58,14 @@ require( 'decision' )([ 'Cancel', 'MoveCard' ])
 const moveIf = ifElse( __, MoveCard.of, Cancel.of )
 const cancelIf = ifElse( __, Cancel.of, Decision.of )
 
-const getFromPath = getter => diverge( compose( prepend('model'), getter ), path )
+// P = path
+const getFromPathGetter = getter => diverge( compose( prepend('model'), getter ), path )
 const migrantP = compose( concat([ 'table' ]), prop( 'migrantP' ))
 const originP =  compose( dropLast(1), migrantP )
 const occupantP = compose( concat([ 'table' ]), prop( 'occupantP' ))
-const destP = compose( dropLast(1), occupantP )
-const dest = getFromPath( destP )
-const origin = getFromPath( originP )
+const destinationP = compose( dropLast(1), occupantP )
+const destination = getFromPathGetter( destinationP )
+const origin = getFromPathGetter( originP )
 const pileHeight = compose( prop('length'), origin )
 const migrantIdx = pipe( migrantP, mPath => (
 { wasteVisible : mPath[2]
@@ -73,13 +74,34 @@ const migrantIdx = pipe( migrantP, mPath => (
 }[ mPath[1] ]))
 const cardCount = converge( subtract, [ pileHeight, migrantIdx ])
 const movingStaying = converge( splitAt, [ cardCount, origin ])
-const moveTo = compose( prop(1), destP )
+const moveTo = compose( prop(1), destinationP )
+
+const moveFrom = pathEq([ 'migrantP', 0 ])
+const wasteNearlyEmpty = pathEq([ 'model', 'table', 'wasteVisible', 'length' ], 1 )
+const wHiddenNotEmpty = pathSatisfies( gt(0), [ 'model', 'table', 'wasteHidden', 'length' ])
+const showHiddenWaste = allPass([ moveFrom('wasteVisible'), wasteNearlyEmpty, wHiddenNotEmpty ])
+
+const downturnedNotEmpty = pathEq([ 'model', 'table', 'wasteVisible', 'length' ], 1 )
+const pileWillBeEmpty = converge( equals, [ compose( prop( 'length' ), origin ), cardCount ])
+const showHiddenPile = allPass([ moveFrom('piles'), pileWillBeEmpty ])
+
+const wasteHidden = path([ 'model', 'table', 'wasteHidden' ])
+const wasteVisible = path([ 'model', 'table', 'wasteVisible' ])
+const newWasteHidden = ifElse( showHiddenWaste, compose( dropLast(1), wasteHidden ), wasteHidden )
+const newWasteVisible = ifElse( showHiddenWaste, compose( takeLast(1), wasteHidden ), wasteVisible )
+
+const downturnedP = compose( adjust( always('downturned'), 3 ), originP )
+const take1Downturned = compose( take(1), getFromPathGetter( downturnedP ))
 
 const getValues = applySpec(
-{ migrantP, migrantIdx, cardCount, originP, origin, movingStaying, pileHeight, occupantP, destP, dest, moveTo, model: __ })
+{ migrantP, migrantIdx, cardCount, originP, movingStaying, take1Downturned, showHiddenPile
+, newWasteVisible, newWasteHidden, occupantP, destinationP, destination, moveTo, downturnedP, model: __ })
+
+
+/* -- Validate move -- */
 
 const moveToSameLocation = cancelIf
-( compose( apply( equals ), props([ 'originP', 'destP' ])))
+( compose( apply( equals ), props([ 'originP', 'destinationP' ])))
 
 const dontMoveToWaste = cancelIf
 ( pathEq([ 'occupantP', 1 ], 'wasteVisible' ))
@@ -90,7 +112,7 @@ const onlyMoveOneToFoundation = cancelIf( both
 ))
 
 const rank = prop(0), suit = prop(1)
-const topOccupant = compose( head, prop( 'dest' ))
+const topOccupant = compose( head, prop( 'destination' ))
 const topOccupantRank = compose( rank, topOccupant )
 const topOccupantSuit = compose( suit, topOccupant )
 const bottomMigrant = compose( last, path([ 'movingStaying', 0 ]))
@@ -130,17 +152,23 @@ const validateMove = pipeK
 , MoveCard.of
 )
 
-const doMove = ({ destP, dest, movingStaying, originP, model }): Model => compose
+const doMove = ({ destinationP, destination, movingStaying, downturnedP, showHiddenPile, take1Downturned, newWasteVisible, newWasteHidden, originP, model }) => compose
 ( over( lensPath([ 'table', 'piles' ]), values )  // coerce to array so it typechecks
 , over( lensPath([ 'table', 'foundations' ]), values )  // coerce to array so it typechecks
+, showHiddenPile
+  ? compose( assocPath( originP, take1Downturned ), over( lensPath( downturnedP ), drop(1)))
+  : identity
 , assocPath( originP, movingStaying[1] )
-, assocPath( destP, concat( movingStaying[0], dest ))
+, assocPath( destinationP, concat( movingStaying[0], destination ))
+, assocPath( [ 'wasteHidden' ], newWasteVisible )
+, assocPath( [ 'wasteVisible' ], newWasteHidden )
 )( model )
 
 const Move = pipe
 ( getValues
 , Decision.of
 , validateMove
+, log
 , cata(
   { MoveCard: doMove
   , Cancel: prop( 'model' )
@@ -148,42 +176,18 @@ const Move = pipe
 )
 
 
-// -------  ShowHiddenPile  ------- //
-
-const ShowHiddenPile = ({ model, pileIdx }): Model => {
-  const upturned   = lensPath([ 'table', 'piles', pileIdx, 'upturned' ])
-  const downturned = lensPath([ 'table', 'piles', pileIdx, 'downturned' ])
-  return pipe
-  ( over( upturned, append( head( view( downturned, model ))))  // append downturned[0] to upturned
-  , over( downturned, drop(1) )                                 // drop downturned[0]
-  )( model )
-}
-
-const ShowHiddenWaste = ( model ): Model => {
-  const { wasteHidden, wasteVisible } = model.table
-  const table =
-  { ...model.table
-  , wasteVisible: [ last( wasteHidden ) ]
-  , wasteHidden: dropLast( 1, wasteHidden )
-  }
-  return { ...model, table }
-}
-
 const Foundation = ({ model, path }) => 'dblclick'
 
 const ShowSettings = model => {}
 const UpdateSettings = model => {}
-const Reset = diverge( prop( 'initTable' ), assoc( 'table' ))
 const Undo = ({ model, table }) => assoc( 'table', table, model )
 
 export default Message(
 { Deal
-, Reset
+, Reset: diverge( prop( 'initTable' ), assoc( 'table' ))
 , Undo
 , Draw
 , Move
-, ShowHiddenPile
-, ShowHiddenWaste
 , Foundation
 , ShowSettings
 , UpdateSettings

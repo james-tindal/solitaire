@@ -1,0 +1,836 @@
+
+> frpn@1.0.0 start /code/solitaire
+> node devServer "62607"
+
+Listening at http://localhost:62607
+webpack built ba10d5eeeb2424c56d63 in 3158ms
+webpack building...
+webpack built c5b8df3da56b987905b9 in 586ms
+webpack building...
+webpack built a8a60ade1e92bc46ac13 in 122ms
+Hash: a8a60ade1e92bc46ac13
+Version: webpack 1.13.1
+Time: 122ms
+   Asset     Size  Chunks       Chunk Names
+build.js  1.37 MB       0       main
+chunk    {0} build.js (main) 499 kB [rendered]
+    [0] ./src/index.js 1.75 kB {0} [1 error]
+    [1] ./~/yo-yo/index.js 1.35 kB {0}
+    [2] ./~/bel/index.js 3.95 kB {0}
+    [3] ./~/global/document.js 397 bytes {0}
+    [4] min-document (ignored) 15 bytes {0}
+    [5] ./~/hyperx/index.js 9.35 kB {0}
+    [6] ./~/hyperscript-attribute-to-property/index.js 405 bytes {0}
+    [7] ./~/on-load/index.js 2.32 kB {0}
+    [8] ./~/global/window.js 243 bytes {0}
+    [9] ./~/morphdom/lib/index.js 21.1 kB {0}
+   [10] ./~/yo-yo/update-events.js 568 bytes {0}
+   [12] ./~/tcomb/index.js 1.67 kB {0}
+   [13] ./~/tcomb/lib/assert.js 547 bytes {0}
+   [14] ./~/tcomb/lib/isFunction.js 78 bytes {0}
+   [15] ./~/tcomb/lib/isNil.js 76 bytes {0}
+   [16] ./~/tcomb/lib/fail.js 89 bytes {0}
+   [17] ./~/tcomb/lib/stringify.js 374 bytes {0}
+   [18] ./~/tcomb/lib/getFunctionName.js 115 bytes {0}
+   [19] ./~/tcomb/lib/Any.js 112 bytes {0}
+   [20] ./~/tcomb/lib/irreducible.js 1.15 kB {0}
+   [21] ./~/process/browser.js 2.12 kB {0}
+   [22] ./~/tcomb/lib/isString.js 74 bytes {0}
+   [23] ./~/tcomb/lib/forbidNewOperator.js 268 bytes {0}
+   [24] ./~/tcomb/lib/getTypeName.js 250 bytes {0}
+   [25] ./~/tcomb/lib/isType.js 165 bytes {0}
+   [26] ./~/tcomb/lib/isObject.js 171 bytes {0}
+   [27] ./~/tcomb/lib/isArray.js 70 bytes {0}
+   [28] ./~/tcomb/lib/Array.js 129 bytes {0}
+   [29] ./~/tcomb/lib/Boolean.js 137 bytes {0}
+   [30] ./~/tcomb/lib/isBoolean.js 79 bytes {0}
+   [31] ./~/tcomb/lib/Date.js 127 bytes {0}
+   [32] ./~/tcomb/lib/Error.js 129 bytes {0}
+   [33] ./~/tcomb/lib/Function.js 141 bytes {0}
+   [34] ./~/tcomb/lib/Nil.js 121 bytes {0}
+   [35] ./~/tcomb/lib/Number.js 133 bytes {0}
+   [36] ./~/tcomb/lib/isNumber.js 102 bytes {0}
+   [37] ./~/tcomb/lib/Integer.js 163 bytes {0}
+   [38] ./~/tcomb/lib/refinement.js 2.12 kB {0}
+   [39] ./~/tcomb/lib/isTypeName.js 158 bytes {0}
+   [40] ./~/tcomb/lib/isIdentity.js 650 bytes {0}
+   [41] ./~/tcomb/lib/create.js 802 bytes {0}
+   [42] ./~/tcomb/lib/is.js 237 bytes {0}
+   [43] ./~/tcomb/lib/Object.js 133 bytes {0}
+   [44] ./~/tcomb/lib/RegExp.js 131 bytes {0}
+   [45] ./~/tcomb/lib/String.js 133 bytes {0}
+   [46] ./~/tcomb/lib/Type.js 124 bytes {0}
+   [47] ./~/tcomb/lib/dict.js 3.12 kB {0}
+   [48] ./~/tcomb/lib/declare.js 2.09 kB {0}
+   [49] ./~/tcomb/lib/mixin.js 651 bytes {0}
+   [50] ./~/tcomb/lib/enums.js 1.69 kB {0}
+   [51] ./~/tcomb/lib/list.js 2.52 kB {0}
+   [52] ./~/tcomb/lib/maybe.js 1.58 kB {0}
+   [53] ./~/tcomb/lib/isMaybe.js 127 bytes {0}
+   [54] ./~/tcomb/lib/struct.js 3.85 kB {0}
+   [55] ./~/tcomb/lib/getDefaultInterfaceName.js 262 bytes {0}
+   [56] ./~/tcomb/lib/extend.js 2.17 kB {0}
+   [57] ./~/tcomb/lib/isStruct.js 129 bytes {0}
+   [58] ./~/tcomb/lib/isInterface.js 135 bytes {0}
+   [59] ./~/tcomb/lib/decompose.js 529 bytes {0}
+   [60] ./~/tcomb/lib/tuple.js 2.48 kB {0}
+   [61] ./~/tcomb/lib/union.js 2.59 kB {0}
+   [62] ./~/tcomb/lib/isUnion.js 127 bytes {0}
+   [63] ./~/tcomb/lib/func.js 4.52 kB {0}
+   [64] ./~/tcomb/lib/intersection.js 1.76 kB {0}
+   [65] ./~/tcomb/lib/interface.js 3.7 kB {0}
+   [66] ./~/tcomb/lib/update.js 4.89 kB {0}
+   [67] ./~/tcomb/lib/match.js 934 bytes {0}
+   [68] ./src/types.js 3.69 kB {0}
+   [69] ./~/ramda/dist/ramda.js 296 kB {0}
+   [74] ./~/is_js/is.js 33.1 kB {0}
+   [76] ./src/app.js 2.18 kB {0}
+   [77] ./src/components/stock.js 1.51 kB {0}
+   [78] ./~/snabbdom/h.js 955 bytes {0}
+   [79] ./~/snabbdom/vnode.js 213 bytes {0}
+   [80] ./~/snabbdom/is.js 131 bytes {0}
+   [81] ./src/components/downturned-card.js 621 bytes {0}
+   [82] ./src/components/foundations.js 1.09 kB {0}
+   [83] ./src/components/foundation.js 1.47 kB {0}
+   [84] ./src/components/card.js 1.33 kB {0}
+   [85] ./src/drag.js 2.73 kB {0}
+   [86] ./~/flyd/lib/index.js 16.3 kB {0}
+   [87] ./~/flyd/~/ramda/src/curryN.js 1.6 kB {0}
+   [88] ./~/flyd/~/ramda/src/internal/_arity.js 1.17 kB {0}
+   [89] ./~/flyd/~/ramda/src/internal/_curry1.js 441 bytes {0}
+   [90] ./~/flyd/~/ramda/src/internal/_isPlaceholder.js 154 bytes {0}
+   [91] ./~/flyd/~/ramda/src/internal/_curry2.js 789 bytes {0}
+   [92] ./~/flyd/~/ramda/src/internal/_curryN.js 1.16 kB {0}
+   [93] ./~/flyd/module/flatmap/index.js 1.2 kB {0}
+   [94] ./~/flyd/module/takeuntil/index.js 190 bytes {0}
+   [95] ./src/components/empty.js 871 bytes {0}
+   [96] ./src/components/piles.js 1.09 kB {0}
+   [97] ./src/components/pile.js 2.17 kB {0}
+   [98] ./src/components/waste.js 1.3 kB {0}
+   [99] ./src/detect-win.js 1.33 kB {0}
+  [100] ./src/undo.js 1.18 kB {0}
+  [101] ./~/keyboardjs/index.js 342 bytes {0}
+  [102] ./~/keyboardjs/lib/keyboard.js 11.6 kB {0}
+  [103] ./~/keyboardjs/lib/locale.js 3.69 kB {0}
+  [104] ./~/keyboardjs/lib/key-combo.js 3.27 kB {0}
+  [105] ./~/keyboardjs/locales/us.js 6.01 kB {0}
+  [106] ./~/flyd/module/filter/index.js 171 bytes {0}
+  [107] ./src/devtools-formatters.js 2.86 kB {0}
+
+ERROR in ./src/actions.js
+Module build failed: SyntaxError: /code/solitaire/src/actions.js: Unexpected token (89:0)
+  87 | const wasteHidden = showHiddenWaste ? compose( dropLast(1), path([ 'model', 'table', 'wasteHidden' ]))
+  88 | 
+> 89 | const getValues = applySpec(
+     | ^
+  90 | { migrantP, migrantIdx, cardCount, originP, movingStaying, occupantP, destP, dest, moveTo, model: __ })
+  91 | 
+  92 | const moveToSameLocation = cancelIf
+    at Parser.pp.raise (/code/solitaire/node_modules/babylon/lib/parser/location.js:22:13)
+    at Parser.pp.unexpected (/code/solitaire/node_modules/babylon/lib/parser/util.js:89:8)
+    at Parser.pp.expect (/code/solitaire/node_modules/babylon/lib/parser/util.js:83:33)
+    at Parser.pp.parseMaybeConditional (/code/solitaire/node_modules/babylon/lib/parser/expression.js:171:10)
+    at Parser.pp.parseMaybeAssign (/code/solitaire/node_modules/babylon/lib/parser/expression.js:128:19)
+    at Parser.pp.parseVar (/code/solitaire/node_modules/babylon/lib/parser/statement.js:601:24)
+    at Parser.pp.parseVarStatement (/code/solitaire/node_modules/babylon/lib/parser/statement.js:424:8)
+    at Parser.pp.parseStatement (/code/solitaire/node_modules/babylon/lib/parser/statement.js:120:19)
+    at Parser.parseStatement (/code/solitaire/node_modules/babylon/lib/plugins/flow.js:30:22)
+    at Parser.pp.parseBlockBody (/code/solitaire/node_modules/babylon/lib/parser/statement.js:529:21)
+ @ ./src/index.js 7:15-33
+webpack building...
+webpack built a8a60ade1e92bc46ac13 in 41ms
+Hash: a8a60ade1e92bc46ac13
+Version: webpack 1.13.1
+Time: 41ms
+   Asset     Size  Chunks       Chunk Names
+build.js  1.37 MB       0       main
+chunk    {0} build.js (main) 499 kB
+    [0] ./src/index.js 1.75 kB {0} [2 errors]
+    [1] ./~/yo-yo/index.js 1.35 kB {0}
+    [2] ./~/bel/index.js 3.95 kB {0}
+    [3] ./~/global/document.js 397 bytes {0}
+    [4] min-document (ignored) 15 bytes {0}
+    [5] ./~/hyperx/index.js 9.35 kB {0}
+    [6] ./~/hyperscript-attribute-to-property/index.js 405 bytes {0}
+    [7] ./~/on-load/index.js 2.32 kB {0}
+    [8] ./~/global/window.js 243 bytes {0}
+    [9] ./~/morphdom/lib/index.js 21.1 kB {0}
+   [10] ./~/yo-yo/update-events.js 568 bytes {0}
+   [12] ./~/tcomb/index.js 1.67 kB {0}
+   [13] ./~/tcomb/lib/assert.js 547 bytes {0}
+   [14] ./~/tcomb/lib/isFunction.js 78 bytes {0}
+   [15] ./~/tcomb/lib/isNil.js 76 bytes {0}
+   [16] ./~/tcomb/lib/fail.js 89 bytes {0}
+   [17] ./~/tcomb/lib/stringify.js 374 bytes {0}
+   [18] ./~/tcomb/lib/getFunctionName.js 115 bytes {0}
+   [19] ./~/tcomb/lib/Any.js 112 bytes {0}
+   [20] ./~/tcomb/lib/irreducible.js 1.15 kB {0}
+   [21] ./~/process/browser.js 2.12 kB {0}
+   [22] ./~/tcomb/lib/isString.js 74 bytes {0}
+   [23] ./~/tcomb/lib/forbidNewOperator.js 268 bytes {0}
+   [24] ./~/tcomb/lib/getTypeName.js 250 bytes {0}
+   [25] ./~/tcomb/lib/isType.js 165 bytes {0}
+   [26] ./~/tcomb/lib/isObject.js 171 bytes {0}
+   [27] ./~/tcomb/lib/isArray.js 70 bytes {0}
+   [28] ./~/tcomb/lib/Array.js 129 bytes {0}
+   [29] ./~/tcomb/lib/Boolean.js 137 bytes {0}
+   [30] ./~/tcomb/lib/isBoolean.js 79 bytes {0}
+   [31] ./~/tcomb/lib/Date.js 127 bytes {0}
+   [32] ./~/tcomb/lib/Error.js 129 bytes {0}
+   [33] ./~/tcomb/lib/Function.js 141 bytes {0}
+   [34] ./~/tcomb/lib/Nil.js 121 bytes {0}
+   [35] ./~/tcomb/lib/Number.js 133 bytes {0}
+   [36] ./~/tcomb/lib/isNumber.js 102 bytes {0}
+   [37] ./~/tcomb/lib/Integer.js 163 bytes {0}
+   [38] ./~/tcomb/lib/refinement.js 2.12 kB {0}
+   [39] ./~/tcomb/lib/isTypeName.js 158 bytes {0}
+   [40] ./~/tcomb/lib/isIdentity.js 650 bytes {0}
+   [41] ./~/tcomb/lib/create.js 802 bytes {0}
+   [42] ./~/tcomb/lib/is.js 237 bytes {0}
+   [43] ./~/tcomb/lib/Object.js 133 bytes {0}
+   [44] ./~/tcomb/lib/RegExp.js 131 bytes {0}
+   [45] ./~/tcomb/lib/String.js 133 bytes {0}
+   [46] ./~/tcomb/lib/Type.js 124 bytes {0}
+   [47] ./~/tcomb/lib/dict.js 3.12 kB {0}
+   [48] ./~/tcomb/lib/declare.js 2.09 kB {0}
+   [49] ./~/tcomb/lib/mixin.js 651 bytes {0}
+   [50] ./~/tcomb/lib/enums.js 1.69 kB {0}
+   [51] ./~/tcomb/lib/list.js 2.52 kB {0}
+   [52] ./~/tcomb/lib/maybe.js 1.58 kB {0}
+   [53] ./~/tcomb/lib/isMaybe.js 127 bytes {0}
+   [54] ./~/tcomb/lib/struct.js 3.85 kB {0}
+   [55] ./~/tcomb/lib/getDefaultInterfaceName.js 262 bytes {0}
+   [56] ./~/tcomb/lib/extend.js 2.17 kB {0}
+   [57] ./~/tcomb/lib/isStruct.js 129 bytes {0}
+   [58] ./~/tcomb/lib/isInterface.js 135 bytes {0}
+   [59] ./~/tcomb/lib/decompose.js 529 bytes {0}
+   [60] ./~/tcomb/lib/tuple.js 2.48 kB {0}
+   [61] ./~/tcomb/lib/union.js 2.59 kB {0}
+   [62] ./~/tcomb/lib/isUnion.js 127 bytes {0}
+   [63] ./~/tcomb/lib/func.js 4.52 kB {0}
+   [64] ./~/tcomb/lib/intersection.js 1.76 kB {0}
+   [65] ./~/tcomb/lib/interface.js 3.7 kB {0}
+   [66] ./~/tcomb/lib/update.js 4.89 kB {0}
+   [67] ./~/tcomb/lib/match.js 934 bytes {0}
+   [68] ./src/types.js 3.69 kB {0}
+   [69] ./~/ramda/dist/ramda.js 296 kB {0}
+   [74] ./~/is_js/is.js 33.1 kB {0}
+   [76] ./src/app.js 2.18 kB {0}
+   [77] ./src/components/stock.js 1.51 kB {0}
+   [78] ./~/snabbdom/h.js 955 bytes {0}
+   [79] ./~/snabbdom/vnode.js 213 bytes {0}
+   [80] ./~/snabbdom/is.js 131 bytes {0}
+   [81] ./src/components/downturned-card.js 621 bytes {0}
+   [82] ./src/components/foundations.js 1.09 kB {0}
+   [83] ./src/components/foundation.js 1.47 kB {0}
+   [84] ./src/components/card.js 1.33 kB {0}
+   [85] ./src/drag.js 2.73 kB {0}
+   [86] ./~/flyd/lib/index.js 16.3 kB {0}
+   [87] ./~/flyd/~/ramda/src/curryN.js 1.6 kB {0}
+   [88] ./~/flyd/~/ramda/src/internal/_arity.js 1.17 kB {0}
+   [89] ./~/flyd/~/ramda/src/internal/_curry1.js 441 bytes {0}
+   [90] ./~/flyd/~/ramda/src/internal/_isPlaceholder.js 154 bytes {0}
+   [91] ./~/flyd/~/ramda/src/internal/_curry2.js 789 bytes {0}
+   [92] ./~/flyd/~/ramda/src/internal/_curryN.js 1.16 kB {0}
+   [93] ./~/flyd/module/flatmap/index.js 1.2 kB {0}
+   [94] ./~/flyd/module/takeuntil/index.js 190 bytes {0}
+   [95] ./src/components/empty.js 871 bytes {0}
+   [96] ./src/components/piles.js 1.09 kB {0}
+   [97] ./src/components/pile.js 2.17 kB {0}
+   [98] ./src/components/waste.js 1.3 kB {0}
+   [99] ./src/detect-win.js 1.33 kB {0}
+  [100] ./src/undo.js 1.18 kB {0}
+  [101] ./~/keyboardjs/index.js 342 bytes {0}
+  [102] ./~/keyboardjs/lib/keyboard.js 11.6 kB {0}
+  [103] ./~/keyboardjs/lib/locale.js 3.69 kB {0}
+  [104] ./~/keyboardjs/lib/key-combo.js 3.27 kB {0}
+  [105] ./~/keyboardjs/locales/us.js 6.01 kB {0}
+  [106] ./~/flyd/module/filter/index.js 171 bytes {0}
+  [107] ./src/devtools-formatters.js 2.86 kB {0}
+
+ERROR in ./src/actions.js
+Module build failed: SyntaxError: /code/solitaire/src/actions.js: Unexpected token (89:54)
+  87 | const wasteHidden = path([ 'model', 'table', 'wasteHidden' ])
+  88 | const wasteVisible = path([ 'model', 'table', 'wasteVisible' ])
+> 89 | const newWasteHidden = compose( when( showHiddenWaste dropLast(1), )
+     |                                                       ^
+  90 | const newWasteVisible = showHiddenWaste ? compose( dropLast(1), path([ 'model', 'table', 'wasteVisible' ]))
+  91 | 
+  92 | const getValues = applySpec(
+    at Parser.pp.raise (/code/solitaire/node_modules/babylon/lib/parser/location.js:22:13)
+    at Parser.pp.unexpected (/code/solitaire/node_modules/babylon/lib/parser/util.js:89:8)
+    at Parser.pp.expect (/code/solitaire/node_modules/babylon/lib/parser/util.js:83:33)
+    at Parser.pp.parseCallExpressionArguments (/code/solitaire/node_modules/babylon/lib/parser/expression.js:339:12)
+    at Parser.pp.parseSubscripts (/code/solitaire/node_modules/babylon/lib/parser/expression.js:311:31)
+    at Parser.pp.parseExprSubscripts (/code/solitaire/node_modules/babylon/lib/parser/expression.js:282:15)
+    at Parser.pp.parseMaybeUnary (/code/solitaire/node_modules/babylon/lib/parser/expression.js:252:19)
+    at Parser.pp.parseExprOps (/code/solitaire/node_modules/babylon/lib/parser/expression.js:183:19)
+    at Parser.pp.parseMaybeConditional (/code/solitaire/node_modules/babylon/lib/parser/expression.js:165:19)
+    at Parser.pp.parseMaybeAssign (/code/solitaire/node_modules/babylon/lib/parser/expression.js:128:19)
+ @ ./src/index.js 7:15-33
+webpack building...
+webpack built b61f5fcd3ef43798833a in 365ms
+webpack building...
+webpack built ee1bc5b7fa36c3645894 in 361ms
+webpack building...
+webpack built ee1bc5b7fa36c3645894 in 239ms
+webpack building...
+webpack built 6c24efc510827fd87e93 in 229ms
+webpack building...
+webpack built 357ccb2bda91060cd9d3 in 202ms
+webpack building...
+webpack built 8e6090a074d7ff169da9 in 76ms
+webpack building...
+webpack built 42472dcf30de500a95b2 in 258ms
+webpack building...
+webpack built 43cdcadebb6b51d2fa2e in 262ms
+webpack building...
+webpack built feda02e326d8358076df in 266ms
+webpack building...
+webpack built feda02e326d8358076df in 164ms
+webpack building...
+webpack built c52f2805cc894f83a759 in 273ms
+webpack building...
+webpack built f9ca14f79b0895ed4462 in 120ms
+webpack building...
+webpack built f9ca14f79b0895ed4462 in 61ms
+webpack building...
+webpack built 58ba58f348af062af830 in 239ms
+webpack building...
+webpack built 432265056768ac6c06c3 in 278ms
+webpack building...
+webpack built 58ba58f348af062af830 in 287ms
+webpack building...
+webpack built a5a09f3afa3337c6e205 in 248ms
+webpack building...
+webpack built ee8c83cbcad8f59e58b7 in 257ms
+webpack building...
+webpack built 234cb1875ad0b038ffeb in 254ms
+webpack building...
+webpack built 946c7900f1bb1fd269a8 in 299ms
+webpack building...
+webpack built 1a2e8ceea66ec8e852bf in 242ms
+webpack building...
+webpack built 90dec369f112cd53c858 in 313ms
+webpack building...
+webpack built 111bcba71070272946ec in 297ms
+webpack building...
+webpack built 6e3593234a2e50fa78b2 in 235ms
+webpack building...
+webpack built 10198b67490b733ef88f in 253ms
+webpack building...
+webpack built d203d51aeafc0b10aff3 in 243ms
+webpack building...
+webpack built 60ede872e479b2ff8340 in 224ms
+webpack building...
+webpack built 31998faa300fa0dda06f in 97ms
+webpack building...
+webpack built 12b92324c159dc21c082 in 251ms
+webpack building...
+webpack built 12b92324c159dc21c082 in 178ms
+webpack building...
+webpack built 85ccb80b450c8574aa1d in 257ms
+webpack building...
+webpack built dfd279f366bad4f02e40 in 242ms
+webpack building...
+webpack built e040d36957ec785e2ff9 in 318ms
+webpack building...
+webpack built 7c28bdb8afaac49cd44e in 355ms
+webpack building...
+webpack built 031334d3f53b5e1fe115 in 199ms
+webpack building...
+webpack built 9fc345faddb2bd40e11a in 234ms
+webpack building...
+webpack built e040d36957ec785e2ff9 in 274ms
+webpack building...
+webpack built c804c79d20dfb7d6f1c9 in 219ms
+webpack building...
+webpack built 11ae6bacece41b737ab2 in 208ms
+webpack building...
+webpack built f4dac88ff56d0fd665fc in 216ms
+webpack building...
+webpack built f330a9a5c8e48dc6907a in 220ms
+webpack building...
+webpack built 995c0b1aeca68fb65e77 in 226ms
+webpack building...
+webpack built a70f602321bd3b20bf28 in 311ms
+webpack building...
+webpack built 995c0b1aeca68fb65e77 in 245ms
+webpack building...
+webpack built 9faf6c758686882aff95 in 272ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 274ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 183ms
+webpack building...
+webpack built 4cd0d4ccccb4279f720f in 264ms
+webpack building...
+webpack built 842a440d34e3f18815a2 in 222ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 203ms
+webpack building...
+webpack built 4cd0d4ccccb4279f720f in 219ms
+webpack building...
+webpack built 2ab560806b1d86c0858c in 277ms
+webpack building...
+webpack built 3c12b8eacfb7f1f20e7a in 196ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 249ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 180ms
+webpack building...
+webpack built 9eed2e358fcd260bfdc4 in 237ms
+webpack building...
+webpack built b690f34a95031d3d033b in 211ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 203ms
+webpack building...
+webpack built 74b90250a456d0e0c01d in 286ms
+webpack building...
+webpack built b690f34a95031d3d033b in 297ms
+webpack building...
+webpack built 3c12b8eacfb7f1f20e7a in 228ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 176ms
+webpack building...
+webpack built 86cc59123321ca675e3d in 223ms
+webpack building...
+webpack built 86cc59123321ca675e3d in 175ms
+webpack building...
+webpack built c24f5038dfcf6984586c in 281ms
+webpack building...
+webpack built ab91ffef8f83dadd1ffd in 284ms
+webpack building...
+webpack built 6afb646edf19c5249ce1 in 284ms
+webpack building...
+webpack built c24f5038dfcf6984586c in 217ms
+webpack building...
+webpack built 86cc59123321ca675e3d in 227ms
+webpack building...
+webpack built f9fede1e02c9e10a5060 in 182ms
+webpack building...
+webpack built dd79dd6a46f0ef221bb1 in 225ms
+webpack building...
+webpack built a91890708be166f903fd in 210ms
+webpack building...
+webpack built f9fede1e02c9e10a5060 in 227ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 194ms
+webpack building...
+webpack built cf65d2cb06ede299c8d3 in 138ms
+webpack building...
+webpack built 6767423a9d2e412b73d2 in 259ms
+webpack building...
+webpack built 6767423a9d2e412b73d2 in 187ms
+webpack building...
+webpack built f3358b8fa2aaf4fd4912 in 292ms
+webpack building...
+webpack built 6767423a9d2e412b73d2 in 279ms
+webpack building...
+webpack built a242df8dfb480fc80767 in 288ms
+webpack building...
+webpack built df6f5d0bf1a66d5a3be2 in 204ms
+webpack building...
+webpack built caeacc61782bcf8be70c in 205ms
+webpack building...
+webpack built 6746d6a46c90a4c1f2cc in 196ms
+webpack building...
+webpack built 647a3b902b0830840423 in 191ms
+webpack building...
+webpack built 7a93d48a615eb651bc3b in 194ms
+webpack building...
+webpack built 2383f30997c602357913 in 224ms
+webpack building...
+webpack built a242df8dfb480fc80767 in 182ms
+webpack building...
+webpack built b61f1609fe310fcb3419 in 214ms
+webpack building...
+webpack built 40ed719f49bb26c56452 in 291ms
+webpack building...
+webpack built 2240c9a170dfd3b1b116 in 230ms
+webpack building...
+webpack built 6767423a9d2e412b73d2 in 216ms
+webpack building...
+webpack built e705dd2cf6044751937b in 221ms
+webpack building...
+webpack built 4a2828569fd241ffde7e in 226ms
+webpack building...
+webpack built 8e6b23493b43f28e7b27 in 220ms
+webpack building...
+webpack built 6767423a9d2e412b73d2 in 190ms
+webpack building...
+webpack built 2e5fe847edefdf4ebf01 in 213ms
+webpack building...
+webpack built 2e5fe847edefdf4ebf01 in 154ms
+webpack building...
+webpack built e14ab8b6009edf8e0984 in 208ms
+webpack building...
+webpack built 9e94789375186af9a2d6 in 204ms
+webpack building...
+webpack built 1585a8562942dab353ef in 229ms
+webpack building...
+webpack built 4458bfba1b95695b5823 in 221ms
+webpack building...
+webpack built 816c63de3be9de0e7d1b in 257ms
+webpack building...
+webpack built b6fa36c9aed2a9151ff0 in 266ms
+webpack building...
+webpack built b76ecbba6007b06d510f in 201ms
+webpack building...
+webpack built 8045cb7221cfdbde3fb4 in 217ms
+webpack building...
+webpack built 8d1e8820ded434e1cf21 in 239ms
+webpack building...
+webpack built 9d8ab98b587591a94e18 in 283ms
+webpack building...
+webpack built eb06bbff3f0a0c8bdcb9 in 257ms
+webpack building...
+webpack built 8d1e8820ded434e1cf21 in 202ms
+webpack building...
+webpack built 769f189babd20a6b1448 in 251ms
+webpack building...
+webpack built 8d1e8820ded434e1cf21 in 261ms
+webpack building...
+webpack built 857c3a21358a019a5f34 in 210ms
+webpack building...
+webpack built 6f62c219868fd1aa252e in 208ms
+webpack building...
+webpack built 8d1e8820ded434e1cf21 in 221ms
+webpack building...
+webpack built 0b965f3ee8f627b67349 in 216ms
+webpack building...
+webpack built c1ff75f5a547bf8f2d85 in 283ms
+webpack building...
+webpack built 263c79eef86778ca040b in 276ms
+webpack building...
+webpack built c292abdabe83a87c06f9 in 235ms
+webpack building...
+webpack built 38e41bea5afa73998c58 in 205ms
+webpack building...
+webpack built 38e41bea5afa73998c58 in 158ms
+webpack building...
+webpack built 28c8c4165f664494138a in 191ms
+webpack building...
+webpack built 9e72e36fdbb4b13c1b47 in 263ms
+webpack building...
+webpack built 6b0b1e82d460e6e606c4 in 222ms
+webpack building...
+webpack built 98320bc8935ce903071b in 221ms
+webpack building...
+webpack built 6b0b1e82d460e6e606c4 in 222ms
+webpack building...
+webpack built 045984ec0c85eff51665 in 239ms
+webpack building...
+webpack built 045984ec0c85eff51665 in 235ms
+webpack building...
+webpack built efdefe18b8c4f1e474cc in 230ms
+webpack building...
+webpack built 7c14a4354ea1f20895f7 in 242ms
+webpack building...
+webpack built 36ff8cca3a773890eabd in 217ms
+webpack building...
+webpack built 111fa2f367df372db04e in 248ms
+webpack building...
+webpack built 947313e4f0e345bcc86d in 232ms
+webpack building...
+webpack built 27910be45cd3b99fa0e2 in 203ms
+webpack building...
+webpack built c66f7d65d20b72f4d02e in 129ms
+webpack building...
+webpack built 9512a6217db9903a4ccb in 225ms
+webpack building...
+webpack built 98b177a8f35701dc7151 in 241ms
+webpack building...
+webpack built 9512a6217db9903a4ccb in 216ms
+webpack building...
+webpack built 34a03a8656997a4cc357 in 92ms
+webpack building...
+webpack built 94c4c5317b3b5ce71ec3 in 92ms
+webpack building...
+webpack built 63d7379ad5135af597b3 in 86ms
+webpack building...
+webpack built 34a03a8656997a4cc357 in 104ms
+webpack building...
+webpack built 1ba5809ee0cfa31319d9 in 93ms
+webpack building...
+webpack built 1fc02788209be89a3a82 in 84ms
+webpack building...
+webpack built b26103220f136fd79312 in 83ms
+webpack building...
+webpack built cd062ce9eb691465edea in 101ms
+webpack building...
+webpack built 6181f883ad046d5ddd59 in 92ms
+webpack building...
+webpack built f3e026c440a5461505d5 in 92ms
+webpack building...
+webpack built 3ff3b1574a5b18e9189a in 43ms
+Hash: 3ff3b1574a5b18e9189a
+Version: webpack 1.13.1
+Time: 43ms
+   Asset     Size  Chunks       Chunk Names
+build.js  1.35 MB       0       main
+chunk    {0} build.js (main) 490 kB [rendered]
+    [0] ./src/index.js 1.76 kB {0} [1 error]
+    [1] ./~/yo-yo/index.js 1.35 kB {0}
+    [2] ./~/bel/index.js 3.95 kB {0}
+    [3] ./~/global/document.js 397 bytes {0}
+    [4] min-document (ignored) 15 bytes {0}
+    [5] ./~/hyperx/index.js 9.35 kB {0}
+    [6] ./~/hyperscript-attribute-to-property/index.js 405 bytes {0}
+    [7] ./~/on-load/index.js 2.32 kB {0}
+    [8] ./~/global/window.js 243 bytes {0}
+    [9] ./~/morphdom/lib/index.js 21.1 kB {0}
+   [10] ./~/yo-yo/update-events.js 568 bytes {0}
+   [11] ./src/actions.js 9.76 kB {0}
+   [12] ./~/tcomb/index.js 1.67 kB {0}
+   [13] ./~/tcomb/lib/assert.js 547 bytes {0}
+   [14] ./~/tcomb/lib/isFunction.js 78 bytes {0}
+   [15] ./~/tcomb/lib/isNil.js 76 bytes {0}
+   [16] ./~/tcomb/lib/fail.js 89 bytes {0}
+   [17] ./~/tcomb/lib/stringify.js 374 bytes {0}
+   [18] ./~/tcomb/lib/getFunctionName.js 115 bytes {0}
+   [19] ./~/tcomb/lib/Any.js 112 bytes {0}
+   [20] ./~/tcomb/lib/irreducible.js 1.15 kB {0}
+   [21] ./~/process/browser.js 2.12 kB {0}
+   [22] ./~/tcomb/lib/isString.js 74 bytes {0}
+   [23] ./~/tcomb/lib/forbidNewOperator.js 268 bytes {0}
+   [24] ./~/tcomb/lib/getTypeName.js 250 bytes {0}
+   [25] ./~/tcomb/lib/isType.js 165 bytes {0}
+   [26] ./~/tcomb/lib/isObject.js 171 bytes {0}
+   [27] ./~/tcomb/lib/isArray.js 70 bytes {0}
+   [28] ./~/tcomb/lib/Array.js 129 bytes {0}
+   [29] ./~/tcomb/lib/Boolean.js 137 bytes {0}
+   [30] ./~/tcomb/lib/isBoolean.js 79 bytes {0}
+   [31] ./~/tcomb/lib/Date.js 127 bytes {0}
+   [32] ./~/tcomb/lib/Error.js 129 bytes {0}
+   [33] ./~/tcomb/lib/Function.js 141 bytes {0}
+   [34] ./~/tcomb/lib/Nil.js 121 bytes {0}
+   [35] ./~/tcomb/lib/Number.js 133 bytes {0}
+   [36] ./~/tcomb/lib/isNumber.js 102 bytes {0}
+   [37] ./~/tcomb/lib/Integer.js 163 bytes {0}
+   [38] ./~/tcomb/lib/refinement.js 2.12 kB {0}
+   [39] ./~/tcomb/lib/isTypeName.js 158 bytes {0}
+   [40] ./~/tcomb/lib/isIdentity.js 650 bytes {0}
+   [41] ./~/tcomb/lib/create.js 802 bytes {0}
+   [42] ./~/tcomb/lib/is.js 237 bytes {0}
+   [43] ./~/tcomb/lib/Object.js 133 bytes {0}
+   [44] ./~/tcomb/lib/RegExp.js 131 bytes {0}
+   [45] ./~/tcomb/lib/String.js 133 bytes {0}
+   [46] ./~/tcomb/lib/Type.js 124 bytes {0}
+   [47] ./~/tcomb/lib/dict.js 3.12 kB {0}
+   [48] ./~/tcomb/lib/declare.js 2.09 kB {0}
+   [49] ./~/tcomb/lib/mixin.js 651 bytes {0}
+   [50] ./~/tcomb/lib/enums.js 1.69 kB {0}
+   [51] ./~/tcomb/lib/list.js 2.52 kB {0}
+   [52] ./~/tcomb/lib/maybe.js 1.58 kB {0}
+   [53] ./~/tcomb/lib/isMaybe.js 127 bytes {0}
+   [54] ./~/tcomb/lib/struct.js 3.85 kB {0}
+   [55] ./~/tcomb/lib/getDefaultInterfaceName.js 262 bytes {0}
+   [56] ./~/tcomb/lib/extend.js 2.17 kB {0}
+   [57] ./~/tcomb/lib/isStruct.js 129 bytes {0}
+   [58] ./~/tcomb/lib/isInterface.js 135 bytes {0}
+   [59] ./~/tcomb/lib/decompose.js 529 bytes {0}
+   [60] ./~/tcomb/lib/tuple.js 2.48 kB {0}
+   [61] ./~/tcomb/lib/union.js 2.59 kB {0}
+   [62] ./~/tcomb/lib/isUnion.js 127 bytes {0}
+   [63] ./~/tcomb/lib/func.js 4.52 kB {0}
+   [64] ./~/tcomb/lib/intersection.js 1.76 kB {0}
+   [65] ./~/tcomb/lib/interface.js 3.7 kB {0}
+   [66] ./~/tcomb/lib/update.js 4.89 kB {0}
+   [67] ./~/tcomb/lib/match.js 934 bytes {0}
+   [68] ./src/types.js 3.69 kB {0}
+   [69] ./~/ramda/dist/ramda.js 296 kB {0}
+   [70] ./~/msg/msg.js 288 bytes {0}
+   [71] ./~/core.lambda/lib/index.js 4.51 kB {0}
+   [72] ./src/deal.js 1.58 kB {0}
+   [73] ./src/shuffle.js 823 bytes {0}
+   [74] ./~/is_js/is.js 33.1 kB {0}
+   [75] ./src/decision.js 993 bytes {0}
+   [76] ./src/app.js 1.92 kB {0}
+   [77] ./src/components/stock.js 1.51 kB {0}
+   [78] ./~/snabbdom/h.js 955 bytes {0}
+   [79] ./~/snabbdom/vnode.js 213 bytes {0}
+   [80] ./~/snabbdom/is.js 131 bytes {0}
+   [81] ./src/components/downturned-card.js 621 bytes {0}
+   [82] ./src/components/foundations.js 1.09 kB {0}
+   [83] ./src/components/foundation.js 1.47 kB {0}
+   [84] ./src/components/card.js 1.33 kB {0}
+   [85] ./src/drag.js 2.73 kB {0}
+   [86] ./~/flyd/lib/index.js 16.3 kB {0}
+   [87] ./~/flyd/~/ramda/src/curryN.js 1.6 kB {0}
+   [88] ./~/flyd/~/ramda/src/internal/_arity.js 1.17 kB {0}
+   [89] ./~/flyd/~/ramda/src/internal/_curry1.js 441 bytes {0}
+   [90] ./~/flyd/~/ramda/src/internal/_isPlaceholder.js 154 bytes {0}
+   [91] ./~/flyd/~/ramda/src/internal/_curry2.js 789 bytes {0}
+   [92] ./~/flyd/~/ramda/src/internal/_curryN.js 1.16 kB {0}
+   [93] ./~/flyd/module/flatmap/index.js 1.2 kB {0}
+   [94] ./~/flyd/module/takeuntil/index.js 190 bytes {0}
+   [95] ./src/components/empty.js 871 bytes {0}
+   [96] ./src/components/piles.js 1.09 kB {0}
+   [97] ./src/components/pile.js 2.03 kB {0}
+   [98] ./src/components/waste.js 1.3 kB {0}
+   [99] ./src/detect-win.js 1.33 kB {0}
+  [106] ./~/flyd/module/filter/index.js 171 bytes {0}
+  [107] ./src/devtools-formatters.js 2.86 kB {0}
+
+ERROR in ./src/undo.js
+Module build failed: SyntaxError: /code/solitaire/src/undo.js: Unexpected token (16:45)
+  14 | export default
+  15 | ( action$, model$ ) => {
+> 16 |   const table$ = map( prop('table'), filter( , action$ ))
+     |                                              ^
+  17 |   action$.map( when( either( isDeal, isReset ), _ => tableHistory = [] ))
+  18 |   model$.map( m => push ? tableHistory.push(m.table) : push = true )
+  19 |   model$.map( _ => console.log(tableHistory.length, tableHistory))
+    at Parser.pp.raise (/code/solitaire/node_modules/babylon/lib/parser/location.js:22:13)
+    at Parser.pp.unexpected (/code/solitaire/node_modules/babylon/lib/parser/util.js:89:8)
+    at Parser.pp.parseExprAtom (/code/solitaire/node_modules/babylon/lib/parser/expression.js:517:12)
+    at Parser.pp.parseExprSubscripts (/code/solitaire/node_modules/babylon/lib/parser/expression.js:272:19)
+    at Parser.pp.parseMaybeUnary (/code/solitaire/node_modules/babylon/lib/parser/expression.js:252:19)
+    at Parser.pp.parseExprOps (/code/solitaire/node_modules/babylon/lib/parser/expression.js:183:19)
+    at Parser.pp.parseMaybeConditional (/code/solitaire/node_modules/babylon/lib/parser/expression.js:165:19)
+    at Parser.pp.parseMaybeAssign (/code/solitaire/node_modules/babylon/lib/parser/expression.js:128:19)
+    at Parser.pp.parseExprListItem (/code/solitaire/node_modules/babylon/lib/parser/expression.js:1032:16)
+    at Parser.parseExprListItem (/code/solitaire/node_modules/babylon/lib/plugins/flow.js:215:24)
+ @ ./src/index.js 17:12-27
+webpack building...
+webpack built 3ff3b1574a5b18e9189a in 34ms
+Hash: 3ff3b1574a5b18e9189a
+Version: webpack 1.13.1
+Time: 34ms
+   Asset     Size  Chunks       Chunk Names
+build.js  1.35 MB       0       main
+chunk    {0} build.js (main) 490 kB
+    [0] ./src/index.js 1.76 kB {0} [2 errors]
+    [1] ./~/yo-yo/index.js 1.35 kB {0}
+    [2] ./~/bel/index.js 3.95 kB {0}
+    [3] ./~/global/document.js 397 bytes {0}
+    [4] min-document (ignored) 15 bytes {0}
+    [5] ./~/hyperx/index.js 9.35 kB {0}
+    [6] ./~/hyperscript-attribute-to-property/index.js 405 bytes {0}
+    [7] ./~/on-load/index.js 2.32 kB {0}
+    [8] ./~/global/window.js 243 bytes {0}
+    [9] ./~/morphdom/lib/index.js 21.1 kB {0}
+   [10] ./~/yo-yo/update-events.js 568 bytes {0}
+   [11] ./src/actions.js 9.76 kB {0}
+   [12] ./~/tcomb/index.js 1.67 kB {0}
+   [13] ./~/tcomb/lib/assert.js 547 bytes {0}
+   [14] ./~/tcomb/lib/isFunction.js 78 bytes {0}
+   [15] ./~/tcomb/lib/isNil.js 76 bytes {0}
+   [16] ./~/tcomb/lib/fail.js 89 bytes {0}
+   [17] ./~/tcomb/lib/stringify.js 374 bytes {0}
+   [18] ./~/tcomb/lib/getFunctionName.js 115 bytes {0}
+   [19] ./~/tcomb/lib/Any.js 112 bytes {0}
+   [20] ./~/tcomb/lib/irreducible.js 1.15 kB {0}
+   [21] ./~/process/browser.js 2.12 kB {0}
+   [22] ./~/tcomb/lib/isString.js 74 bytes {0}
+   [23] ./~/tcomb/lib/forbidNewOperator.js 268 bytes {0}
+   [24] ./~/tcomb/lib/getTypeName.js 250 bytes {0}
+   [25] ./~/tcomb/lib/isType.js 165 bytes {0}
+   [26] ./~/tcomb/lib/isObject.js 171 bytes {0}
+   [27] ./~/tcomb/lib/isArray.js 70 bytes {0}
+   [28] ./~/tcomb/lib/Array.js 129 bytes {0}
+   [29] ./~/tcomb/lib/Boolean.js 137 bytes {0}
+   [30] ./~/tcomb/lib/isBoolean.js 79 bytes {0}
+   [31] ./~/tcomb/lib/Date.js 127 bytes {0}
+   [32] ./~/tcomb/lib/Error.js 129 bytes {0}
+   [33] ./~/tcomb/lib/Function.js 141 bytes {0}
+   [34] ./~/tcomb/lib/Nil.js 121 bytes {0}
+   [35] ./~/tcomb/lib/Number.js 133 bytes {0}
+   [36] ./~/tcomb/lib/isNumber.js 102 bytes {0}
+   [37] ./~/tcomb/lib/Integer.js 163 bytes {0}
+   [38] ./~/tcomb/lib/refinement.js 2.12 kB {0}
+   [39] ./~/tcomb/lib/isTypeName.js 158 bytes {0}
+   [40] ./~/tcomb/lib/isIdentity.js 650 bytes {0}
+   [41] ./~/tcomb/lib/create.js 802 bytes {0}
+   [42] ./~/tcomb/lib/is.js 237 bytes {0}
+   [43] ./~/tcomb/lib/Object.js 133 bytes {0}
+   [44] ./~/tcomb/lib/RegExp.js 131 bytes {0}
+   [45] ./~/tcomb/lib/String.js 133 bytes {0}
+   [46] ./~/tcomb/lib/Type.js 124 bytes {0}
+   [47] ./~/tcomb/lib/dict.js 3.12 kB {0}
+   [48] ./~/tcomb/lib/declare.js 2.09 kB {0}
+   [49] ./~/tcomb/lib/mixin.js 651 bytes {0}
+   [50] ./~/tcomb/lib/enums.js 1.69 kB {0}
+   [51] ./~/tcomb/lib/list.js 2.52 kB {0}
+   [52] ./~/tcomb/lib/maybe.js 1.58 kB {0}
+   [53] ./~/tcomb/lib/isMaybe.js 127 bytes {0}
+   [54] ./~/tcomb/lib/struct.js 3.85 kB {0}
+   [55] ./~/tcomb/lib/getDefaultInterfaceName.js 262 bytes {0}
+   [56] ./~/tcomb/lib/extend.js 2.17 kB {0}
+   [57] ./~/tcomb/lib/isStruct.js 129 bytes {0}
+   [58] ./~/tcomb/lib/isInterface.js 135 bytes {0}
+   [59] ./~/tcomb/lib/decompose.js 529 bytes {0}
+   [60] ./~/tcomb/lib/tuple.js 2.48 kB {0}
+   [61] ./~/tcomb/lib/union.js 2.59 kB {0}
+   [62] ./~/tcomb/lib/isUnion.js 127 bytes {0}
+   [63] ./~/tcomb/lib/func.js 4.52 kB {0}
+   [64] ./~/tcomb/lib/intersection.js 1.76 kB {0}
+   [65] ./~/tcomb/lib/interface.js 3.7 kB {0}
+   [66] ./~/tcomb/lib/update.js 4.89 kB {0}
+   [67] ./~/tcomb/lib/match.js 934 bytes {0}
+   [68] ./src/types.js 3.69 kB {0}
+   [69] ./~/ramda/dist/ramda.js 296 kB {0}
+   [70] ./~/msg/msg.js 288 bytes {0}
+   [71] ./~/core.lambda/lib/index.js 4.51 kB {0}
+   [72] ./src/deal.js 1.58 kB {0}
+   [73] ./src/shuffle.js 823 bytes {0}
+   [74] ./~/is_js/is.js 33.1 kB {0}
+   [75] ./src/decision.js 993 bytes {0}
+   [76] ./src/app.js 1.92 kB {0}
+   [77] ./src/components/stock.js 1.51 kB {0}
+   [78] ./~/snabbdom/h.js 955 bytes {0}
+   [79] ./~/snabbdom/vnode.js 213 bytes {0}
+   [80] ./~/snabbdom/is.js 131 bytes {0}
+   [81] ./src/components/downturned-card.js 621 bytes {0}
+   [82] ./src/components/foundations.js 1.09 kB {0}
+   [83] ./src/components/foundation.js 1.47 kB {0}
+   [84] ./src/components/card.js 1.33 kB {0}
+   [85] ./src/drag.js 2.73 kB {0}
+   [86] ./~/flyd/lib/index.js 16.3 kB {0}
+   [87] ./~/flyd/~/ramda/src/curryN.js 1.6 kB {0}
+   [88] ./~/flyd/~/ramda/src/internal/_arity.js 1.17 kB {0}
+   [89] ./~/flyd/~/ramda/src/internal/_curry1.js 441 bytes {0}
+   [90] ./~/flyd/~/ramda/src/internal/_isPlaceholder.js 154 bytes {0}
+   [91] ./~/flyd/~/ramda/src/internal/_curry2.js 789 bytes {0}
+   [92] ./~/flyd/~/ramda/src/internal/_curryN.js 1.16 kB {0}
+   [93] ./~/flyd/module/flatmap/index.js 1.2 kB {0}
+   [94] ./~/flyd/module/takeuntil/index.js 190 bytes {0}
+   [95] ./src/components/empty.js 871 bytes {0}
+   [96] ./src/components/piles.js 1.09 kB {0}
+   [97] ./src/components/pile.js 2.03 kB {0}
+   [98] ./src/components/waste.js 1.3 kB {0}
+   [99] ./src/detect-win.js 1.33 kB {0}
+  [106] ./~/flyd/module/filter/index.js 171 bytes {0}
+  [107] ./src/devtools-formatters.js 2.86 kB {0}
+
+ERROR in ./src/undo.js
+Module build failed: SyntaxError: /code/solitaire/src/undo.js: Unexpected token (16:45)
+  14 | export default
+  15 | ( action$, model$ ) => {
+> 16 |   const table$ = map( prop('table'), filter( , action$ ))
+     |                                              ^
+  17 |   const table$ = filter( , action$ )
+  18 |   // filter Draw, Move actions
+  19 |   // sample model$().table
+    at Parser.pp.raise (/code/solitaire/node_modules/babylon/lib/parser/location.js:22:13)
+    at Parser.pp.unexpected (/code/solitaire/node_modules/babylon/lib/parser/util.js:89:8)
+    at Parser.pp.parseExprAtom (/code/solitaire/node_modules/babylon/lib/parser/expression.js:517:12)
+    at Parser.pp.parseExprSubscripts (/code/solitaire/node_modules/babylon/lib/parser/expression.js:272:19)
+    at Parser.pp.parseMaybeUnary (/code/solitaire/node_modules/babylon/lib/parser/expression.js:252:19)
+    at Parser.pp.parseExprOps (/code/solitaire/node_modules/babylon/lib/parser/expression.js:183:19)
+    at Parser.pp.parseMaybeConditional (/code/solitaire/node_modules/babylon/lib/parser/expression.js:165:19)
+    at Parser.pp.parseMaybeAssign (/code/solitaire/node_modules/babylon/lib/parser/expression.js:128:19)
+    at Parser.pp.parseExprListItem (/code/solitaire/node_modules/babylon/lib/parser/expression.js:1032:16)
+    at Parser.parseExprListItem (/code/solitaire/node_modules/babylon/lib/plugins/flow.js:215:24)
+ @ ./src/index.js 17:12-27
+webpack building...
+webpack built ed55a433757282513e3b in 139ms
+webpack building...
+webpack built 6b771e23c89186ec2dff in 104ms
+webpack building...
+webpack built ec87047161625b2a92f8 in 98ms
+webpack building...
+webpack built 52bfd3d39db1b4b4709e in 86ms
+webpack building...
+webpack built 52bfd3d39db1b4b4709e in 76ms

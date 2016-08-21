@@ -3,26 +3,26 @@ import t from 'tcomb'
 import { Deck } from 'types'
 
 function shuffle( array ) {
-  let m = array.length, t, i;
+  let i = array.length, ret = array.slice(), t, rn
 
-  while (m) {
-    i = Math.floor(Math.random() * m--);
+  while (i) {
+    rn = Math.floor( Math.random() * i-- )
 
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
+    t = ret[i]
+    ret[i] = ret[rn]
+    ret[rn] = t
   }
 
-  return array
+  return ret
 }
 
 // shuffle :: () -> Deck
 export default () => compose
 ( shuffle
 , chain( rank => (
-    [ [ rank, 'hearts' ]
-    , [ rank, 'clubs' ]
-    , [ rank, 'spades' ]
-    , [ rank, 'diamonds' ]]
+  [ [ rank, 'hearts' ]
+  , [ rank, 'clubs' ]
+  , [ rank, 'spades' ]
+  , [ rank, 'diamonds' ]]
   ))
 )( range( 1, 14 ))

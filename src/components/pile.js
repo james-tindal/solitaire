@@ -13,9 +13,6 @@ export default
 curry(( action$, pile: Pile, pileIdx ) => {
   const createPile = map(( model, cardIdx ) => card( action$, model, [ 'piles', pileIdx, 'upturned', cardIdx ]))
 
-  if( isEmpty( pile.upturned ) && !isEmpty( pile.downturned ))
-    action$( Action.ShowHiddenPile({ pileIdx }))
-
   const emptyPile
   =  isEmpty( concat( pile.upturned, pile.downturned ))
   && empty([ 'piles', pileIdx, 'upturned', 0 ])

@@ -22,9 +22,9 @@ scan( render, container, node$ )
 // map( detectWin(action$), model$ )
 
 DEBUG && do {
-  on( x => console.log(x.value.name), action$ )      // log model
-  on( console.log, model$ )      // log model
-  on( (x:Model) => x, model$ )     // model$ always contains a valid model
+  // on( x => console.log(x.value.name), action$ )      // log actions
+  // on( console.log, model$ )      // log model
+  on( (x:Model) => x, model$ )      // typecheck model
   require( 'devtools-formatters' )
 }
 handleUndo( action$, model$ )
