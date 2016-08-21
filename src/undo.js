@@ -10,15 +10,13 @@ const dealOrReset = either( is('Deal'), is('Reset') )
 const drawOrMove = either( is('Draw'), is('Move') )
 
 let tableHistory = []
-let push = true
 
 export default
 ( action$, model$ ) => {
-  const drawMove$ = filter( either( dealOrReset, drawOrMove ))( action$ )
-  const table$ = compose( map( prop( 'table' )), sampleOn( drawMove$ ))( model$ )
+  const shouldSample$ = filter( either( dealOrReset, drawOrMove ))( action$ )
+  const table$ = compose( map( prop( 'table' )), sampleOn( shouldSample$ ))( model$ )
   action$.map( when( dealOrReset, _ => tableHistory = [] ))
   table$.map( [].push.bind( tableHistory ))
-  model$.map( _ => console.log(tableHistory.length, tableHistory))
   keyboard.bind( 'command + z', _ =>
     tableHistory.length > 1 && action$( Action.Undo({ table: tableHistory.pop() })))
 }
