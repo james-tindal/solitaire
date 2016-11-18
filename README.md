@@ -1,6 +1,7 @@
 # solitaire
 
 Klondike Solitaire web app. Available at http://solitaire.surge.sh/
+
 Cmd-z to undo a move.
 
 ```
