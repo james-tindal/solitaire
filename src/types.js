@@ -85,7 +85,6 @@ export
 , Piles
 , Pile
 , Subpile
-, HiddenWaste, VisibleWaste
 , Table
 , InitTable
 , Model

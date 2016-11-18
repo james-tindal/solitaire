@@ -1,5 +1,4 @@
 
-import h from 'snabbdom/h'
 import tcomb from 'tcomb'
 import { Piles } from 'types'
 import pile from './pile'

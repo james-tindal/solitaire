@@ -1,5 +1,4 @@
 
-import h from 'snabbdom/h'
 import { isEmpty } from 'ramda'
 import tcomb from 'tcomb'
 import { Stock } from 'types'
