@@ -2,7 +2,7 @@
 import yo from 'yo-yo'
 import { curry } from 'ramda'
 import t from 'tcomb'
-import { Card, Lenses } from 'types'
+import { Card } from 'types'
 import Action from 'actions'
 import drag from '../drag'
 
