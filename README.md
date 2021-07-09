@@ -2,6 +2,8 @@
 
 Klondike Solitaire web app. Available at http://solitaire.surge.sh/
 
+This doesn't use React and Redux libraries but works on the same mental model, just using Yo-Yo for virtual DOM and reactive streams to implement Redux.
+
 Cmd-z to undo a move.
 Double-click to move a card to the foundations.
 
