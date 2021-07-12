@@ -1,0 +1,13 @@
+{
+  "framework": "mocha",
+  "src_files": [
+    "src/*.js",
+    "test/*.js"
+  ],
+  "serve_files": [
+    "test-build.js"
+  ],
+  "before_tests": "webpack --config test.webpack.config.js",
+  "on_exit": "rm test/build.js",
+  "launch_in_dev": [ "firefox", "chrome" ]
+}
