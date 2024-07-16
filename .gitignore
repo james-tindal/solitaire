@@ -1,1 +1,17 @@
-/node_modules
+# block all
+*
+!/*/
+!/.gitignore
+
+# whitelist
+!/src/**/*.js
+!/public/**/*
+/public/build.js
+
+!/pnpm-lock.yaml
+!/package.json
+!/server.js
+!/devServer.js
+!/testem.json
+!/webpack.config.json
+!/README.md
