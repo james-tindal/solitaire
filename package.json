@@ -18,7 +18,7 @@
     "express": "^4.13.4",
     "fantasy-birds": "^0.1.0",
     "fantasy-tuples": "0.0.1",
-    "flyd": "^0.2.2",
+    "flyd": "0.2.2",
     "is_js": "^0.9.0",
     "keyboardjs": "^2.3.1",
     "msg": "^1.0.0",
@@ -46,9 +46,6 @@
     "babel-plugin-tcomb": "^0.2.3",
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "express": "^4.13.4",
-    "laravel-elixir": "^6.0.0-2",
-    "laravel-elixir-stylus": "^2.0.0",
-    "poststylus": "^0.2.3",
     "tcomb": "^3.2.2",
     "testem": "^1.8.1",
     "watch": "^0.18.0"

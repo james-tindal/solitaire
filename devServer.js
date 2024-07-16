@@ -1,8 +1,7 @@
-const { resolve } = require('path')
 const express = require('express')
 const webpack = require('webpack')
 const config = require('./webpack.config')
-const PORT = process.argv[2]
+const PORT = process.argv[2] || 8000
 
 const app = express()
 const compiler = webpack(config)
