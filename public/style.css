@@ -1,3 +1,4 @@
+body { background: #008001 }
 
 .table {
 	background: #008001;
@@ -8,7 +9,6 @@
 	padding-top: 10px;
 }
 
-
 .stock {
 	height: 134px;
 }
@@ -16,15 +16,19 @@
 .waste {
 	height: 1px;
 	margin-right: calc( 100% / 7 );
-	position: relative;
 }
 
 .waste .card {
-	position: absolute;
-	left: 0; right: 0;
+	position: relative;
 }
-.waste .card:nth-child(2) { padding-left: 35px }
-.waste .card:nth-child(3) { padding-left: 61px }
+.waste .card:nth-child(2) {
+	margin-top: -134px;
+	left: 18px
+}
+.waste .card:nth-child(3) {
+	margin-top: -134px;
+	left: 36px
+}
 
 .empty {
 	height: 134px;
@@ -37,10 +41,9 @@
 
 .piles {
 	position: absolute;
-	top: 200px;
+	top: 320px;
+	width: 100%;
 }
-
-.pile { height: 1px }
 
 .piles:after {
 	content: '';
@@ -63,16 +66,73 @@
 	text-align: center;
 }
 
+.pile .card, .pile .empty {
+	margin-top: -115px;
+}
+
+
+button { position: absolute }
+
 .card {
 	width: 92px;
+	height: 134px;
+	background-size: 92px 134px;
 	margin: auto;
-	position: relative;
 }
+.card-back { background-image: url(/cards/back.svg) }
 
-.pile .card {
-	top: 120px;
-	margin-top: -125px;
-}
+.card-hearts-1 { background-image: url(/cards/1_hearts.svg) }
+.card-hearts-2 { background-image: url(/cards/2_hearts.svg) }
+.card-hearts-3 { background-image: url(/cards/3_hearts.svg) }
+.card-hearts-4 { background-image: url(/cards/4_hearts.svg) }
+.card-hearts-5 { background-image: url(/cards/5_hearts.svg) }
+.card-hearts-6 { background-image: url(/cards/6_hearts.svg) }
+.card-hearts-7 { background-image: url(/cards/7_hearts.svg) }
+.card-hearts-8 { background-image: url(/cards/8_hearts.svg) }
+.card-hearts-9 { background-image: url(/cards/9_hearts.svg) }
+.card-hearts-10 { background-image: url(/cards/10_hearts.svg) }
+.card-hearts-11 { background-image: url(/cards/11_hearts.svg) }
+.card-hearts-12 { background-image: url(/cards/12_hearts.svg) }
+.card-hearts-13 { background-image: url(/cards/13_hearts.svg) }
 
+.card-clubs-1 { background-image: url(/cards/1_clubs.svg) }
+.card-clubs-2 { background-image: url(/cards/2_clubs.svg) }
+.card-clubs-3 { background-image: url(/cards/3_clubs.svg) }
+.card-clubs-4 { background-image: url(/cards/4_clubs.svg) }
+.card-clubs-5 { background-image: url(/cards/5_clubs.svg) }
+.card-clubs-6 { background-image: url(/cards/6_clubs.svg) }
+.card-clubs-7 { background-image: url(/cards/7_clubs.svg) }
+.card-clubs-8 { background-image: url(/cards/8_clubs.svg) }
+.card-clubs-9 { background-image: url(/cards/9_clubs.svg) }
+.card-clubs-10 { background-image: url(/cards/10_clubs.svg) }
+.card-clubs-11 { background-image: url(/cards/11_clubs.svg) }
+.card-clubs-12 { background-image: url(/cards/12_clubs.svg) }
+.card-clubs-13 { background-image: url(/cards/13_clubs.svg) }
 
-button { position: absolute; }
+.card-spades-1 { background-image: url(/cards/1_spades.svg) }
+.card-spades-2 { background-image: url(/cards/2_spades.svg) }
+.card-spades-3 { background-image: url(/cards/3_spades.svg) }
+.card-spades-4 { background-image: url(/cards/4_spades.svg) }
+.card-spades-5 { background-image: url(/cards/5_spades.svg) }
+.card-spades-6 { background-image: url(/cards/6_spades.svg) }
+.card-spades-7 { background-image: url(/cards/7_spades.svg) }
+.card-spades-8 { background-image: url(/cards/8_spades.svg) }
+.card-spades-9 { background-image: url(/cards/9_spades.svg) }
+.card-spades-10 { background-image: url(/cards/10_spades.svg) }
+.card-spades-11 { background-image: url(/cards/11_spades.svg) }
+.card-spades-12 { background-image: url(/cards/12_spades.svg) }
+.card-spades-13 { background-image: url(/cards/13_spades.svg) }
+
+.card-diamonds-1 { background-image: url(/cards/1_diamonds.svg) }
+.card-diamonds-2 { background-image: url(/cards/2_diamonds.svg) }
+.card-diamonds-3 { background-image: url(/cards/3_diamonds.svg) }
+.card-diamonds-4 { background-image: url(/cards/4_diamonds.svg) }
+.card-diamonds-5 { background-image: url(/cards/5_diamonds.svg) }
+.card-diamonds-6 { background-image: url(/cards/6_diamonds.svg) }
+.card-diamonds-7 { background-image: url(/cards/7_diamonds.svg) }
+.card-diamonds-8 { background-image: url(/cards/8_diamonds.svg) }
+.card-diamonds-9 { background-image: url(/cards/9_diamonds.svg) }
+.card-diamonds-10 { background-image: url(/cards/10_diamonds.svg) }
+.card-diamonds-11 { background-image: url(/cards/11_diamonds.svg) }
+.card-diamonds-12 { background-image: url(/cards/12_diamonds.svg) }
+.card-diamonds-13 { background-image: url(/cards/13_diamonds.svg) }
