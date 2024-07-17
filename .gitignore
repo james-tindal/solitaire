@@ -5,8 +5,10 @@
 
 # whitelist
 !/src/**/*.js
-!/public/**/*
-/public/build.js
+!/public/index.html
+!/public/style.css
+!/public/cards/*.svg
+!/public/beep.mp3
 
 !/pnpm-lock.yaml
 !/package.json
