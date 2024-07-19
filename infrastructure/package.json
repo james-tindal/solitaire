@@ -1,0 +1,12 @@
+{
+  "name": "infrastructure",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "type": "module",
+  "dependencies": {
+    "@pulumi/aws": "^6.45.0",
+    "@pulumi/github": "^6.2.3",
+    "@pulumi/pulumi": "^3.124.0",
+    "ts-node": "^10.9.2"
+  }
+}

@@ -1,19 +1,20 @@
-# block all
 *
-!/*/
-!/.gitignore
+!.gitignore
 
-# whitelist
-!/src/**/*.js
-!/public/index.html
-!/public/style.css
-!/public/cards/*.svg
-!/public/beep.mp3
-
-!/pnpm-lock.yaml
-!/package.json
-!/server.js
-!/devServer.js
-!/testem.json
-!/webpack.config.json
 !/README.md
+
+!/.github/
+!/.github/workflows/
+!/.github/workflows/*.yaml
+
+!/frontend/
+
+!/infrastructure/
+!/infrastructure/Pulumi*.yaml
+!/infrastructure/tsconfig.json
+!/infrastructure/package.json
+!/infrastructure/pnpm-lock.yaml
+
+!/infrastructure/src/
+!/infrastructure/src/*.ts
+!/infrastructure/src/tags.json
